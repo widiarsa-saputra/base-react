@@ -15,7 +15,7 @@ import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
 import { CoursePage } from "@/features/courses/pages";
 import CourseBuilderPage from "@/features/courses/pages/CourseBuilderPage";
-import { Folder, Lock, ShieldCheck, UserCircle, Users } from "lucide-react";
+import { Folder, Grid, Lock, ShieldCheck, UserCircle, Users } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
 import UserPage from "@/features/user-management/pages/UserPage";
 
@@ -203,12 +203,6 @@ export const userSections: MenuSection[] = [
         icon: Folder as ElementType,
         items: [
             {
-                text: "File Sistem",
-                url: ROUTES.FILE_MANAGER.path,
-                icon: Folder,
-                permissions: ["view_file_manager"]
-            },
-            {
                 text: "User Management",
                 url: ROUTES.USER_MANAGEMENT.path,
                 icon: Users,
@@ -233,7 +227,19 @@ export const userSections: MenuSection[] = [
             //     permissions: ["view_settings"]
             // }
         ]
-    }
+    },
+    {
+        label: "Master Data",
+        icon: Grid as ElementType,
+        items: [
+            {
+                text: "File Sistem",
+                url: ROUTES.FILE_MANAGER.path,
+                icon: Folder,
+                permissions: ["view_file_manager"]
+            },
+        ]
+    },
 ]
 
 const AppRouter: React.FC = () => (

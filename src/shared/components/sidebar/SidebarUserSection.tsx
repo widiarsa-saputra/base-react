@@ -1,16 +1,12 @@
 import { useAuth } from '@/auth/context/AuthProvider'
 import { Button } from '@/components/ui/button'
 import {
-    DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuGroup,
-    DropdownMenuLabel,
-    DropdownMenuSeparator
-} from '@/components/ui/dropdown-menu'
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+} from '@/components/ui/dialog'
 import { truncateText } from '@/lib/utils'
-import { ChevronDown, LogOut, User2Icon } from 'lucide-react'
+import { LogOut, User2Icon } from 'lucide-react'
 import { userSections } from '@/router/AppRouter'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -38,86 +34,147 @@ interface SidebarUserSectionProps {
 //     permissions?: string[];
 // }
 
-export const UserSection = ({
-    align = 'start',
-    side = 'top'
-}: {
-    align?: 'start' | 'end' | 'center',
-    side?: 'right' | 'left' | 'top' | 'bottom'
-}) => {
+export const UserSection = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
     return (
         <>
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full px-1.5 max-[510px]:!px-0 py-1 flex items-center justify-between hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded text-sidebar-foreground h-auto group">
-                    <div className="flex items-center gap-x-2">
-                        <div className="w-7 h-7 rounded-full bg-sidebar-accent overflow-hidden border border-sidebar-border flex justify-center items-center">
-                            {/* <img src={"/profile.jpg"} alt={user?.name} className="w-full h-full object-cover" /> */}
-                            {
-                                user?.photo_url
-                                    ? <img src={user?.photo_url} alt={user?.name} className="w-full h-full object-cover" />
-                                    : <User2Icon />
-                            }
+            <Dialog>
+                <DialogTrigger asChild>
+                    <button className="w-full max-[510px]:!px-0 flex items-center  rounded text-sidebar-foreground h-auto group">
+                        <div className="flex items-center gap-x-2 flex-1 pl-1.5 py-1 rounded-md hover:bg-sidebar-accent/50">
+                            <div className="w-7 h-7 rounded-full bg-sidebar-accent overflow-hidden border border-sidebar-border flex justify-center items-center">
+                                {/* <img src={"/profile.jpg"} alt={user?.name} className="w-full h-full object-cover" /> */}
+                                {
+                                    user?.photo_url
+                                        ? <img src={user?.photo_url} alt={user?.name} className="w-full h-full object-cover" />
+                                        : <User2Icon />
+                                }
+                            </div>
+                            <div className="text-left max-[510px]:hidden">
+                                <p className="text-[11px] max-md:text-primary text-white font-black uppercase tracking-tight">{truncateText(user?.name ?? '', 20, '...')}</p>
+                                <p className="text-[9px] text-white max-md:text-primary font-bold tracking-tight">{truncateText(user?.email ?? '', 25, '...')}</p>
+                            </div>
                         </div>
-                        <div className="text-left max-[510px]:hidden">
-                            <p className="text-[11px] max-md:text-primary text-white group-hover:text-primary font-black uppercase tracking-tight">{truncateText(user?.name ?? '', 20, '...')}</p>
-                            <p className="text-[9px] text-white max-md:text-primary group-hover:text-primary font-bold tracking-tight">{truncateText(user?.email ?? '', 25, '...')}</p>
+                        <div
+                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/8 transition-colors group"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowLogoutDialog(true);
+                            }}
+                        >
+                            <div className="w-7 h-7 rounded-md bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors">
+                                <LogOut className="h-3.5 w-3.5 text-destructive" />
+                            </div>
+                        </div>
+                    </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-2xl p-0 overflow-hidden border-0 shadow-2xl rounded-md">
+                    <div className="relative bg-gradient-to-br from-primary to-primary/80 p-4 flex justify-between items-end">
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 rounded-full bg-white/20 border-2 border-white/40 overflow-hidden flex items-center justify-center shadow-lg flex-shrink-0">
+                                {user?.photo_url
+                                    ? <img src={user.photo_url} alt={user.name} className="w-full h-full object-cover" />
+                                    : <User2Icon className="h-6 w-6 text-white" />
+                                }
+                            </div>
+                            <div className="min-w-0">
+                                <p className="text-sm font-bold text-white truncate">{user?.name ?? '—'}</p>
+                                <p className="text-[11px] text-white/70 truncate">{user?.email ?? ''}</p>
+                            </div>
+                        </div>
+                        <div
+                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/8 transition-colors group mr-12 bg-red-50 hover:bg-red-100"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowLogoutDialog(true);
+                            }}
+                        >
+                            <div className="w-fit h-fit rounded-md flex items-center justify-center">
+                                <LogOut className="h-3.5 w-3.5 text-destructive" />
+                            </div>
+                            Keluar dari Aplikasi
                         </div>
                     </div>
-                    <ChevronDown className="ml-1 h-3.5 w-3.5 opacity-50 max-[510px]:hidden group-hover:text-primary text-white" />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align={align} side={side} className="w-[var(--radix-dropdown-menu-trigger-width)] bg-popover border border-border !rounded text-popover-foreground p-2 shadow-xl" sideOffset={8}>
-                {
-                    userSections.map((group, idx) => (
-                        <React.Fragment key={idx}>
-                            <DropdownMenuGroup>
-                                <DropdownMenuLabel className='text-[10px] text-slate-400'>
-                                    {group.label}
-                                </DropdownMenuLabel>
-                                {group.items.map((item, idx2) => (
-                                    <DropdownMenuItem key={idx2} className='text-sm font-semibold' onClick={() => navigate(item.url)}>
-                                        <item.icon className="h-3.5 w-3.5 text-muted-foreground" /> {item.text}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuGroup>
-                            {
-                                idx !== userSections.length - 1
-                                    ? <DropdownMenuSeparator />
-                                    : null
-                            }
-                        </React.Fragment>
-                    ))
-                }
-                <DropdownMenuSeparator />
 
-                <DropdownMenuItem className="text-sm flex items-center justify-between gap-4 font-semibold capitalize hover:bg-destructive hover:text-white focus:bg-destructive focus:text-white text-destructive cursor-pointer rounded px-3 py-1.5 mt-1 group" onSelect={() => setShowLogoutDialog(true)}>
-                    <span>Keluar dari Sesi</span>
-                    <LogOut className='text-destructive group-hover:text-white group-focus:text-white' />
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+                    <div className="bg-white -mt-2 rounded-t-2xl relative grid grid-cols-2 divide-x divide-slate-100">
+                        <div className="px-3 pt-3 pb-2 flex flex-col">
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 pt-1 pb-0.5">
+                                {userSections[0]?.label}
+                            </p>
+                            {userSections[0]?.items.map((item, idx) => (
+                                <button
+                                    key={idx}
+                                    className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-primary/8 hover:text-primary transition-colors group"
+                                    onClick={() => navigate(item.url)}
+                                >
+                                    <div className="w-7 h-7 rounded-md bg-slate-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
+                                        <item.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-primary" />
+                                    </div>
+                                    {item.text}
+                                </button>
+                            ))}
 
-        <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Konfirmasi Keluar</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        Apakah Anda yakin ingin keluar dari aplikasi? Anda perlu login kembali untuk mengakses sistem.
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Batal</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => logout()} className="bg-destructive hover:bg-destructive/90 text-white">
-                        Ya, Keluar
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+                            <hr className="my-2 border-slate-100" />
+
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 pt-1 pb-0.5">
+                                {userSections[1]?.label}
+                            </p>
+                            {userSections[1]?.items.map((item, idx) => (
+                                <button
+                                    key={idx}
+                                    className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-primary/8 hover:text-primary transition-colors group"
+                                    onClick={() => navigate(item.url)}
+                                >
+                                    <div className="w-7 h-7 rounded-md bg-slate-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
+                                        <item.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-primary" />
+                                    </div>
+                                    {item.text}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="px-3 pt-3 pb-2 flex flex-col">
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 pt-1 pb-0.5">
+                                {userSections[2]?.label}
+                            </p>
+                            {userSections[2]?.items.map((item, idx) => (
+                                <button
+                                    key={idx}
+                                    className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-primary/8 hover:text-primary transition-colors group"
+                                    onClick={() => navigate(item.url)}
+                                >
+                                    <div className="w-7 h-7 rounded-md bg-slate-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
+                                        <item.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-primary" />
+                                    </div>
+                                    {item.text}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Column 2: Manajemen Sistem */}
+
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Konfirmasi Keluar</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Apakah Anda yakin ingin keluar dari aplikasi? Anda perlu login kembali untuk mengakses sistem.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => logout()} className="bg-destructive hover:bg-destructive/90 text-white">
+                            Ya, Keluar
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     )
 }
