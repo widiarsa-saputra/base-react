@@ -5,20 +5,20 @@ import {
     // UserRoundCheck, UserRoundPlus, UserRoundX, Users
 } from 'lucide-react';
 // import { useTranslation } from 'react-i18next';
-import { useUserIndex as useIndexUser } from '@/services/user/hooks/useUserCRUD';
-import AddUserModal from './AddUserModal';
+import { useUserIndex as useIndexUser, useUserCreate, useUserUpdate, useUserDelete } from '@/services/user/hooks/useUserCRUD';
 import ImportUserModal from './ImportUserModal';
 import { useExportUsers, useDownloadImportTemplate } from '@/services/user/hooks/useUserImportExport';
 import { toast } from 'sonner';
 import { useTopbarActions } from '@/shared/context/TopbarActionContext';
 import { DataPageTemplate } from '@/components/ui/data-page-template';
 import { type Column } from '@/shared/components/table/BaseTable';
-import { UserEntity } from '@/services/user/schema/UserSchema';
+import { UserCreatePayload, UserEntity } from '@/services/user/schema/UserSchema';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import EditUserModal from './EditUserModal';
-import RemoveUser from './RemoveUser';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UserCreateSchema } from '@/services/user/schema/UserSchema';
+import UserMutationForm from './UserMutationForm';
 import AssignRoleModal from './AssignRoleModal';
 
 // ─── Filter Content ────────────────────────────────────────────────────────────
@@ -90,10 +90,8 @@ const userColumns: Column<UserEntity>[] = [
         copyValue: false,
         className: 'justify-end text-right',
         render: (user) => (
-            <div className="flex items-center gap-1 justify-end">
+            <div className="flex items-center gap-1 justify-end w-full">
                 <AssignRoleModal user={user} />
-                <EditUserModal user={user} />
-                <RemoveUser user={user} />
             </div>
         ),
     },
@@ -101,10 +99,14 @@ const userColumns: Column<UserEntity>[] = [
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 
-const UserManagementContent: React.FC = () => {
+const UserMainContent: React.FC = () => {
     // const { t } = useTranslation();
     const exportUsers = useExportUsers();
     const downloadTemplate = useDownloadImportTemplate();
+
+    const addMutation = useUserCreate();
+    const editMutation = useUserUpdate();
+    const deleteMutation = useUserDelete();
 
     const [search, setSearch] = useState('');
     const [entriesPerPage, setEntriesPerPage] = useState(10);
@@ -144,36 +146,7 @@ const UserManagementContent: React.FC = () => {
         setCurrentPage(1);
     }, []);
 
-    // const dashboardCards = [
-    //     {
-    //         title: t('user-management.card.total-users'),
-    //         icon: <Users className="h-4 w-4" />,
-    //         iconBg: 'bg-slate-50 text-slate-400',
-    //         value: String(users?.pagination?.total ?? 0),
-    //         changeType: 'up' as const,
-    //     },
-    //     {
-    //         title: t('user-management.card.active-users'),
-    //         icon: <UserRoundCheck className="h-4 w-4" />,
-    //         iconBg: 'bg-emerald-50 text-emerald-500',
-    //         value: '0',
-    //         changeType: 'up' as const,
-    //     },
-    //     {
-    //         title: t('user-management.card.inactive-users'),
-    //         icon: <UserRoundX className="h-4 w-4" />,
-    //         iconBg: 'bg-red-50 text-red-500',
-    //         value: '0',
-    //         changeType: 'down' as const,
-    //     },
-    //     {
-    //         title: t('user-management.card.recently-added'),
-    //         icon: <UserRoundPlus className="h-4 w-4" />,
-    //         iconBg: 'bg-blue-50 text-blue-500',
-    //         value: '0',
-    //         changeType: 'up' as const,
-    //     },
-    // ];
+    
 
     useTopbarActions({
         search: {
@@ -197,7 +170,6 @@ const UserManagementContent: React.FC = () => {
         },
         extraActions: (
             <>
-                <AddUserModal />
                 <ImportUserModal onSuccess={() => refetch()} />
 
                 <Button
@@ -224,7 +196,7 @@ const UserManagementContent: React.FC = () => {
     });
 
     return (
-        <DataPageTemplate<UserEntity>
+        <DataPageTemplate<UserEntity, UserCreatePayload>
             title="Manajemen User"
             description="Kelola akun dan hak akses personil"
             columns={userColumns}
@@ -235,8 +207,31 @@ const UserManagementContent: React.FC = () => {
             itemsPerPage={entriesPerPage}
             onPageChange={setCurrentPage}
             onItemsPerPageChange={(items) => { setEntriesPerPage(items); setCurrentPage(1); }}
+            mutationMode="modal"
+            mutationForm={{
+                component: UserMutationForm,
+                resolver: zodResolver(UserCreateSchema),
+                emptyValues: { name: '', email: '', phone: '', password: '' },
+                defaultValues: (user) => ({ name: user.name ?? '', email: user.email ?? '', phone: user.phone || undefined, password: '' }),
+            }}
+            submitActions={{
+                add: {
+                    label: 'Tambah User',
+                    modalTitle: 'Tambah User',
+                    modalSize: 'md',
+                    onConfirm: async (data) => { await addMutation.mutateAsync(data); },
+                },
+                edit: {
+                    modalTitle: (user) => `Edit User — ${user.name}`,
+                    modalSize: 'md',
+                    onConfirm: async (user, data) => { await editMutation.mutateAsync({ id: String(user.id), data }); },
+                },
+                delete: {
+                    onConfirm: async (user) => { await deleteMutation.mutateAsync({ id: String(user.id) }); },
+                },
+            }}
             // additionalContent={
-            //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
             //         {dashboardCards.map((card, idx) => (
             //             <DashboardCard
             //                 key={idx}
@@ -250,4 +245,4 @@ const UserManagementContent: React.FC = () => {
     );
 };
 
-export default UserManagementContent;
+export default UserMainContent;

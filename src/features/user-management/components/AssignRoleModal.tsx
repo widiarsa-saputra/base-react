@@ -106,7 +106,7 @@ const AssignRoleModal: React.FC<Props> = ({ user }) => {
                         <Button type='button' variant="outline" onClick={() => setOpen(false)}>
                             Cancel
                         </Button>
-                        <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isPending}>
+                        <Button type="submit" className="bg-primary hover:bg-primary/80" disabled={isPending}>
                             {isPending ? 'Submitting...' : 'Save Changes'}
                         </Button>
                     </div>

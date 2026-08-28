@@ -4,7 +4,6 @@ import LoginPage from "../auth/pages/LoginPage";
 import ForbiddenPage from "../auth/pages/ForbiddenPage";
 import RequireAuth from "../auth/middleware/RequireAuth";
 import GuestOnly from "@/auth/middleware/GuestOnly";
-import UserManagementPage from "@/features/user-management/pages/UserManagementPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import PermissionsPage from "@/features/permission/pages/PermissionsPage";
 import RolePage from "@/features/role/pages/RolePage";
@@ -18,6 +17,7 @@ import { CoursePage } from "@/features/courses/pages";
 import CourseBuilderPage from "@/features/courses/pages/CourseBuilderPage";
 import { Folder, Lock, ShieldCheck, UserCircle, Users } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
+import UserPage from "@/features/user-management/pages/UserPage";
 
 
 
@@ -100,7 +100,7 @@ export const ROUTES: Record<string, AppRoute> = {
     // Admin settings
     USER_MANAGEMENT: {
         path: "/user-management",
-        element: <UserManagementPage />,
+        element: <UserPage />,
         protected: true,
         roles: [],
         permissions: [],
