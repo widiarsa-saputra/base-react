@@ -238,18 +238,25 @@ const RoleMainContent: React.FC = () => {
             ),
             onClear: () => { setIsActive(false); setIsInactive(false); },
         },
-        extraActions: (
-            <Button className="flex items-center gap-2" onClick={handleAddOpen}>
-                <Plus className="h-4 w-4" />
-                Tambah Role
-            </Button>
-        ),
     });
 
     const roleList = Array.isArray(roles?.data) ? roles.data : [];
 
     return (
-        <div className="p-6">
+        <div className="p-4 space-y-4">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-xl font-bold tracking-tight flex gap-2">
+                        <span>Manajemen Role</span>
+                    </h1>
+                    <p className="text-muted-foreground text-sm">Kelola role yang tersedia dalam sistem</p>
+                </div>
+
+                <Button className="flex items-center gap-2" onClick={handleAddOpen}>
+                    <Plus className="h-4 w-4" />
+                    Tambah Role
+                </Button>
+            </div>
             {isFetching ? (
                 <SectionLoader text="Loading roles..." time={1000} className="bg-gray-50 min-h-[300px]" />
             ) : roleList.length === 0 ? (

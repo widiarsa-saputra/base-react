@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 // import { DashboardCard } from '@/shared/components/card/DashboardCard';
 import {
     Download, Loader2,
+    ShieldPlus,
     // UserRoundCheck, UserRoundPlus, UserRoundX, Users
 } from 'lucide-react';
 // import { useTranslation } from 'react-i18next';
@@ -87,17 +88,6 @@ const userColumns: Column<UserEntity>[] = [
                 <span className="text-slate-400 text-sm">No role</span>
             ),
     },
-    {
-        key: 'id',
-        title: 'Aksi',
-        copyValue: false,
-        className: 'justify-end text-right',
-        render: (user) => (
-            <div className="flex items-center gap-1 justify-end w-full">
-                <AssignRoleModal user={user} />
-            </div>
-        ),
-    },
 ];
 
 // ─── Main Component ────────────────────────────────────────────────────────────
@@ -112,12 +102,14 @@ const UserMainContent: React.FC = () => {
     const deleteMutation = useUserDelete();
 
     const [search, setSearch] = useState('');
-    const [entriesPerPage, setEntriesPerPage] = useState(10);
+    const [entriesPerPage, setEntriesPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [isActive, setIsActive] = useState(false);
     const [isInactive, setIsInactive] = useState(false);
     const [sortBy, setSortBy] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
+    const [selectedUser, setSelectedUser] = useState<UserEntity>();
+    const [assignRoleModalOpen, setAssignRoleModalOpen] = useState(false);
 
     const handleSort = useCallback((newSortBy: string, newSortOrder: 'asc' | 'desc') => {
         setSortBy(newSortBy);
@@ -159,7 +151,12 @@ const UserMainContent: React.FC = () => {
         setCurrentPage(1);
     }, []);
 
-    
+    const handleOpenAssignRoleModal = (user: UserEntity) => {
+        setSelectedUser(user);
+        setAssignRoleModalOpen(true);
+    }
+
+
 
     useTopbarActions({
         search: {
@@ -209,43 +206,51 @@ const UserMainContent: React.FC = () => {
     });
 
     return (
-        <DataPageTemplate<UserEntity, UserCreatePayload>
-            title="Manajemen User"
-            description="Kelola akun dan hak akses personil"
-            columns={userColumns}
-            data={users?.data ?? []}
-            isLoading={isFetching}
-            totalItems={users?.pagination?.total ?? 0}
-            currentPage={currentPage}
-            itemsPerPage={entriesPerPage}
-            onPageChange={setCurrentPage}
-            onItemsPerPageChange={(items) => { setEntriesPerPage(items); setCurrentPage(1); }}
-            handleSort={handleSort}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            mutationMode="modal"
-            mutationForm={{
-                component: UserMutationForm,
-                resolver: zodResolver(UserCreateSchema),
-                emptyValues: { name: '', email: '', phone: '', password: '' },
-                defaultValues: (user) => ({ name: user.name ?? '', email: user.email ?? '', phone: user.phone || undefined, password: '' }),
-            }}
-            submitActions={{
-                add: {
-                    label: 'Tambah User',
-                    modalTitle: 'Tambah User',
-                    modalSize: 'md',
-                    onConfirm: async (data) => { await addMutation.mutateAsync(data); },
-                },
-                edit: {
-                    modalTitle: (user) => `Edit User — ${user.name}`,
-                    modalSize: 'md',
-                    onConfirm: async (user, data) => { await editMutation.mutateAsync({ id: String(user.id), data }); },
-                },
-                delete: {
-                    onConfirm: async (user) => { await deleteMutation.mutateAsync({ id: String(user.id) }); },
-                },
-            }}
+        <>
+            <DataPageTemplate<UserEntity, UserCreatePayload>
+                title="Manajemen User"
+                description="Kelola akun dan hak akses personil"
+                columns={userColumns}
+                data={users?.data ?? []}
+                isLoading={isFetching}
+                totalItems={users?.pagination?.total ?? 0}
+                currentPage={currentPage}
+                itemsPerPage={entriesPerPage}
+                onPageChange={setCurrentPage}
+                onItemsPerPageChange={(items) => { setEntriesPerPage(items); setCurrentPage(1); }}
+                handleSort={handleSort}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                mutationMode="modal"
+                additionalActions={[
+                    {
+                        icon: <ShieldPlus className="h-4 w-4" />,
+                        onClick: handleOpenAssignRoleModal,
+                        tooltip: 'Assign roles',
+                    }
+                ]}
+                mutationForm={{
+                    component: UserMutationForm,
+                    resolver: zodResolver(UserCreateSchema),
+                    emptyValues: { name: '', email: '', phone: '', password: '' },
+                    defaultValues: (user) => ({ name: user.name ?? '', email: user.email ?? '', phone: user.phone || undefined, password: '' }),
+                }}
+                submitActions={{
+                    add: {
+                        label: 'Tambah User',
+                        modalTitle: 'Tambah User',
+                        modalSize: 'md',
+                        onConfirm: async (data) => { await addMutation.mutateAsync(data); },
+                    },
+                    edit: {
+                        modalTitle: (user) => `Edit User — ${user.name}`,
+                        modalSize: 'md',
+                        onConfirm: async (user, data) => { await editMutation.mutateAsync({ id: String(user.id), data }); },
+                    },
+                    delete: {
+                        onConfirm: async (user) => { await deleteMutation.mutateAsync({ id: String(user.id) }); },
+                    },
+                }}
             // additionalContent={
             //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
             //         {dashboardCards.map((card, idx) => (
@@ -257,7 +262,9 @@ const UserMainContent: React.FC = () => {
             //         ))}
             //     </div>
             // }
-        />
+            />
+            <AssignRoleModal open={assignRoleModalOpen} onOpenChange={setAssignRoleModalOpen} user={selectedUser} />
+        </>
     );
 };
 

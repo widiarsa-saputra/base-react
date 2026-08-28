@@ -9,15 +9,16 @@ import { UserEntity as SingleUserResponse } from '@/services/user/schema/UserSch
 import { useUserRoleSyncRoles as useSyncUserRoles } from '@/services/user-role/hooks/useUserRoleCRUD';
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit';
 import { UserRoleSyncRolesPayload as SyncUserRoles } from '@/services/user-role/schema/UserRoleSchema';
-import { ShieldPlus } from 'lucide-react';
 import SectionLoader from '@/shared/components/loader/SectionLoader';
 
 type Props = {
-    user: SingleUserResponse;
+    user?: SingleUserResponse;
+    open: boolean,
+    onOpenChange: (isOpen: boolean) => void;
 };
 
-const AssignRoleModal: React.FC<Props> = ({ user }) => {
-    const [open, setOpen] = React.useState(false);
+const AssignRoleModal: React.FC<Props> = ({ user, open, onOpenChange: setOpen }) => {
+    // const [open, setOpen] = React.useState(false);
 
     const { data: rolesData, isFetching: isRolesFetching } = useIndexRole({
         // params: { paginate: 0 } 
@@ -27,7 +28,7 @@ const AssignRoleModal: React.FC<Props> = ({ user }) => {
     const { control, handleSubmit, reset, setError } = useForm<SyncUserRoles>();
 
     useEffect(() => {
-        if (open && user.roles) {
+        if (open && user?.roles) {
             reset({
                 user_id: String(user.id),
                 // Mengirimkan 'name' dari role, bukan 'id'
@@ -55,19 +56,8 @@ const AssignRoleModal: React.FC<Props> = ({ user }) => {
             open={open}
             onOpenChange={setOpen}
             size="lg"
-            title={`Assign Roles to ${user.name}`}
+            title={`Assign Roles to ${user?.name}`}
             description="Select the roles to be assigned to this user."
-            trigger={
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2"
-                    onClick={() => setOpen(true)}
-                    aria-label="Assign Roles"
-                >
-                    <ShieldPlus className="h-4 w-4" />
-                </Button>
-            }
         >
             {isRolesFetching ? <SectionLoader text="Loading roles..." /> : (
                 <form onSubmit={handleSubmit(onSubmit)}>
