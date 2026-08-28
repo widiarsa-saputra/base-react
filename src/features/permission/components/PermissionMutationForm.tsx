@@ -16,6 +16,7 @@ const PermissionMutationForm: React.FC<PermissionMutationFormProps> = ({ form })
             <FloatingInput
                 id="display_name"
                 label="Display Name"
+                tooltipMessage="Nama tampilan permission yang mudah dibaca (contoh: Lihat Pengguna)."
                 icon={Shield}
                 inputProps={register('display_name')}
                 error={errors.display_name?.message}
@@ -25,6 +26,7 @@ const PermissionMutationForm: React.FC<PermissionMutationFormProps> = ({ form })
             <FloatingInput
                 id="group"
                 label="Group"
+                tooltipMessage="Kategori atau modul untuk mengelompokkan permission (contoh: User Management)."
                 icon={Layers}
                 inputProps={register('group')}
                 error={errors.group?.message}
@@ -33,7 +35,8 @@ const PermissionMutationForm: React.FC<PermissionMutationFormProps> = ({ form })
             />
             <FloatingInput
                 id="name"
-                label="Name (slug)"
+                label="Name"
+                tooltipMessage="Kode unik (slug) permission untuk sistem (contoh: users.view). Gunakan huruf kecil tanpa spasi."
                 icon={Tag}
                 inputProps={register('name')}
                 error={errors.name?.message}

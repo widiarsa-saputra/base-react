@@ -6,7 +6,8 @@ import { ChangePassword, ChangePasswordSchema } from '@/services/profile/schema/
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Lock } from 'lucide-react';
+import { FloatingInput } from '@/components/FloatingInput';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,7 +22,7 @@ import {
 const ChangePasswordCard: React.FC = () => {
     const { logout } = useAuth();
     const { mutateAsync, isPending } = useChangePassword();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<ChangePassword>({
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ChangePassword>({
         resolver: zodResolver(ChangePasswordSchema),
     });
     const [showOldPassword, setShowOldPassword] = useState(false);
@@ -54,60 +55,50 @@ const ChangePasswordCard: React.FC = () => {
                 <CardDescription>Set a new password to keep your account secure.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <form onSubmit={handleSubmit(handleValidSubmit)} className='flex flex-col gap-4'>
-                    <div className="grid gap-2">
-                        <label htmlFor="old_password" className="text-sm font-medium">
-                            Old Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                id="old_password"
-                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                placeholder='********'
-                                type={showOldPassword ? 'text' : 'password'}
-                                {...register("old_password")}
-                                disabled={isPending}
-                            />
+                <form onSubmit={handleSubmit(handleValidSubmit)} className='flex flex-col gap-5 pt-3'>
+                    <FloatingInput
+                        id="old_password"
+                        label="Old Password"
+                        type={showOldPassword ? 'text' : 'password'}
+                        icon={Lock}
+                        inputProps={register('old_password')}
+                        error={errors.old_password?.message}
+                        watch={watch('old_password')}
+                        disabled={isPending}
+                        required
+                        rightSlot={
                             <button
                                 type="button"
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center z-1"
                                 onClick={() => setShowOldPassword(!showOldPassword)}
                                 tabIndex={-1}
                             >
-                                {showOldPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                {showOldPassword ? <EyeOff className="h-4 w-4 text-slate-500 hover:text-slate-700" /> : <Eye className="h-4 w-4 text-slate-500 hover:text-slate-700" />}
                             </button>
-                        </div>
-                        {errors.old_password && (
-                            <span className="text-red-500 text-sm">{errors.old_password.message}</span>
-                        )}
-                    </div>
-                    <div className="grid gap-2">
-                        <label htmlFor="new_password" className="text-sm font-medium">
-                            New Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                id="new_password"
-                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                placeholder='********'
-                                type={showNewPassword ? 'text' : 'password'}
-                                {...register("new_password")}
-                                disabled={isPending}
-                            />
+                        }
+                    />
+                    <FloatingInput
+                        id="new_password"
+                        label="New Password"
+                        type={showNewPassword ? 'text' : 'password'}
+                        icon={Lock}
+                        inputProps={register('new_password')}
+                        error={errors.new_password?.message}
+                        watch={watch('new_password')}
+                        disabled={isPending}
+                        required
+                        rightSlot={
                             <button
                                 type="button"
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center z-1"
                                 onClick={() => setShowNewPassword(!showNewPassword)}
                                 tabIndex={-1}
                             >
-                                {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                {showNewPassword ? <EyeOff className="h-4 w-4 text-slate-500 hover:text-slate-700" /> : <Eye className="h-4 w-4 text-slate-500 hover:text-slate-700" />}
                             </button>
-                        </div>
-                        {errors.new_password && (
-                            <span className="text-red-500 text-sm">{errors.new_password.message}</span>
-                        )}
-                    </div>
-                    <Button disabled={isPending}>Save Changes</Button>
+                        }
+                    />
+                    <Button disabled={isPending} className="mt-2">Save Changes</Button>
                 </form>
             </CardContent>
 

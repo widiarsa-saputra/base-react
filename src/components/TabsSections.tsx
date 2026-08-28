@@ -34,6 +34,7 @@ const TabsSections = (props: Props) => {
                         })
                     }
                 </TabsList>
+                <div className="border-b my-4"></div>
 
                 {
                     props.tabObjects.map(({ trigger, content }, idx) => (

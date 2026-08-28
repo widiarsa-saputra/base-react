@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 // import { useTranslation } from 'react-i18next';
 import { useUserIndex as useIndexUser, useUserCreate, useUserUpdate, useUserDelete } from '@/services/user/hooks/useUserCRUD';
-import ImportUserModal from './ImportUserModal';
 import { useExportUsers, useDownloadImportTemplate } from '@/services/user/hooks/useUserImportExport';
 import { toast } from 'sonner';
 import { useTopbarActions } from '@/shared/context/TopbarActionContext';
@@ -117,7 +116,7 @@ const UserMainContent: React.FC = () => {
         setCurrentPage(1);
     }, []);
 
-    const { data: users, isFetching, refetch } = useIndexUser({
+    const { data: users, isFetching } = useIndexUser({
         search,
         paginate: entriesPerPage,
         page: currentPage,
@@ -180,8 +179,6 @@ const UserMainContent: React.FC = () => {
         },
         extraActions: (
             <>
-                <ImportUserModal onSuccess={() => refetch()} />
-
                 <Button
                     variant="outline"
                     onClick={handleDownloadTemplate}

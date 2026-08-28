@@ -16,6 +16,7 @@ export type FloatingSharedProps<T> = {
     rightSlot?: React.ReactNode;
     required?: boolean;
     tooltipMessage?: string;
+    disabled?: boolean;
     inputProps?: T;
 };
 
@@ -29,7 +30,8 @@ export const FloatingInput = ({
     rightSlot,
     inputProps,
     required,
-    tooltipMessage
+    tooltipMessage,
+    disabled
 }: FloatingSharedProps<React.InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> }> & { type?: string }) => {
     const [focused, setFocused] = useState(false)
     const isFloating = focused || !!watch;
@@ -42,6 +44,7 @@ export const FloatingInput = ({
                     id={id}
                     type={type}
                     {...restInputProps}
+                    disabled={disabled || restInputProps?.disabled}
                     placeholder={isFloating ? placeholder ?? undefined : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
@@ -104,7 +107,8 @@ export const FloatingTextArea = ({
     rightSlot,
     inputProps,
     required,
-    tooltipMessage
+    tooltipMessage,
+    disabled
 }: FloatingSharedProps<React.TextareaHTMLAttributes<HTMLTextAreaElement> & { ref?: React.Ref<HTMLTextAreaElement> }>) => {
     const [focused, setFocused] = useState(false)
     const isFloating = focused || !!watch;
@@ -117,6 +121,7 @@ export const FloatingTextArea = ({
                     id={id}
                     placeholder={isFloating ? placeholder : undefined}
                     {...restInputProps}
+                    disabled={disabled || restInputProps?.disabled}
                     className={cn(
                         "flex min-h-[80px] w-full pt-4 pb-2 rounded border bg-slate-50/30 focus:bg-white text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
                         (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
@@ -181,7 +186,8 @@ export const FloatingCurrencyInput = ({
     prefix = "Rp ",
     inputProps,
     required,
-    tooltipMessage
+    tooltipMessage,
+    disabled
 }: FloatingSharedProps<Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> & { ref?: React.Ref<HTMLInputElement> }> & {
     value: number | null;
     onChange: (value: number | null) => void;
@@ -263,6 +269,7 @@ export const FloatingCurrencyInput = ({
                     type="text"
                     inputMode="numeric"
                     {...inputProps}
+                    disabled={disabled || inputProps?.disabled}
                     ref={setRefs}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
@@ -397,6 +404,7 @@ export const FloatingDateInput = ({
     inputProps,
     required,
     tooltipMessage,
+    disabled,
     value,
     onChange,
     placeholder = "cth. 12 Desember 2026",
@@ -504,6 +512,7 @@ export const FloatingDateInput = ({
                     type="text"
                     autoComplete="off"
                     {...inputProps}
+                    disabled={disabled || inputProps?.disabled}
                     ref={inputRef}
                     value={inputValue}
                     placeholder={focused ? placeholder : undefined}

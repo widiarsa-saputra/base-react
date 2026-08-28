@@ -24,7 +24,8 @@ const RoleMutationForm: React.FC<RoleMutationFormProps> = ({ form }) => {
             />
             <FloatingInput
                 id="name"
-                label="Name (slug)"
+                label="Name"
+                tooltipMessage="Nama unik (slug) yang digunakan oleh sistem (contoh: super-admin). Gunakan huruf kecil tanpa spasi."
                 icon={Tag}
                 inputProps={register('name')}
                 error={errors.name?.message}

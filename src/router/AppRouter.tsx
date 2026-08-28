@@ -9,7 +9,6 @@ import PermissionsPage from "@/features/permission/pages/PermissionsPage";
 import RolePage from "@/features/role/pages/RolePage";
 import RoleUsersAssignedPage from "@/features/role/pages/RoleUsersAssignedPage";
 import RolePermissionsAssignedPage from "@/features/role/pages/RolePermissionsAssignedPage";
-import AllNotificationPage from "@/features/notification/pages/AllNotificationPage";
 import NotFound from "@/shared/components/error-page/NotFound";
 import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
@@ -147,13 +146,6 @@ export const ROUTES: Record<string, AppRoute> = {
         roles: [],
         permissions: [],
     },
-    NOTIFICATIONS: {
-        path: "/notifications",
-        element: <AllNotificationPage />,
-        protected: true,
-        roles: [],
-        permissions: [],
-    },
     FILE_MANAGER: {
         path: "/file-manager",
         element: <FileManagerPage />,
@@ -183,6 +175,7 @@ export const userSections: MenuSection[] = [
     {
         label: "Akun Anda",
         icon: Users as ElementType,
+        id :'profile',
         items: [
             {
                 text: "Profile",
@@ -201,6 +194,7 @@ export const userSections: MenuSection[] = [
     {
         label: "Manajemen Sistem",
         icon: Folder as ElementType,
+        id :'sistem',
         items: [
             {
                 text: "User Management",
@@ -231,6 +225,7 @@ export const userSections: MenuSection[] = [
     {
         label: "Master Data",
         icon: Grid as ElementType,
+        id :'master-data',
         items: [
             {
                 text: "File Sistem",

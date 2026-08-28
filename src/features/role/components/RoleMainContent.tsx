@@ -19,7 +19,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import SectionLoader from '@/shared/components/loader/SectionLoader';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getInitials, getDeterministicBgAndTextColor } from '@/lib/utils';
 
 import { useRoleIndex, useRoleCreate, useRoleUpdate, useRoleDelete } from '@/services/role/hooks/useRoleCRUD';
@@ -46,6 +46,46 @@ const RoleFilterContent: React.FC<RoleFilterContentProps> = ({ isActive, setIsAc
             <Checkbox checked={isInactive} onCheckedChange={(c) => setIsInactive(!!c)} className="rounded border-slate-300 data-[state=checked]:bg-primary" />
             <span className="text-sm text-slate-700 group-hover:text-primary">Inactive</span>
         </label>
+    </div>
+);
+
+// ─── Role Card Skeleton ────────────────────────────────────────────────────────
+
+const RoleCardSkeleton = () => (
+    <div className="flex flex-col bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden min-h-[160px]">
+        {/* Header */}
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 bg-gradient-to-r from-slate-100/50 to-transparent">
+            <Skeleton className="flex-shrink-0 w-10 h-10 rounded-lg" />
+            <div className="min-w-0 flex flex-col gap-2">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-3 w-20" />
+            </div>
+        </div>
+
+        {/* User Assigned */}
+        <div className="px-5 py-3 flex items-center justify-between border-b border-slate-50">
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-3.5 w-3.5 rounded-full" />
+                <Skeleton className="h-3 w-16" />
+            </div>
+            <div className="flex items-center -space-x-1.5">
+                {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="w-7 h-7 rounded-full border-2 border-white" />
+                ))}
+            </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div className="px-5 py-3 flex items-center justify-between gap-2 mt-auto">
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="h-8 w-24" />
+            </div>
+            <div className="flex items-center gap-2">
+                <Skeleton className="h-7 w-7 rounded-md" />
+                <Skeleton className="h-7 w-7 rounded-md" />
+            </div>
+        </div>
     </div>
 );
 
@@ -173,7 +213,7 @@ const RoleMainContent: React.FC = () => {
     const editMutation = useRoleUpdate();
     const deleteMutation = useRoleDelete();
 
-    const { data: roles, isFetching } = useRoleIndex({
+    const { data: roles, isLoading } = useRoleIndex({
         search,
         include: 'users',
         ...(isActive && { 'filter[is_active]': 'true' }),
@@ -252,13 +292,17 @@ const RoleMainContent: React.FC = () => {
                     <p className="text-muted-foreground text-sm">Kelola role yang tersedia dalam sistem</p>
                 </div>
 
-                <Button className="flex items-center gap-2" onClick={handleAddOpen}>
+                <Button variant={'secondary'} className="flex items-center gap-2 font-semibold" onClick={handleAddOpen}>
                     <Plus className="h-4 w-4" />
                     Tambah Role
                 </Button>
             </div>
-            {isFetching ? (
-                <SectionLoader text="Loading roles..." time={1000} className="bg-gray-50 min-h-[300px]" />
+            {isLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {Array.from({ length: 8 }).map((_, idx) => (
+                        <RoleCardSkeleton key={idx} />
+                    ))}
+                </div>
             ) : roleList.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 text-slate-400">
                     <Shield className="h-12 w-12 mb-3 opacity-30" />

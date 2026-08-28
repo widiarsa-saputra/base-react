@@ -157,7 +157,7 @@ const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children })
                     {/* Action area */}
                     <div className="flex gap-2 justify-end h-8 items-center">
                         <div className="flex min-[510px]:border-r">
-                            <UserSection side='bottom' align='end' />
+                            <UserSection />
                         </div>
                         <Popover>
                             <PopoverTrigger className='aspect-square !rounded-full border !w-7 !h-7 flex items-center justify-center'>

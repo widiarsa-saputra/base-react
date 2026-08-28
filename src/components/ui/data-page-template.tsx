@@ -14,8 +14,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useForm, UseFormReturn, FieldValues, Resolver, DefaultValues } from 'react-hook-form';
+import { useForm, UseFormReturn, FieldValues, Resolver, DefaultValues, Path } from 'react-hook-form';
 import { cn, positionClass } from '@/lib/utils';
+import { AxiosError } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import { createPortal } from 'react-dom';
@@ -259,9 +260,22 @@ function ManagedForm<TData extends FieldValues>({
             if (setGlobalMutationState) setGlobalMutationState({ isPending: false, isSuccess: true, isError: false, status: 'success' });
             form.reset();
             onDone();
-        } catch {
+        } catch (error: unknown) {
             setMutationState({ isPending: false, isSuccess: false, isError: true, status: 'error' });
             if (setGlobalMutationState) setGlobalMutationState({ isPending: false, isSuccess: false, isError: true, status: 'error' });
+            
+            // Map validation errors if it's a 422 error
+            if (error instanceof AxiosError && error.response?.status === 422) {
+                const validationErrors = error.response.data?.errors as Record<string, string[]> | undefined;
+                if (validationErrors) {
+                    for (const [field, messages] of Object.entries(validationErrors)) {
+                        form.setError(field as Path<TData>, {
+                            type: "manual",
+                            message: messages[0],
+                        });
+                    }
+                }
+            }
         }
     });
 

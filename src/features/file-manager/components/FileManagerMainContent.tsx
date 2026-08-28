@@ -65,21 +65,29 @@ const FileManagerMainContent: React.FC = () => {
             ),
             onClear: () => setFileType("all"),
         },
-        extraActions: (
-            <Button
-                className="flex items-center gap-2"
+    })
+
+    return (
+        <main className="p-4 space-y-5">
+            <div className="flex justify-between items-center">
+                <div>
+                    <h1 className="text-xl font-bold tracking-tight flex gap-2">
+                        <span>Manajemen Role</span>
+                    </h1>
+                    <p className="text-muted-foreground text-sm">Kelola role yang tersedia dalam sistem</p>
+                </div>
+
+                <Button
+                variant={'secondary'}
+                className="flex items-center gap-2 font-semibold"
                 onClick={() => setIsUploadModalOpen(true)}
             >
                 <Upload className="h-4 w-4" />
                 Upload Files
             </Button>
-        ),
-    })
-
-    return (
-        <main className="p-6">
+            </div>
             {/* Storage Usage */}
-            <div className="bg-white rounded border p-6 mb-6">
+            <div className="bg-white rounded border p-6">
                 <div className="flex items-start justify-between mb-4">
                     <h2 className="text-lg font-semibold">Storage Usage</h2>
                     <div className="flex items-center gap-8">
