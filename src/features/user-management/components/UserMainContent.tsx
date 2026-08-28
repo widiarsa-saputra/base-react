@@ -116,12 +116,22 @@ const UserMainContent: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isActive, setIsActive] = useState(false);
     const [isInactive, setIsInactive] = useState(false);
+    const [sortBy, setSortBy] = useState<string | null>(null);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
+
+    const handleSort = useCallback((newSortBy: string, newSortOrder: 'asc' | 'desc') => {
+        setSortBy(newSortBy);
+        setSortOrder(newSortOrder);
+        setCurrentPage(1);
+    }, []);
 
     const { data: users, isFetching, refetch } = useIndexUser({
         search,
         paginate: entriesPerPage,
         page: currentPage,
         include: 'roles,permissions',
+        ...(sortBy && { sort_by: sortBy }),
+        ...(sortOrder && { sort_order: sortOrder }),
         ...(isActive && { 'filter[is_active]': 'true' }),
         ...(isInactive && { 'filter[is_active]': 'false' }),
     });
@@ -210,6 +220,9 @@ const UserMainContent: React.FC = () => {
             itemsPerPage={entriesPerPage}
             onPageChange={setCurrentPage}
             onItemsPerPageChange={(items) => { setEntriesPerPage(items); setCurrentPage(1); }}
+            handleSort={handleSort}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
             mutationMode="modal"
             mutationForm={{
                 component: UserMutationForm,

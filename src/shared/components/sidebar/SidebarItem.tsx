@@ -66,11 +66,10 @@ const SidebarItem: React.FC<SidebarProps> = ({ collapsed, sections }) => {
                     <div key={section.label} className="px-2 py-1">
                         <p
                             className={`
-                    text-[9px] font-black uppercase text-slate-400
+                    text-[9px] font-black uppercase text-slate-400 truncate
                     transition-all duration-200
                     h-6 flex items-center tracking-wider
-                    ${collapsed ? 'justify-center px-0' : 'px-2'}
-                  `}
+                    ${collapsed ? 'justify-center px-0' : 'px-2'}`}
                         >
                             {collapsed ? shortenLabel(section.label) : section.label}
                         </p>

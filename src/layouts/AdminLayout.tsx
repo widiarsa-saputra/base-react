@@ -73,10 +73,10 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             <Panel
                 ref={sidebarPanelRef}
                 defaultSize={15}
-                minSize={15}
+                minSize={4}
                 maxSize={30}
                 collapsible={true}
-                collapsedSize={5}
+                collapsedSize={4}
                 onCollapse={handlePanelCollapse}
                 onExpand={handlePanelExpand}
                 className="hidden md:block"
