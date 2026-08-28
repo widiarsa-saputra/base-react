@@ -204,8 +204,8 @@ export const ActionArea = ({
                         className={cn(
                             "p-0 shadow-2xl overflow-hidden",
                             isLgOrBelow
-                                ? "h-[85vh] w-full rounded-t-xl"
-                                : "w-[400px] sm:w-[540px] border-l-slate-100 rounded-l-xl"
+                                ? "h-[85vh] w-full rounded-t"
+                                : "w-[400px] sm:w-[540px] border-l-slate-100 rounded-l"
                         )}
                     >
                         <div className="flex flex-col h-full">

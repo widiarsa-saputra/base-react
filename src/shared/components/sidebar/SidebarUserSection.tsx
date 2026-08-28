@@ -71,7 +71,7 @@ export const UserSection = ({
                     <ChevronDown className="ml-1 h-3.5 w-3.5 opacity-50 max-[510px]:hidden group-hover:text-primary text-white" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align={align} side={side} className="w-60 bg-popover border border-border rounded-md text-popover-foreground p-2 shadow-xl">
+            <DropdownMenuContent align={align} side={side} className="w-[var(--radix-dropdown-menu-trigger-width)] bg-popover border border-border !rounded text-popover-foreground p-2 shadow-xl" sideOffset={8}>
                 {
                     userSections.map((group, idx) => (
                         <React.Fragment key={idx}>

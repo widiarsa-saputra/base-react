@@ -2,7 +2,8 @@ import useBaseIndex from "@/services/base/hooks/useBaseIndex";
 import { useBaseCreate } from "@/services/base/hooks/useBaseCreate";
 import { useBaseUpdate } from "@/services/base/hooks/useBaseUpdate";
 import { useBaseDelete } from "@/services/base/hooks/useBaseDelete";
-import useBaseShow from "@/services/base/hooks/useBaseShow";
+import { useQuery } from "@tanstack/react-query";
+import { privateApi } from "@/api/api";
 
 import { FileUploadPayload, FileUpdatePayload, FileEntity } from "../schema/FileSchema";
 import { 
@@ -82,29 +83,27 @@ export const useFileForceDelete = () => {
 };
 
 export const useFileStatistics = (params?: Record<string, unknown>) => {
-    return useBaseShow<FileStatisticsResponse>({
-        request: {
-            endpoint: `${API_VERSION}/files/statistics`,
-            id: '',
+    return useQuery<FileStatisticsResponse>({
+        queryKey: ["file-statistics", ...(params ? Object.entries(params).map(([k, v]) => `${k}:${v}`) : [])],
+        queryFn: async () => {
+            const response = await privateApi.get(`/${API_VERSION}/files/statistics`, { params });
+            const result = FileStatisticsResponseSchema.safeParse(response.data);
+            if (!result.success) throw new Error("Invalid file statistics data");
+            return result.data;
         },
-        schema: FileStatisticsResponseSchema,
-        query: {
-            key: "file-statistics",
-            ...params
-        }
+        refetchOnWindowFocus: false,
     });
 };
 
 export const useFileUsage = (params?: Record<string, unknown>) => {
-    return useBaseShow<FileUsageResponse>({
-        request: {
-            endpoint: `${API_VERSION}/files/usage`,
-            id: '',
+    return useQuery<FileUsageResponse>({
+        queryKey: ["file-usage", ...(params ? Object.entries(params).map(([k, v]) => `${k}:${v}`) : [])],
+        queryFn: async () => {
+            const response = await privateApi.get(`/${API_VERSION}/files/usage`, { params });
+            const result = FileUsageResponseSchema.safeParse(response.data);
+            if (!result.success) throw new Error("Invalid file usage data");
+            return result.data;
         },
-        schema: FileUsageResponseSchema,
-        query: {
-            key: "file-usage",
-            ...params
-        }
+        refetchOnWindowFocus: false,
     });
 };

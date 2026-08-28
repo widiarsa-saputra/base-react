@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TabsSections from "@/components/TabsSections";
 import CardProfileAbout from "./CardProfileAbout";
 import CardProfileSetting from "./CardProfileSetting";
 import ChangePasswordCard from "./ChangePasswordCard";
@@ -7,7 +7,18 @@ import { useLocation } from "react-router";
 
 const ProfilePageContent: React.FC = () => {
     const location = useLocation();
-    const [activeTab, setActiveTab] = useState("setting");
+    const [activeTab, setActiveTab] = useState("profile");
+
+    const tabObjects = [
+        {
+            trigger: "profile",
+            content: <CardProfileSetting />
+        },
+        {
+            trigger: "change-password",
+            content: <ChangePasswordCard />
+        }
+    ];
 
     useEffect(() => {
         const pathSegments = location.pathname.split("/").filter(Boolean);
@@ -15,7 +26,7 @@ const ProfilePageContent: React.FC = () => {
         if (lastSegment === "change-password") {
             setActiveTab("change-password");
         } else {
-            setActiveTab("setting");
+            setActiveTab("profile");
         }
     }, [location.pathname]);
 
@@ -30,20 +41,12 @@ const ProfilePageContent: React.FC = () => {
 
                 {/* Main Content */}
                 <div>
-                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="setting">Setting</TabsTrigger>
-                            <TabsTrigger value="change-password">Change Password</TabsTrigger>
-                        </TabsList>
-
-                        <TabsContent value="setting" className="mt-6">
-                            <CardProfileSetting />
-                        </TabsContent>
-
-                        <TabsContent value="change-password" className="mt-6">
-                            <ChangePasswordCard />
-                        </TabsContent>
-                    </Tabs>
+                    <TabsSections 
+                        tabObjects={tabObjects} 
+                        value={activeTab}
+                        onValueChange={setActiveTab}
+                        contentStyles="mx-4 my-4"
+                    />
                 </div>
             </div>
         </div>

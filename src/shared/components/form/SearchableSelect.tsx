@@ -16,15 +16,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 
-export type SelectOption = {
+export type SelectOption<T> = {
     label: string;
     value: string;
     render?: React.ReactNode;
-    data?: any;
+    data?: T;
 };
 
-interface SearchableSelectProps {
-    options: SelectOption[];
+interface SearchableSelectProps<T> {
+    options: SelectOption<T>[];
     value?: string | string[];
     placeholder?: string;
     onChange: (value: string | string[]) => void;
@@ -37,7 +37,7 @@ interface SearchableSelectProps {
     isPending?: boolean;
 }
 
-export const SearchableSelect: React.FC<SearchableSelectProps> = ({
+export const SearchableSelect = <T,>({
     options,
     value,
     placeholder = "Select...",
@@ -49,7 +49,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
     onSearchChange,
     serverSideSearch = false,
     isPending = false,
-}) => {
+}: SearchableSelectProps<T>) => {
     const [open, setOpen] = React.useState(false);
     
     // Manage local search for debouncing

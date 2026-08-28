@@ -1,11 +1,11 @@
 import AdminLayout from '@/layouts/AdminLayout'
 import React from 'react'
-import FileManagerContent from '../components/FileManagerContent'
+import FileManagerMainContent from '../components/FileManagerMainContent'
 
 const FileManagerPage: React.FC = () => {
     return (
         <AdminLayout>
-            <FileManagerContent />
+            <FileManagerMainContent />
         </AdminLayout>
     )
 }
