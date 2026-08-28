@@ -16,10 +16,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { GeneralRes, GeneralResponseSchema } from "@/services/base/response/BaseResponseSchema";
 const API_VERSION = "v1";
 
-export const useFileIndex = (params?: Record<string, unknown>) => {
+export const useFileIndex = (params?: object) => {
     return useBaseIndex<FileListResponse>({
         request: {
             endpoint: `${API_VERSION}/files`,
+            params
         },
         schema: FileListResponseSchema,
         query: {

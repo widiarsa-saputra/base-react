@@ -27,7 +27,9 @@ export const useUserIndex = (params?: object) => {
     return useBaseIndex<UserListResponse>({
         request: {
             endpoint: `${API_VERSION}/${queryKey}`,
-            params,
+            params: {
+                ...params
+            },
         },
         schema: UserListResponseSchema,
         query: {

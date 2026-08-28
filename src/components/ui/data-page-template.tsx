@@ -404,6 +404,7 @@ export interface DataPageTemplateProps<
 > {
     title: string;
     description?: string;
+    additionalContent?: React.ReactNode;
     columns: Column<T>[];
     data: T[];
     isLoading?: boolean;
@@ -450,6 +451,7 @@ export function DataPageTemplate<
 >({
     title,
     description,
+    additionalContent,
     columns,
     data,
     isLoading,
@@ -743,6 +745,11 @@ export function DataPageTemplate<
                     )
                 )}
             </div>
+
+            {/* Additional content slot (e.g. stats cards) */}
+            {additionalContent && (
+                <div>{additionalContent}</div>
+            )}
 
             {/* Content (Table or Grid) */}
             {gridRenderItem ? (

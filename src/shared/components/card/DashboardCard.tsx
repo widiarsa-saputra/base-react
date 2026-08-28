@@ -63,7 +63,7 @@ export function DashboardCard({
                 <div className={cn(
                     "h-full transition-all duration-500",
                     changeType === "up" ? "bg-emerald-500/20" : "bg-red-500/20"
-                )} style={{ width: '40%' }}></div>
+                )} style={{ width: '100%' }}></div>
             </div>
         </div>
     )

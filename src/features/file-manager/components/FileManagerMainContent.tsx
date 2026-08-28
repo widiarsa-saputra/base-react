@@ -21,12 +21,10 @@ const FileManagerMainContent: React.FC = () => {
 
     // Fetch files from API with trashed filter
     const { data: filesData, isFetching } = useIndexFile({
-        params: {
-            search: search,
-            include: "folder,fileItems",
-            "filter[is_trashed]": "true",
-            ...(fileType !== "all" && { "filter[mime_type]": fileType }),
-        }
+        search: search,
+        include: "folder,fileItems",
+        // "filter[is_trashed]": "true",
+        ...(fileType !== "all" && { "filter[mime_type]": fileType }),
     })
 
     // Fetch file usage statistics
