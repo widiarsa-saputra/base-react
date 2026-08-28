@@ -20,7 +20,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import SectionLoader from '@/shared/components/loader/SectionLoader';
-import { getInitials, getRandomBgAndTextColor } from '@/lib/utils';
+import { getInitials, getDeterministicBgAndTextColor } from '@/lib/utils';
 
 import { useRoleIndex, useRoleCreate, useRoleUpdate, useRoleDelete } from '@/services/role/hooks/useRoleCRUD';
 import { RoleCreateSchema, RoleCreatePayload, RoleEntity } from '@/services/role/schema/RoleSchema';
@@ -87,7 +87,7 @@ const RoleCard: React.FC<RoleCardProps> = ({ role, onEdit, onDelete }) => {
                         <span className="text-xs text-slate-400 italic">Belum ada</span>
                     ) : (
                         users.slice(0, 5).map((user, idx) => {
-                            const { bgColor } = getRandomBgAndTextColor();
+                            const { bgColor } = getDeterministicBgAndTextColor(String(user.id) || user.name || '');
                             return (
                                 <div
                                     key={idx}

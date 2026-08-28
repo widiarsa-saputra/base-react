@@ -75,6 +75,18 @@ export function getRandomBgAndTextColor(): { bgColor: string; textColor: string 
   return { bgColor, textColor };
 }
 
+export function getDeterministicBgAndTextColor(identifier: string): { bgColor: string; textColor: string } {
+  if (!identifier) return getRandomBgAndTextColor();
+  let hash = 0;
+  for (let i = 0; i < identifier.length; i++) {
+    hash = identifier.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % tailwindBgColorClasses.length;
+  const bgColor = tailwindBgColorClasses[index];
+  const textColor = getTextColorFromBgClass(bgColor);
+  return { bgColor, textColor };
+}
+
 
 export const nullableSchema = <T extends z.ZodRawShape>(dataSchema: z.ZodObject<T>) => {
   return Object.fromEntries(

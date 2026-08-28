@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { ArrowLeft, Shield } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BaseTable } from "@/shared/components/table/BaseTable";
 import { Controller, useForm } from "react-hook-form";
@@ -16,6 +17,7 @@ import { PermissionEntity as SinglePermissionResponse } from "@/services/permiss
 import { CheckboxAllToggle } from "@/shared/components/form/CheckboxAllToggle";
 import { CheckboxItemList } from "@/shared/components/form/CheckboxItemList";
 import { useCheckboxSelectCrossRow } from "@/shared/hooks/useCheckboxSelectCrossRow";
+import { AxiosError } from "axios";
 
 const GroupedPermissions = () => {
     const { data: permissions, isFetching, isSuccess } = useIndexPermission({
@@ -40,6 +42,24 @@ const GroupedPermissions = () => {
     return { groupedPermissions, isFetching, isSuccess };
 }
 
+type PermissionGroupSelectAllProps = {
+    value: string[];
+    onChange: (value: string[]) => void;
+    allKeys: string[];
+};
+
+const PermissionGroupSelectAll: React.FC<PermissionGroupSelectAllProps> = ({ value, onChange, allKeys }) => {
+    const { allSelected, toggleAll } = useCheckboxSelectCrossRow(value, allKeys);
+
+    return (
+        <CheckboxAllToggle
+            allSelected={allSelected}
+            toggleAll={() => onChange(toggleAll())}
+            label={'Select All'}
+        />
+    );
+};
+
 const RolePermissionManagement: React.FC = () => {
     const navigate = useNavigate();
     const params = useParams<{ roleId: string }>();
@@ -51,13 +71,13 @@ const RolePermissionManagement: React.FC = () => {
         }
     });
 
-    if (isError && (error as any)?.response?.status === 404) {
+    if (isError && (error as AxiosError)?.response?.status === 404) {
         return (
-            <div className="p-6">
-                <h2 className="text-lg font-semibold">Role not found</h2>
-                <p className="text-gray-500">The role you are looking for does not exist.</p>
-                <Button onClick={() => navigate(ROUTES.ROLES.path)} className="mt-4 bg-blue-500">
-                    Go back to Roles
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+                <Shield className="h-14 w-14 text-slate-300" />
+                <p className="text-slate-500 font-medium">Role tidak ditemukan.</p>
+                <Button variant="outline" onClick={() => navigate(ROUTES.ROLES.path)}>
+                    <ArrowLeft className="h-4 w-4 mr-2" /> Kembali ke Roles
                 </Button>
             </div>
         );
@@ -126,8 +146,24 @@ const RolePermissionManagementTable: React.FC<Props> = ({ roleName, roleDisplayN
     })
 
     return (
-        <div className="p-6 space-y-4">
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-slate-50 min-h-screen">
+            {/* Back button bar */}
+            <div className="sticky top-0 z-20 flex items-center gap-3 px-6 py-3 bg-white border-b border-slate-100 shadow-sm">
+                <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="gap-2 text-slate-600 hover:text-slate-900"
+                    onClick={() => navigate(ROUTES.ROLES.path)}
+                >
+                    <ArrowLeft className="h-4 w-4" />
+                    Kembali
+                </Button>
+                <div className="h-4 w-px bg-slate-200" />
+                <span className="text-sm font-semibold text-slate-700">Manajemen Hak Akses Role</span>
+            </div>
+
+            <div className="p-4">
                 <BaseTable<{ id: string; group: string; permissions: { key: string; display_name: string }[] }>
                     data={groupedPermissions ? Object.values(groupedPermissions) : []}
                     columns={[
@@ -140,13 +176,11 @@ const RolePermissionManagementTable: React.FC<Props> = ({ roleName, roleDisplayN
                                     name="permissions"
                                     render={({ field }) => {
                                         const allKeys = item.permissions.map((d: { key: string; display_name: string }) => d.key);
-                                        const { allSelected, toggleAll } = useCheckboxSelectCrossRow(field.value || [], allKeys);
-
                                         return (
-                                            <CheckboxAllToggle
-                                                allSelected={allSelected}
-                                                toggleAll={() => field.onChange(toggleAll())}
-                                                label={'Select All'}
+                                            <PermissionGroupSelectAll
+                                                value={field.value || []}
+                                                onChange={field.onChange}
+                                                allKeys={allKeys}
                                             />
                                         );
                                     }}
@@ -187,21 +221,30 @@ const RolePermissionManagementTable: React.FC<Props> = ({ roleName, roleDisplayN
                     isLoading={isFetching}
                     renderHeader={() => (
                         <div className="flex flex-col gap-4 w-full">
-                            <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-lg font-semibold">Role Permissions</h2>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <Input placeholder="Role Name" className="w-full mr-2" disabled value={roleDisplayName} />
-                                <div className="flex justify-end gap-2">
-                                    <Button type="button" onClick={() => navigate(ROUTES.ROLES.path)} variant="outline">Cancel</Button>
-                                    <Button className="bg-blue-600 text-white hover:bg-blue-700" type="submit">Save</Button>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <Shield className="h-5 w-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-base font-bold text-slate-900">{roleDisplayName}</p>
+                                        <Badge variant="outline" className="text-[10px] font-mono px-1.5 py-0 mt-0.5 text-slate-500">
+                                            {roleName}
+                                        </Badge>
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-end gap-2">
+                                    <Button type="button" onClick={() => navigate(ROUTES.ROLES.path)} variant="outline">Batal</Button>
+                                    <Button type="submit" disabled={isPending}>
+                                        {isPending ? 'Menyimpan...' : 'Simpan'}
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                     )}
                 />
-            </form>
-        </div>
+            </div>
+        </form>
     );
 }
 

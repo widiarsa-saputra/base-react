@@ -12,7 +12,7 @@ import { useFormSubmit } from "@/shared/hooks/useFormSubmit";
 import { UserRoleSyncUsersPayload as CreateUserRole } from "@/services/user-role/schema/UserRoleSchema";
 import { useUserIndex as useIndexUser } from "@/services/user/hooks/useUserCRUD";
 import { UserEntity } from "@/services/user/schema/UserSchema";
-import { getInitials, getRandomBgAndTextColor, cn } from "@/lib/utils";
+import { getInitials, getDeterministicBgAndTextColor, cn } from "@/lib/utils";
 import { toast } from "sonner";
 import DebouncedSearchInput from "@/shared/components/search/DebouncedSearchInput";
 import PaginationWithShow from "@/shared/components/pagination/PaginationWithShow";
@@ -153,7 +153,7 @@ const RoleUserManagementContent: React.FC<RoleUserManagementContentProps> = ({
                 <span className="text-sm font-semibold text-slate-700">Assign Users to Role</span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6 mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 mx-auto">
 
                 {/* ── Section 1: Role + Selected Users ── */}
                 <div className="flex flex-col gap-4">
@@ -201,7 +201,7 @@ const RoleUserManagementContent: React.FC<RoleUserManagementContentProps> = ({
                                         </p>
                                     ) : (
                                         selectedUsers.map((user) => {
-                                            const { bgColor } = getRandomBgAndTextColor();
+                                            const { bgColor } = getDeterministicBgAndTextColor(String(user.id));
                                             return (
                                                 <div
                                                     key={user.id}
@@ -279,7 +279,7 @@ const RoleUserManagementContent: React.FC<RoleUserManagementContentProps> = ({
                                         ) : (
                                             userList.map((user) => {
                                                 const isSelected = selectedSet.has(String(user.id));
-                                                const { bgColor } = getRandomBgAndTextColor();
+                                                const { bgColor } = getDeterministicBgAndTextColor(String(user.id));
                                                 return (
                                                     <button
                                                         key={user.id}
