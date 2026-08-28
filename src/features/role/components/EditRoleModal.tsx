@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit'
 import { FormField } from '@/shared/components/form/FormField'
-import { RoleResponse } from '@/services/role/response/IndexRoleResponse'
-import { useUpdateRole } from '@/services/role/hooks/useUpdateRole'
-import { UpdateRole } from '@/services/role/schema/UpdateRoleSchema'
+import { RoleEntity as RoleResponse } from '@/services/role/schema/RoleSchema'
+import { useRoleUpdate as useUpdateRole } from '@/services/role/hooks/useRoleCRUD'
+import { RoleUpdatePayload as UpdateRole } from '@/services/role/schema/RoleSchema'
 
 type Props = {
     role: RoleResponse

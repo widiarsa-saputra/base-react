@@ -12,9 +12,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { toast } from 'sonner'
-import { useDeleteFile } from '@/services/file/hooks/useDeleteFile'
-import { useRestoreFile } from '@/services/file/hooks/useRestoreFile'
-import { useForceDeleteFile } from '@/services/file/hooks/useForceDeleteFile'
+import { useFileDelete as useDeleteFile, useFileRestore as useRestoreFile, useFileForceDelete as useForceDeleteFile } from '@/services/file/hooks/useFileCRUD'
 
 interface FileCardProps {
     file: {

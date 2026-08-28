@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit'
 import { FormField } from '@/shared/components/form/FormField'
-import { SingleUserResponse } from '@/services/user/response/IndexUserResponse'
-import { useUpdateUser } from '@/services/user/hooks/useUpdateUser'
-import { UpdateUser } from '@/services/user/schema/UpdateUserSchema'
+import { UserEntity as SingleUserResponse } from '@/services/user/schema/UserSchema'
+import { useUserUpdate as useUpdateUser } from '@/services/user/hooks/useUserCRUD'
+import { UserUpdatePayload as UpdateUser } from '@/services/user/schema/UserSchema'
 
 type Props = {
     user: SingleUserResponse

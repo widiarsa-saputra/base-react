@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { useDeleteRole } from '@/services/role/hooks/useDeleteRole'
-import { RoleResponse } from '@/services/role/response/IndexRoleResponse'
+import { useRoleDelete as useDeleteRole } from '@/services/role/hooks/useRoleCRUD'
+import { RoleEntity as RoleResponse } from '@/services/role/schema/RoleSchema'
 import { useQueryClient } from '@tanstack/react-query'
 import { Trash } from 'lucide-react'
 import React from 'react'

@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit'
 import { FormField } from '@/shared/components/form/FormField'
-import useCreateRole from '@/services/role/hooks/useCreateRole'
-import { CreateRole } from '@/services/role/schema/CreateRoleSchema'
+import { useRoleCreate as useCreateRole } from '@/services/role/hooks/useRoleCRUD'
+import { RoleCreatePayload as CreateRole } from '@/services/role/schema/RoleSchema'
 
 const AddRoleModal: React.FC = () => {
     const [open, setOpen] = useState(false)

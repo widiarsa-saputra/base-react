@@ -12,9 +12,7 @@ import {
 import { Download, Upload, Loader2, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import { toast } from 'sonner';
 
-import useDownloadImportTemplate from '@/services/user/hooks/useDownloadImportTemplate';
-import usePreviewUserImport from '@/services/user/hooks/usePreviewUserImport';
-import useImportUsers from '@/services/user/hooks/useImportUsers';
+import { useDownloadImportTemplate, usePreviewUserImport, useImportUsers } from '@/services/user/hooks/useUserImportExport';
 
 interface ImportUserModalProps {
     onSuccess?: () => void;

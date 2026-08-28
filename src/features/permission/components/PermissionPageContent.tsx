@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import AddPermissionModal from './AddPermissionModal'
 import DebouncedSearchInput from '@/shared/components/search/DebouncedSearchInput'
-import useIndexPermission from '@/services/permission/hooks/useIndexPermission';
+import { usePermissionIndex } from '@/services/permission/hooks/usePermissionCRUD';
 import { Download, Search } from 'lucide-react';
 import FilterDropdown from '@/shared/components/utility/FilterDropdown';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -17,7 +17,7 @@ const PermissionPageContent: React.FC = () => {
     const [entriesPerPage, setEntriesPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const { data: permissions, isFetching, isSuccess } = useIndexPermission({
+    const { data: permissions, isFetching, isSuccess } = usePermissionIndex({
         params: {
             search: search,
             paginate: entriesPerPage,

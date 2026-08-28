@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit'
 import { FormField } from '@/shared/components/form/FormField'
-import useCreatePermission from '@/services/permission/hooks/useCreatePermission'
-import { CreatePermission } from '@/services/permission/schema/CreatePermissionSchema'
+import { usePermissionCreate as useCreatePermission } from '@/services/permission/hooks/usePermissionCRUD'
+import { PermissionCreatePayload as CreatePermission } from '@/services/permission/schema/PermissionSchema'
 
 const AddPermissionModal: React.FC = () => {
     const [open, setOpen] = useState(false)

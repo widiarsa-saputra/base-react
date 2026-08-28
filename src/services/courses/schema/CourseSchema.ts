@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { nullableSchema } from "@/lib/utils";
 import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
-import { SingleFileSchema } from "@/services/file/response/IndexFileResponse";
+import { FileEntity as SingleFileSchema } from "@/services/file/schema/FileSchema";
 
 export const CourseLevelEnum = ['beginner', 'intermediate', 'advanced'] as const;
 export const CourseStatusEnum = ['draft', 'published', 'reviewed'] as const;

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useId } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
-import { useUploadFile } from '@/services/file/hooks/useUploadFile';
+import { useFileUpload as useUploadFile } from '@/services/file/hooks/useFileCRUD';
 import { toast } from 'sonner';
 
 interface UploadSingleImageProps {

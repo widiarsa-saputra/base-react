@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { SingleUserResponse } from '@/services/user/response/IndexUserResponse';
+import { UserEntity as SingleUserResponse } from '@/services/user/schema/UserSchema';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import EditUserModal from './EditUserModal';

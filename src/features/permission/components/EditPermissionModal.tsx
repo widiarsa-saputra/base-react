@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit'
 import { FormField } from '@/shared/components/form/FormField'
-import { SinglePermissionResponse } from '@/services/permission/response/IndexPermissionResponse'
-import { useUpdatePermission } from '@/services/permission/hooks/useUpdatePermission'
-import { UpdatePermission } from '@/services/permission/schema/UpdatePermissionSchema'
+import { PermissionEntity as SinglePermissionResponse } from '@/services/permission/schema/PermissionSchema'
+import { usePermissionUpdate as useUpdatePermission } from '@/services/permission/hooks/usePermissionCRUD'
+import { PermissionUpdatePayload as UpdatePermission } from '@/services/permission/schema/PermissionSchema'
 
 type Props = {
     permission: SinglePermissionResponse

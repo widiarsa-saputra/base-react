@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Upload, X, File } from 'lucide-react'
 import { toast } from 'sonner'
-import { useUploadFile } from '@/services/file/hooks/useUploadFile'
+import { useFileUpload as useUploadFile } from '@/services/file/hooks/useFileCRUD'
 
 interface UploadFileModalProps {
     open: boolean

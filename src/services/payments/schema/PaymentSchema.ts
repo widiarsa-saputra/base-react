@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { nullableSchema } from "@/lib/utils";
 import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
-import { SingleFileSchema } from "@/services/file/response/IndexFileResponse";
+import { FileEntity as SingleFileSchema } from "@/services/file/schema/FileSchema";
 
 export const PaymentCreateSchema = z.object({
     enrollment_id: z.union([z.string(), z.number()]).optional().nullable(),

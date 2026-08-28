@@ -4,11 +4,11 @@ import { Modal } from '@/shared/components/modal/Modal';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import useIndexRole from '@/services/role/hooks/useIndexRole';
-import { SingleUserResponse } from '@/services/user/response/IndexUserResponse';
-import useSyncUserRoles from '@/services/user-role/hooks/useSyncUserRoles';
+import { useRoleIndex as useIndexRole } from '@/services/role/hooks/useRoleCRUD';
+import { UserEntity as SingleUserResponse } from '@/services/user/schema/UserSchema';
+import { useUserRoleSyncRoles as useSyncUserRoles } from '@/services/user-role/hooks/useUserRoleCRUD';
 import { useFormSubmit } from '@/shared/hooks/useFormSubmit';
-import { SyncUserRoles } from '@/services/user-role/schema/SyncUserRolesSchema';
+import { UserRoleSyncRolesPayload as SyncUserRoles } from '@/services/user-role/schema/UserRoleSchema';
 import { ShieldPlus } from 'lucide-react';
 import SectionLoader from '@/shared/components/loader/SectionLoader';
 

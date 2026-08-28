@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/select"
 import FileCard from './FileCard'
 import UploadFileModal from './UploadFileModal'
-import useIndexFile from '@/services/file/hooks/useIndexFile'
-import useFileUsage from '@/services/file/hooks/useFileUsage'
+import { useFileIndex as useIndexFile, useFileUsage } from '@/services/file/hooks/useFileCRUD'
 import SectionLoader from '@/shared/components/loader/SectionLoader'
 
 const FileManagerContent: React.FC = () => {

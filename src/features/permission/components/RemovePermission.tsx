@@ -1,17 +1,17 @@
 import { Button } from '@/components/ui/button'
-import { useDeletePermission } from '@/services/permission/hooks/useDeletePermission'
-import { SinglePermissionResponse } from '@/services/permission/response/IndexPermissionResponse'
+import { usePermissionDelete } from '@/services/permission/hooks/usePermissionCRUD'
+import { PermissionEntity } from '@/services/permission/schema/PermissionSchema'
 import { useQueryClient } from '@tanstack/react-query'
 import { Trash } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
 
 type Props = {
-    permission: SinglePermissionResponse
+    permission: PermissionEntity
 }
 
 const RemovePermission: React.FC<Props> = ({ permission }) => {
-    const { mutate } = useDeletePermission();
+    const { mutate } = usePermissionDelete();
 
     const queryClient = useQueryClient();
 
