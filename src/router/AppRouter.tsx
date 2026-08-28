@@ -14,9 +14,10 @@ import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
 import { CoursePage } from "@/features/courses/pages";
 import CourseBuilderPage from "@/features/courses/pages/CourseBuilderPage";
-import { Folder, Grid, Lock, ShieldCheck, UserCircle, Users } from "lucide-react";
+import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
 import UserPage from "@/features/user-management/pages/UserPage";
+import SettingsPage from "@/features/settings/pages/SettingsPage";
 
 
 
@@ -111,6 +112,13 @@ export const ROUTES: Record<string, AppRoute> = {
         roles: [],
         permissions: [],
     },
+    ADMIN_SETTINGS: {
+        path: "/settings",
+        element: <SettingsPage />,
+        protected: true,
+        roles: [],
+        permissions: [],
+    },
     ROLES: {
         path: "/roles",
         element: <RolePage />,
@@ -178,6 +186,12 @@ export const userSections: MenuSection[] = [
         id :'profile',
         items: [
             {
+                text: "Courses",
+                url: ROUTES.COURSES.path,
+                icon: Users,
+                permissions: ["view_courses"]
+            },
+            {
                 text: "Profile",
                 url: ROUTES.PROFILE.path,
                 icon: UserCircle,
@@ -214,12 +228,12 @@ export const userSections: MenuSection[] = [
                 icon: Lock,
                 permissions: ["view_permission_management"]
             },
-            // {
-            //     text: "Settings",
-            //     url: ROUTES.ADMIN_SETTINGS.path,
-            //     icon: Settings,
-            //     permissions: ["view_settings"]
-            // }
+            {
+                text: "Settings",
+                url: ROUTES.ADMIN_SETTINGS.path,
+                icon: Settings,
+                permissions: ["view_settings"]
+            }
         ]
     },
     {
