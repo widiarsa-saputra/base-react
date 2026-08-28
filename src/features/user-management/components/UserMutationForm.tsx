@@ -48,6 +48,7 @@ export const UserMutationForm: React.FC<UserMutationFormProps> = ({ form }) => {
                 inputProps={register('password')}
                 error={errors.password?.message}
                 watch={watch('password')}
+                tooltipMessage='Field password dapat diisi manual atau dikosongkan. Jika dikosongkan, sistem akan otomatis men-generate password baru untuk pengguna ini.'
                 required
             />
         </form>
