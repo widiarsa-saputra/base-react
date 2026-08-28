@@ -174,12 +174,10 @@ const RoleMainContent: React.FC = () => {
     const deleteMutation = useRoleDelete();
 
     const { data: roles, isFetching } = useRoleIndex({
-        params: {
-            search,
-            include: 'users',
-            ...(isActive && { 'filter[is_active]': 'true' }),
-            ...(isInactive && { 'filter[is_active]': 'false' }),
-        }
+        search,
+        include: 'users',
+        ...(isActive && { 'filter[is_active]': 'true' }),
+        ...(isInactive && { 'filter[is_active]': 'false' }),
     });
 
     // Add form
