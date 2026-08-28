@@ -58,16 +58,19 @@ const userColumns: Column<UserEntity>[] = [
     {
         key: 'name',
         title: 'Name',
+        sortable: true,
         render: (user) => <span className="font-medium text-slate-900">{user.name}</span>,
     },
     {
         key: 'email',
         title: 'Email',
+        sortable: true,
         render: (user) => <span className="text-sm text-slate-600">{user.email}</span>,
     },
     {
         key: 'phone',
         title: 'Phone',
+        sortable: true,
         render: (user) => <span className="text-sm text-slate-600">{user.phone ?? '-'}</span>,
     },
     {

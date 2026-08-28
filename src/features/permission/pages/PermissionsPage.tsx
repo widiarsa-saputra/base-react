@@ -1,11 +1,11 @@
 import AdminLayout from '@/layouts/AdminLayout'
 import React from 'react'
-import PermissionPageContent from '../components/PermissionPageContent'
+import PermissionMainContent from '../components/PermissionMainContent'
 
 const PermissionsPage: React.FC = () => {
     return (
         <AdminLayout>
-            <PermissionPageContent />
+            <PermissionMainContent />
         </AdminLayout>
     )
 }
