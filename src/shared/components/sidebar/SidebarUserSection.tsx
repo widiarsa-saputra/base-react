@@ -85,18 +85,6 @@ export const UserSection = () => {
                                 <p className="text-[11px] text-white/70 truncate">{user?.email ?? ''}</p>
                             </div>
                         </div>
-                        <div
-                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/8 transition-colors group mr-12 bg-red-50 hover:bg-red-100"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowLogoutDialog(true);
-                            }}
-                        >
-                            <div className="w-fit h-fit rounded-md flex items-center justify-center">
-                                <LogOut className="h-3.5 w-3.5 text-destructive" />
-                            </div>
-                            Keluar dari Aplikasi
-                        </div>
                     </div>
 
                     <div className="bg-white -mt-2 rounded-t-2xl relative grid grid-cols-2 divide-x divide-slate-100">
@@ -153,7 +141,18 @@ export const UserSection = () => {
                             ))}
                         </div>
 
-                        {/* Column 2: Manajemen Sistem */}
+                        <div
+                            className="flex items-center justify-center gap-3 p-4 rounded-b-lg text-sm font-medium text-destructive hover:bg-destructive/8 transition-colors group bg-red-50 hover:bg-red-100 col-span-full"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowLogoutDialog(true);
+                            }}
+                        >
+                            <div className="w-fit h-fit rounded-md flex items-center justify-center">
+                                <LogOut className="h-3.5 w-3.5 text-destructive" />
+                            </div>
+                            Keluar dari Aplikasi
+                        </div>
 
                     </div>
                 </DialogContent>
