@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import LabelComp from "./LabelComp";
 import { cn } from "@/lib/utils";
 import { Textarea } from "./ui/textarea";
 import { formatNumber } from "./InputCurrency";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Info } from "lucide-react";
 
 export type FloatingSharedProps<T> = {
     id: string;
@@ -13,6 +15,7 @@ export type FloatingSharedProps<T> = {
     watch?: string;
     rightSlot?: React.ReactNode;
     required?: boolean;
+    tooltipMessage?: string;
     inputProps?: T;
 };
 
@@ -25,7 +28,8 @@ export const FloatingInput = ({
     watch,
     rightSlot,
     inputProps,
-    required
+    required,
+    tooltipMessage
 }: FloatingSharedProps<React.InputHTMLAttributes<HTMLInputElement> & { ref?: React.Ref<HTMLInputElement> }> & { type?: string }) => {
     const [focused, setFocused] = useState(false)
     const isFloating = focused || !!watch;
@@ -41,7 +45,7 @@ export const FloatingInput = ({
                     placeholder={isFloating ? placeholder ?? undefined : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        Icon ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
@@ -54,22 +58,35 @@ export const FloatingInput = ({
                     }}
                     required={required}
                 />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    <Label
+                    <LabelComp
                         htmlFor={id}
+                        required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            Icon ? "left-8" : "left-2",
+                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
                             isFloating
-                                ? Icon ? '!left-4 !top-0 !text-[10px] bg-white'
+                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !top-0 !text-[10px] bg-white' : '!left-4 !top-0 !text-[10px] bg-white')
                                     : '!top-0 !text-[10px] !left-0 bg-white'
                                 : ''
                         )}
                     >
-                        {label} {required && <span className="text-red-500/50">*</span>}
-                    </Label>
+                        {label}
+                    </LabelComp>
+                    {tooltipMessage && (
+                        <div className="pointer-events-auto">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{tooltipMessage}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </div>
+                    )}
                 </div>
                 {rightSlot}
             </div>
@@ -86,7 +103,8 @@ export const FloatingTextArea = ({
     watch,
     rightSlot,
     inputProps,
-    required
+    required,
+    tooltipMessage
 }: FloatingSharedProps<React.TextareaHTMLAttributes<HTMLTextAreaElement> & { ref?: React.Ref<HTMLTextAreaElement> }>) => {
     const [focused, setFocused] = useState(false)
     const isFloating = focused || !!watch;
@@ -101,7 +119,7 @@ export const FloatingTextArea = ({
                     {...restInputProps}
                     className={cn(
                         "flex min-h-[80px] w-full pt-4 pb-2 rounded border bg-slate-50/30 focus:bg-white text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                        Icon ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
@@ -114,23 +132,36 @@ export const FloatingTextArea = ({
                     }}
                     required={required}
                 />
-                <div className="absolute top-4 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute top-4 left-0 pl-3 flex items-center pointer-events-none gap-1">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    <Label
+                    {tooltipMessage && (
+                        <div className="pointer-events-auto">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{tooltipMessage}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </div>
+                    )}
+                    <LabelComp
                         htmlFor={id}
+                        required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            Icon ? "left-8" : "left-2",
+                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
                             // isFloating ? '!-top-4 !text-[10px] !left-4' : '',
                             isFloating
-                                ? Icon ? '!left-4 !-top-4 !text-[10px]'
+                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !-top-4 !text-[10px]' : '!left-4 !-top-4 !text-[10px]')
                                     : '!-top-4 !text-[10px] !left-0'
                                 : ''
                         )}
                     >
-                        {label} {required && <span className="text-red-500/50">*</span>}
-                    </Label>
+                        {label}
+                    </LabelComp>
                 </div>
                 {rightSlot}
             </div>
@@ -150,7 +181,8 @@ export const FloatingCurrencyInput = ({
     onChange,
     prefix = "Rp ",
     inputProps,
-    required
+    required,
+    tooltipMessage
 }: FloatingSharedProps<Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> & { ref?: React.Ref<HTMLInputElement> }> & {
     value: number | null;
     onChange: (value: number | null) => void;
@@ -235,7 +267,7 @@ export const FloatingCurrencyInput = ({
                     ref={setRefs}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        Icon && prefix ? "pl-16 pr-10" : (Icon || prefix) ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) && prefix ? "pl-16 pr-10" : (Icon || tooltipMessage || prefix) ? "pl-10 pr-10" : "px-3",
                         inputProps?.className
                     )}
                     value={formatNumber(value)}
@@ -252,23 +284,36 @@ export const FloatingCurrencyInput = ({
                     }}
                     required={required}
                 />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    <Label
+                    {tooltipMessage && (
+                        <div className="pointer-events-auto">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{tooltipMessage}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </div>
+                    )}
+                    <LabelComp
                         htmlFor={id}
+                        required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            Icon ? "left-8" : "left-2",
+                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
                             // isFloating ? '!top-0 !text-[10px] !left-4' : '',
                             isFloating
-                                ? Icon ? '!left-4 !top-0 !text-[10px]'
+                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !top-0 !text-[10px]' : '!left-4 !top-0 !text-[10px]')
                                     : '!top-0 !text-[10px] !left-0'
                                 : ''
                         )}
                     >
-                        {label} {required && <span className="text-red-500/50">*</span>}
-                    </Label>
+                        {label}
+                    </LabelComp>
                 </div>
                 {rightSlot}
             </div>
@@ -317,8 +362,8 @@ function buildMatches(parsed: ParsedInput, currentYear: number): DateMatch[] {
 
     const monthCandidates = monthQuery
         ? MONTHS.map((m, i) => ({ name: m, index: i })).filter(({ name }) =>
-              name.toLowerCase().startsWith(monthQuery)
-          )
+            name.toLowerCase().startsWith(monthQuery)
+        )
         : MONTHS.map((m, i) => ({ name: m, index: i }));
 
     // Kalau user belum mulai ketik bulan sama sekali, jangan tampilkan semua 12 opsi
@@ -353,6 +398,7 @@ export const FloatingDateInput = ({
     rightSlot,
     inputProps,
     required,
+    tooltipMessage,
     value,
     onChange,
     placeholder = "cth. 12 Desember 2026",
@@ -465,7 +511,7 @@ export const FloatingDateInput = ({
                     placeholder={focused ? placeholder : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white relative",
-                        Icon ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
                         inputProps?.className
                     )}
                     onChange={(e) => {
@@ -494,23 +540,36 @@ export const FloatingDateInput = ({
                     required={required}
                 />
 
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    <Label
+                    {tooltipMessage && (
+                        <div className="pointer-events-auto">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{tooltipMessage}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </div>
+                    )}
+                    <LabelComp
                         htmlFor={id}
+                        required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            Icon ? "left-8" : "left-2",
+                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
                             isFloating
-                                ? Icon
-                                    ? "!left-4 !top-0 !text-[10px]"
+                                ? (Icon || tooltipMessage)
+                                    ? (Icon && tooltipMessage ? "!left-8 !top-0 !text-[10px]" : "!left-4 !top-0 !text-[10px]")
                                     : "!top-0 !text-[10px] !left-0"
                                 : ""
                         )}
                     >
-                        {label} {required && <span className="text-red-500/50">*</span>}
-                    </Label>
+                        {label}
+                    </LabelComp>
                 </div>
                 {rightSlot}
 

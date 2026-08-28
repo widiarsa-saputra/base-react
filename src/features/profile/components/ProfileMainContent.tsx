@@ -5,7 +5,7 @@ import CardProfileSetting from "./CardProfileSetting";
 import ChangePasswordCard from "./ChangePasswordCard";
 import { useLocation } from "react-router";
 
-const ProfilePageContent: React.FC = () => {
+const ProfileMainContent: React.FC = () => {
     const location = useLocation();
     const [activeTab, setActiveTab] = useState("profile");
 
@@ -53,4 +53,4 @@ const ProfilePageContent: React.FC = () => {
     );
 };
 
-export default ProfilePageContent;
+export default ProfileMainContent;

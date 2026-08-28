@@ -59,13 +59,13 @@ export const UserSection = () => {
                             </div>
                         </div>
                         <div
-                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/8 transition-colors group"
+                            className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium text-destructive transition-colors group"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setShowLogoutDialog(true);
                             }}
                         >
-                            <div className="w-7 h-7 rounded-md bg-red-50 group-hover:bg-red-100 flex items-center justify-center transition-colors">
+                            <div className="w-7 h-7 rounded-md bg-red-50/10 group-hover:bg-red-50/20 flex items-center justify-center transition-colors">
                                 <LogOut className="h-3.5 w-3.5 text-destructive" />
                             </div>
                         </div>

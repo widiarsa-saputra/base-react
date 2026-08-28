@@ -1,14 +1,18 @@
 import { ReactNode } from "react"
 import { Label } from "./ui/label"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
+import { Info } from "lucide-react"
 
 type Props = React.ComponentProps<typeof Label> & {
     children: ReactNode,
-    required?: boolean
+    required?: boolean,
+    tooltipMessage?: string
 }
 
 const LabelComp = ({
     children,
     required,
+    tooltipMessage,
     ...props
 }: Props) => {
     return (
@@ -21,6 +25,17 @@ const LabelComp = ({
                     <span className="text-red-500">*</span>
                 )
             }
+
+            {tooltipMessage && (
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>{tooltipMessage}</p>
+                    </TooltipContent>
+                </Tooltip>
+            )}
         </Label>
     )
 }

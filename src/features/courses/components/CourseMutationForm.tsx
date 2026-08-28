@@ -7,6 +7,7 @@ import { SwitchComp } from '@/components/CustomComp';
 import { FloatingInput, FloatingTextArea, FloatingCurrencyInput } from '@/components/FloatingInput';
 import Combobox from '@/components/Combobox';
 import { UploadSingleImage } from '@/components/UploadSingleImage';
+import LabelComp from '@/components/LabelComp';
 
 interface Props {
     form: UseFormReturn<CourseCreatePayload>;
@@ -33,9 +34,7 @@ const CourseMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
         <form className="space-y-4" id="courses-form">
             {/* Section 1: Thumbnail & Basic Info */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-                <label className="text-xs font-black uppercase tracking-widest text-slate-400 col-span-full">
-                    Thumbnail
-                </label>
+                <LabelComp className="text-xs font-black uppercase tracking-widest text-slate-400 col-span-full" tooltipMessage='Ini adalah thumbnail' required>Thumbnail</LabelComp>
                 <article className="flex flex-col h-full">
                     <Controller
                         control={control}
@@ -60,6 +59,7 @@ const CourseMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
                         inputProps={{
                             ...form.register('title')
                         }}
+                        tooltipMessage='Ini adalah title'
                         required
                     />
 
@@ -70,6 +70,7 @@ const CourseMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
                             <Combobox
                                 id="course_category_id"
                                 label="Kategori"
+                                tooltipMessage='Ini adalah kategori'
                                 options={categoryOptions}
                                 value={field.value?.toString() || ""}
                                 onChange={(val) => field.onChange(val.value || null)}
@@ -91,6 +92,7 @@ const CourseMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
                                     label: (lvl[0].toUpperCase() + lvl.slice(1)).replace('_', ' '),
                                     value: lvl
                                 }))}
+                                tooltipMessage='Ini adalah level'
                                 value={field.value}
                                 onChange={(val) => field.onChange(val.value)}
                                 inputProps={{ placeholder: "Pilih Level" }}
@@ -105,6 +107,7 @@ const CourseMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
                         label="Durasi (Menit)"
                         watch={form.watch('duration')?.toString()}
                         error={errors.duration?.message}
+                        tooltipMessage='Ini adalah duration'
                         inputProps={{
                             ...form.register('duration')
                         }}

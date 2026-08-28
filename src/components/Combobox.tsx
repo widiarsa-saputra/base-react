@@ -18,7 +18,7 @@ type Props<T> = Omit<React.ComponentProps<typeof FloatingInput>, 'watch' | 'inpu
     allowCustomValue?: boolean;
 }
 
-const Combobox = <T,>({ value, onChange, onChangeString, options, externalSearch, id, label, icon, error, required, rightSlot, inputProps, maxHeight = '300px', isLoading, allowCustomValue = false }: Props<T>) => {
+const Combobox = <T,>({ value, onChange, onChangeString, options, externalSearch, id, label, icon, error, required, tooltipMessage, rightSlot, inputProps, maxHeight = '300px', isLoading, allowCustomValue = false }: Props<T>) => {
     const [open, setOpen] = useState(false);
     const [onFocus, setOnFocus] = useState(false);
     const [itemFocus, setItemFocus] = useState<string | null>(null);
@@ -110,6 +110,7 @@ const Combobox = <T,>({ value, onChange, onChangeString, options, externalSearch
                             icon={icon}
                             error={error}
                             required={required}
+                            tooltipMessage={tooltipMessage}
                             rightSlot={rightSlot}
                             watch={value ?? search ?? ''}
                             inputProps={{

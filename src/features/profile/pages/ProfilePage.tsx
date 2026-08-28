@@ -1,11 +1,11 @@
 import AdminLayout from '@/layouts/AdminLayout'
 import React from 'react'
-import ProfilePageContent from '../components/ProfilePageContent'
+import ProfileMainContent from '../components/ProfileMainContent'
 
 const ProfilePage: React.FC = () => {
     return (
         <AdminLayout>
-            <ProfilePageContent />
+            <ProfileMainContent />
         </AdminLayout>
     )
 }
