@@ -1,20 +1,14 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTopbarActions } from '@/shared/context/TopbarActionContext';
 import { useDebounce } from '@/shared/hooks/useDebounce';
-import {
-    useStudentIndex,
-    useStudentCreate,
-    useStudentUpdate,
-    useStudentDelete,
-    StudentEntity,
-    StudentCreateSchema,
-    StudentCreatePayload,
-} from '../../../services/students';
-import { StudentMutationForm } from '.';
+
 import { Copy } from 'lucide-react';
 import { onCopy } from '@/lib/utils';
 import { DataPageTemplate } from '@/components/ui/data-page-template';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useStudentCreate, useStudentDelete, useStudentIndex, useStudentUpdate } from '@/services/students/hooks/useStudentCRUD';
+import { StudentCreatePayload, StudentCreateSchema, StudentEntity } from '@/services/students/schema/StudentSchema';
+import StudentMutationForm from './StudentMutationForm';
 
 const StudentMainContent: React.FC = () => {
     const [search, setSearch] = useState('');

@@ -5,10 +5,7 @@ import TopBar from '@/shared/components/topbar/TopBar'
 import {
     LayoutDashboard,
     BookOpen,
-    ClipboardList,
-    CreditCard,
     Users,
-    PlaySquare,
 } from 'lucide-react'
 import { Panel, PanelGroup, PanelResizeHandle, ImperativePanelHandle } from 'react-resizable-panels'
 import React, { ElementType, useRef, useState } from 'react'
@@ -64,19 +61,9 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             label: 'Akademik & Konten',
             items: [
                 { icon: BookOpen as ElementType, text: 'Kursus', url: ROUTES.COURSES.path },
-                { icon: PlaySquare as ElementType, text: 'Materi', url: ROUTES.LESSONS.path },
-                { icon: ClipboardList as ElementType, text: 'Kurikulum', url: ROUTES.CURRICULUMS.path },
             ],
             icon: BookOpen as ElementType,
             order: 9
-        },
-        {
-            label: 'Keuangan & Transaksi',
-            items: [
-                { icon: CreditCard as ElementType, text: 'Pembayaran', url: ROUTES.PAYMENTS.path },
-            ],
-            icon: CreditCard as ElementType,
-            order: 12
         },
     ];
 

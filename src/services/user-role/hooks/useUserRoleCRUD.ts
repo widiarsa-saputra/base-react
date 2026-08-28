@@ -5,7 +5,7 @@ import { UserRoleSyncUsersResponse, UserRoleSyncRolesResponse, UserRoleSyncUsers
 const API_VERSION = "v1";
 
 export function useUserRoleSyncUsers() {
-    return useBaseCreate<UserRoleSyncUsersPayload, UserRoleSyncUsersResponse, any>({
+    return useBaseCreate<UserRoleSyncUsersPayload, UserRoleSyncUsersResponse, { id: string }>({
         queryKey: "user-list",
         endpoint: `${API_VERSION}/user-roles/sync-users`,
         schema: UserRoleSyncUsersResponseSchema,
@@ -21,7 +21,7 @@ export function useUserRoleSyncUsers() {
 }
 
 export function useUserRoleSyncRoles() {
-    return useBaseCreate<UserRoleSyncRolesPayload, UserRoleSyncRolesResponse, any>({
+    return useBaseCreate<UserRoleSyncRolesPayload, UserRoleSyncRolesResponse, { id: string }>({
         endpoint: `${API_VERSION}/user-roles/sync-roles`,
         queryKey: 'user-list',
         schema: UserRoleSyncRolesResponseSchema,

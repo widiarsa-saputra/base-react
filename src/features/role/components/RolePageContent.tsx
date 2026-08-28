@@ -118,7 +118,7 @@ const RolePageContent: React.FC = () => {
                                                 className={`w-8 h-8 rounded ${bgColor} text-white flex items-center justify-center text-xs font-medium border-2 border-white`}
                                                 onClick={() => navigate(`/roles/${item.id}/users`)}
                                             >
-                                                {getInitials(user.name)}
+                                                {getInitials(user.name || '')}
                                             </div>
                                         )
                                     })}

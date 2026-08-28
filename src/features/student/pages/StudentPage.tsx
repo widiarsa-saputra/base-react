@@ -1,6 +1,6 @@
 import React from 'react';
 import AdminLayout from '@/layouts/AdminLayout';
-import { StudentMainContent } from '../components';
+import StudentMainContent from '../components/StudentMainContent';
 
 const StudentPage: React.FC = () => {
     return (

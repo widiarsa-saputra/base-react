@@ -1,7 +1,7 @@
 import { privateApi } from "@/api/api";
 import { useMutation } from "@tanstack/react-query";
 import { useBaseCreate } from "@/services/base/hooks/useBaseCreate";
-import { z } from "zod";
+import { GeneralRes, GeneralResponseSchema } from "@/services/base/response/BaseResponseSchema";
 import { User } from "@/shared/components/facebook-style-chat/types";
 
 const API_VERSION = "v1";
@@ -52,11 +52,11 @@ export interface ImportUsersPayload {
 }
 
 export const useImportUsers = () => {
-    return useBaseCreate<ImportUsersPayload, any, any>({
+    return useBaseCreate<ImportUsersPayload, GeneralRes, { id: string }>({
         queryKey: 'import-user',
         endpoint: `${API_VERSION}/users/import`,
         contentType: "multipart/form-data",
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
@@ -65,10 +65,10 @@ export interface PreviewImportPayload {
 }
 
 export const usePreviewUserImport = () => {
-    return useBaseCreate<PreviewImportPayload, any, User>({
+    return useBaseCreate<PreviewImportPayload, GeneralRes, User>({
         queryKey: 'preview-import-user',
         endpoint: `${API_VERSION}/users/import-preview`,
         contentType: "multipart/form-data",
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };

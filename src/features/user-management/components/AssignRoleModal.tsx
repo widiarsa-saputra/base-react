@@ -29,7 +29,7 @@ const AssignRoleModal: React.FC<Props> = ({ user }) => {
     useEffect(() => {
         if (open && user.roles) {
             reset({
-                user_id: user.id,
+                user_id: String(user.id),
                 // Mengirimkan 'name' dari role, bukan 'id'
                 roles: user.roles.map(role => role.name),
             });
@@ -78,7 +78,7 @@ const AssignRoleModal: React.FC<Props> = ({ user }) => {
                             <div className="grid grid-cols-2 gap-4">
                                 {roles.map(role => {
                                     // Pengecekan menggunakan 'role.name'
-                                    const isChecked = field.value?.includes(role.name);
+                                    const isChecked = field.value?.includes(role.name || '');
                                     return (
                                         <div key={role.id} className="flex items-center space-x-2">
                                             <Checkbox

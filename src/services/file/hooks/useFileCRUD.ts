@@ -11,12 +11,11 @@ import {
     FileStatisticsResponse, FileStatisticsResponseSchema,
     FileUsageResponse, FileUsageResponseSchema
 } from "../response/FileResponse";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { z } from "zod";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { GeneralRes, GeneralResponseSchema } from "@/services/base/response/BaseResponseSchema";
 const API_VERSION = "v1";
 
-export const useFileIndex = (params?: any) => {
+export const useFileIndex = (params?: Record<string, unknown>) => {
     return useBaseIndex<FileListResponse>({
         request: {
             endpoint: `${API_VERSION}/files`,
@@ -47,19 +46,19 @@ export const useFileUpdate = () => {
 };
 
 export const useFileDelete = () => {
-    return useBaseDelete<any, any>({
+    return useBaseDelete<{ id: string | number }, GeneralRes, FileEntity>({
         queryKey: 'file-list',
-        endpoint: (id) => `${API_VERSION}/files/${id}`,
-        schema: z.any(),
+        endpoint: (params) => `${API_VERSION}/files/${params.id}`,
+        schema: GeneralResponseSchema,
     });
 };
 
 export const useFileRestore = () => {
     const queryClient = useQueryClient();
-    return useBaseUpdate<any, any, any>({
+    return useBaseUpdate<Record<string, never>, GeneralRes, FileEntity>({
         queryKey: 'file-list',
-        endpoint: (id) => `${API_VERSION}/files/${id}/restore`,
-        schema: z.any(),
+        endpoint: (params) => `${API_VERSION}/files/${params.id}/restore`,
+        schema: GeneralResponseSchema,
         query: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['file-list'] });
@@ -70,10 +69,10 @@ export const useFileRestore = () => {
 
 export const useFileForceDelete = () => {
     const queryClient = useQueryClient();
-    return useBaseDelete<any, any>({
+    return useBaseDelete<{ id: string | number }, GeneralRes, FileEntity>({
         queryKey: 'file-list',
-        endpoint: (id) => `${API_VERSION}/files/${id}/force`,
-        schema: z.any(),
+        endpoint: (params) => `${API_VERSION}/files/${params.id}/force`,
+        schema: GeneralResponseSchema,
         query: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['file-list'] });
@@ -82,10 +81,11 @@ export const useFileForceDelete = () => {
     });
 };
 
-export const useFileStatistics = (params?: any) => {
+export const useFileStatistics = (params?: Record<string, unknown>) => {
     return useBaseShow<FileStatisticsResponse>({
         request: {
             endpoint: `${API_VERSION}/files/statistics`,
+            id: '',
         },
         schema: FileStatisticsResponseSchema,
         query: {
@@ -95,10 +95,11 @@ export const useFileStatistics = (params?: any) => {
     });
 };
 
-export const useFileUsage = (params?: any) => {
+export const useFileUsage = (params?: Record<string, unknown>) => {
     return useBaseShow<FileUsageResponse>({
         request: {
             endpoint: `${API_VERSION}/files/usage`,
+            id: '',
         },
         schema: FileUsageResponseSchema,
         query: {

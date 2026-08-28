@@ -40,10 +40,10 @@ const EditUserModal: React.FC<Props> = ({ user }) => {
     useEffect(() => {
         if (open && user) {
             reset({
-                id: user.id,
+                id: String(user.id),
                 data: {
-                    name: user.name,
-                    email: user.email,
+                    name: user.name || '',
+                    email: user.email || '',
                     phone: user.phone || undefined,
                     password: "",
                 },

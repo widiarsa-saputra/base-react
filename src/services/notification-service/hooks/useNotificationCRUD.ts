@@ -5,6 +5,7 @@ import { useBaseUpdate } from "@/services/base/hooks/useBaseUpdate";
 import { useBaseDelete } from "@/services/base/hooks/useBaseDelete";
 import useBaseExternalShow from "@/services/base/hooks/useBaseExternalShow";
 import { z } from "zod";
+import { GeneralRes, GeneralResponseSchema } from "@/services/base/response/BaseResponseSchema";
 
 import { 
     NotificationEmailUpdatePayload, 
@@ -18,7 +19,7 @@ import {
 import { 
     NotificationEmailSettingShowResponse, NotificationEmailSettingShowResponseSchema,
     NotificationWhatsappSessionShowResponse, NotificationWhatsappSessionShowResponseSchema,
-    NotificationCronTestIndexResponse, NotificationCronTestIndexResponseSchema,
+    NotificationCronTestIndexResponseSchema,
 } from "../response/NotificationResponse";
 
 const API_VERSION = "v1";
@@ -28,6 +29,7 @@ export const useNotificationEmailSettingShow = () => {
     return useBaseShow<NotificationEmailSettingShowResponse>({
         request: {
             endpoint: `${API_VERSION}/notification-services/email/setting`,
+            id: '',
         },
         schema: NotificationEmailSettingShowResponseSchema,
         query: {
@@ -37,18 +39,18 @@ export const useNotificationEmailSettingShow = () => {
 };
 
 export const useNotificationEmailSettingUpdate = () => {
-    return useBaseUpdate<NotificationEmailUpdatePayload, any, any>({
+    return useBaseUpdate<NotificationEmailUpdatePayload, GeneralRes, { id: string }>({
         queryKey: 'email-setting',
         endpoint: () => `${API_VERSION}/notification-services/email/setting`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
 export const useNotificationEmailSend = () => {
-    return useBaseCreate<NotificationEmailSendPayload, any, any>({
+    return useBaseCreate<NotificationEmailSendPayload, GeneralRes, { id: string }>({
         queryKey: 'email-setting',
         endpoint: `${API_VERSION}/notification-services/email/send`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
@@ -58,6 +60,7 @@ export const useNotificationWhatsappSessionShow = () => {
     return useBaseShow<NotificationWhatsappSessionShowResponse>({
         request: {
             endpoint: `${API_VERSION}/notification-services/whatsapp/session`,
+            id: '',
         },
         schema: NotificationWhatsappSessionShowResponseSchema,
         query: {
@@ -67,26 +70,26 @@ export const useNotificationWhatsappSessionShow = () => {
 };
 
 export const useNotificationWhatsappSessionUpdate = () => {
-    return useBaseUpdate<Record<string, never>, any, any>({
+    return useBaseUpdate<Record<string, never>, GeneralRes, { id: string }>({
         queryKey: 'whatsapp-session',
         endpoint: () => `${API_VERSION}/notification-services/whatsapp/session`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
 export const useNotificationWhatsappSessionDelete = () => {
-    return useBaseDelete<any, any>({
+    return useBaseDelete<{ id: string | number }, GeneralRes, { id: string }>({
         queryKey: 'whatsapp-session',
         endpoint: () => `${API_VERSION}/notification-services/whatsapp/session`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
 export const useNotificationWhatsappMessageSend = () => {
-    return useBaseCreate<NotificationWhatsappSendPayload, any, any>({
+    return useBaseCreate<NotificationWhatsappSendPayload, GeneralRes, { id: string }>({
         queryKey: 'whatsapp-session',
         endpoint: `${API_VERSION}/notification-services/whatsapp/send`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };
 
@@ -95,7 +98,7 @@ export const useNotificationWhatsappQRGet = (sessionId: string, enabled: boolean
     const WA_API_KEY = import.meta.env.VITE_WA_API_KEY;
     const WA_USER = import.meta.env.VITE_WA_USER;
 
-    return useBaseExternalShow<any>({
+    return useBaseExternalShow<unknown>({
         request: {
             baseURL: WA_API_URL,
             endpoint: "api/auth/qr",
@@ -109,11 +112,12 @@ export const useNotificationWhatsappQRGet = (sessionId: string, enabled: boolean
             key: "whatsapp-qr",
             enabled: enabled && !!sessionId,
             refetchInterval: (query) => {
-                if (query.state.data?.status === 'ready') return false;
+                const data = query.state.data as { status?: string } | undefined;
+                if (data?.status === 'ready') return false;
                 return 10000;
             }
         },
-        schema: z.any(),
+        schema: z.unknown() as z.ZodSchema<unknown>,
     });
 };
 
@@ -147,8 +151,10 @@ export const useNotificationWhatsappStatusGet = (sessionId: string, enabled: boo
 
 
 // --- Cron Test ---
-export const useNotificationCronTestIndex = (params?: any) => {
-    return useBaseIndex<any>({
+type NotificationCronTestIndexResponse = z.infer<typeof NotificationCronTestIndexResponseSchema>;
+
+export const useNotificationCronTestIndex = (params?: Record<string, unknown>) => {
+    return useBaseIndex<NotificationCronTestIndexResponse>({
         request: {
             endpoint: `${API_VERSION}/notif-cron-test`,
         },
@@ -161,12 +167,12 @@ export const useNotificationCronTestIndex = (params?: any) => {
 };
 
 export const useNotificationCronTestShow = (id: string) => {
-    return useBaseShow<any>({
+    return useBaseShow<unknown>({
         request: {
             endpoint: `${API_VERSION}/notif-cron-test`,
             id
         },
-        schema: z.any(),
+        schema: z.unknown() as z.ZodSchema<unknown>,
         query: {
             key: "cron-test-detail",
             enabled: !!id
@@ -175,9 +181,9 @@ export const useNotificationCronTestShow = (id: string) => {
 };
 
 export const useNotificationCronTestCreate = () => {
-    return useBaseCreate<NotificationCronTestCreatePayload, any, any>({
+    return useBaseCreate<NotificationCronTestCreatePayload, GeneralRes, { id: string }>({
         queryKey: 'cron-test-list',
         endpoint: `${API_VERSION}/notif-cron-test`,
-        schema: z.any(),
+        schema: GeneralResponseSchema,
     });
 };

@@ -37,7 +37,7 @@ const RemoveUser: React.FC<Props> = ({ user }) => {
             variant="ghost"
             size="sm"
             className="h-6 px-2 text-red-600 hover:text-red-800"
-            onClick={() => onRemove(user.id)}
+            onClick={() => onRemove(String(user.id))}
             aria-label="Delete"
         >
             <Trash className="h-4 w-4" />

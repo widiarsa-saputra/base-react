@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { nullableSchema } from "@/lib/utils";
 import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
-import { FileEntity as SingleFileSchema } from "@/services/file/schema/FileSchema";
+import { FileEntitySchema as SingleFileSchema } from "@/services/file/schema/FileSchema";
 
 export const CourseLevelEnum = ['beginner', 'intermediate', 'advanced'] as const;
 export const CourseStatusEnum = ['draft', 'published', 'reviewed'] as const;
@@ -27,7 +26,7 @@ export const CourseSchemaUpdate = CourseUpdateSchema.extend({
     id: z.union([z.string(), z.number()]),
 });
 
-export const CourseIndexSchema = z.object(nullableSchema(CourseUpdateSchema)).merge(BaseEntitySchema).extend({
+export const CourseIndexSchema = CourseUpdateSchema.merge(BaseEntitySchema).extend({
     course_sections: z.any().optional().nullable(),
     course_category_name: z.string().optional().nullable(),
     thumbnail_file: SingleFileSchema.optional().nullable(),

@@ -31,8 +31,8 @@ const GroupedPermissions = () => {
             acc[group] = { id: group, group, permissions: [] };
         }
         acc[group].permissions.push({
-            key: permission.name,
-            display_name: permission.display_name,
+            key: permission.name || '',
+            display_name: permission.display_name || '',
         });
         return acc;
     }, {});
@@ -74,7 +74,7 @@ const RolePermissionManagement: React.FC = () => {
         }
 
         return (
-            <RolePermissionManagementTable roleName={roleData.name} roleDisplayName={roleData.display_name} initialPermissions={roleData.permissions ?? undefined} />
+            <RolePermissionManagementTable roleName={roleData.name || ''} roleDisplayName={roleData.display_name || ''} initialPermissions={roleData.permissions ?? undefined} />
         );
     }
 
@@ -104,7 +104,7 @@ const RolePermissionManagementTable: React.FC<Props> = ({ roleName, roleDisplayN
             // Set default permissions if provided
             const initialPermissionKeys = initialPermissions.map(permission => permission.name);
             reset({
-                permissions: initialPermissionKeys,
+                permissions: initialPermissionKeys.filter((k): k is string => Boolean(k)),
                 role: roleName
             });
         }

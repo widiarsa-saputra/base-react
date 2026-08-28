@@ -48,7 +48,7 @@ const RoleUserManagement: React.FC = () => {
         }
 
         return (
-            <RoleUserManagementTable roleId={roleData.id} roleName={roleData.name} roleDisplayName={roleData.display_name} initialUserIds={roleData.users?.map((u: any) => u.id) || []} />
+            <RoleUserManagementTable roleId={Number(roleData.id)} roleName={roleData.name || ''} roleDisplayName={roleData.display_name || ''} initialUserIds={roleData.users?.map((u: any) => u.id) || []} />
         );
     }
 
@@ -126,7 +126,7 @@ const RoleUserManagementTable: React.FC<RoleUserManagementTableProps> = ({ roleN
                                     control={control}
                                     name="user_ids"
                                     render={({ field }) => {
-                                        const isChecked = field.value?.includes(item.id);
+                                        const isChecked = field.value?.includes(String(item.id));
                                         return (
                                             <Checkbox
                                                 id={`checkbox-${item.id}`}

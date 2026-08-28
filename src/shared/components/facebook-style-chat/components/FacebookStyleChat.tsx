@@ -50,7 +50,7 @@ const FacebookStyleChat: React.FC = () => {
         const map = new Map<string, string>();
         if (isAllUsersSuccess && allUsersData?.data) {
             allUsersData.data.forEach((appUser: SingleUserResponse) => {
-                map.set(appUser.id, appUser.name); // Simpan -> '123': 'Komang'
+                map.set(String(appUser.id), appUser.name || ''); // Simpan -> '123': 'Komang'
             });
         }
         return map;

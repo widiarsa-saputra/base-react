@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
 
 export const NotificationEmailSettingSchema = z.object({
     id: z.string(),

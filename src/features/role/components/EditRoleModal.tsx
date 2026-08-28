@@ -40,9 +40,9 @@ const EditRoleModal: React.FC<Props> = ({ role }) => {
     useEffect(() => {
         if (open && role) {
             reset({
-                id: role.id,
+                id: Number(role.id),
                 data: {
-                    display_name: role.display_name
+                    display_name: role.display_name || ''
                 },
             });
         }

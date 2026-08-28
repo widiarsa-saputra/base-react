@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import CardProfileImage from "./CardProfileImage";
 import CardProfileAbout from "./CardProfileAbout";
 import CardProfileSetting from "./CardProfileSetting";
 import ChangePasswordCard from "./ChangePasswordCard";
@@ -22,15 +21,15 @@ const ProfilePageContent: React.FC = () => {
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <div className="grid gap-8 lg:grid-cols-3">
+            <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
                 {/* Sidebar */}
-                <div className="lg:col-span-1">
-                    <CardProfileImage />
+                <div>
+                    {/* <CardProfileImage /> */}
                     <CardProfileAbout />
                 </div>
 
                 {/* Main Content */}
-                <div className="lg:col-span-2">
+                <div>
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="setting">Setting</TabsTrigger>

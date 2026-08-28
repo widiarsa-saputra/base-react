@@ -8,7 +8,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useStudentDelete, StudentEntity } from '../../../services/students';
+import { useStudentDelete } from "@/services/students/hooks/useStudentCRUD";
+import { StudentEntity } from "@/services/students/schema/StudentSchema";
 import { toast } from 'sonner';
 
 interface Props {

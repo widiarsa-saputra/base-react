@@ -19,7 +19,6 @@ import CourseBuilderPage from "@/features/courses/pages/CourseBuilderPage";
 import { Folder, Lock, ShieldCheck, UserCircle, Users } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
 
-import { PaymentPage } from "@/features/payments/pages";
 
 
 type ProtectedRoute = {
@@ -74,7 +73,6 @@ export const ROUTES: Record<string, AppRoute> = {
     // New Prototypes
 
 
-    PAYMENTS: { path: "/payments", element: <PaymentPage />, protected: true, roles: [], permissions: [] },
 
     COURSES: {
         path: "/courses",

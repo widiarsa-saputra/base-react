@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { nullableSchema } from "@/lib/utils";
 import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
-import { LessonNestedSchema, LessonIndexSchema } from "@/services/lessons/schema/LessonSchema";
 
 export const CourseSectionCreateSchema = z.object({
     course_id: z.union([z.string(), z.number()]).optional().nullable(),
@@ -11,7 +10,7 @@ export const CourseSectionCreateSchema = z.object({
 
 export const CourseSectionNestedSchema = CourseSectionCreateSchema.extend({
     id: z.union([z.string(), z.number()]).optional().nullable(),
-    lessons: z.array(LessonNestedSchema).optional().nullable(),
+    lessons: z.array(z.any()).optional().nullable(),
 });
 
 export const CourseSectionUpdateSchema = CourseSectionCreateSchema.partial();
@@ -21,7 +20,7 @@ export const CourseSectionSchemaUpdate = CourseSectionUpdateSchema.extend({
 });
 
 export const CourseSectionIndexSchema = z.object(nullableSchema(CourseSectionUpdateSchema)).merge(BaseEntitySchema).extend({
-    lessons: z.array(LessonIndexSchema).optional().nullable(),
+    lessons: z.array(z.any()).optional().nullable(),
     course_title: z.string().nullable().optional(),
     creator: z.object({ name: z.string() }).optional().nullable(),
 });

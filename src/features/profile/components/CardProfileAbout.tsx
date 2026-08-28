@@ -9,7 +9,7 @@ const CardProfileAbout: React.FC = () => {
     const { user } = useAuth()
 
     return (
-        <Card className="mt-6">
+        <Card>
             <CardContent>
                 <h3 className="mb-2 text-sm font-medium">Permissions</h3>
                 <div className="flex flex-wrap gap-2">

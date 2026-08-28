@@ -37,7 +37,7 @@ const RemoveRole: React.FC<Props> = ({ role }) => {
             variant="ghost"
             size="sm"
             className="h-6 px-2 text-red-600 hover:text-red-800"
-            onClick={() => onRemove(role.id)}
+            onClick={() => onRemove(Number(role.id))}
             aria-label="Delete"
         >
             <Trash className="h-4 w-4" />

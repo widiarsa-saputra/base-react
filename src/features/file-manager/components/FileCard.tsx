@@ -68,7 +68,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, isTrashed = false }) => {
     }
 
     const handleRestore = () => {
-        restoreMutation.mutate({ ids: [file.id] }, {
+        restoreMutation.mutate({ id: file.id, data: {} }, {
             onSuccess: () => {
                 toast.success(`File "${file.name}" restored successfully`)
             },
@@ -80,7 +80,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, isTrashed = false }) => {
     }
 
     const handleForceDelete = () => {
-        forceDeleteMutation.mutate({ ids: [file.id] }, {
+        forceDeleteMutation.mutate({ id: file.id }, {
             onSuccess: () => {
                 toast.success(`File "${file.name}" permanently deleted`)
                 setShowForceDeleteDialog(false)
