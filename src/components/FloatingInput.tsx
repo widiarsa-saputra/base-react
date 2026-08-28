@@ -58,7 +58,7 @@ export const FloatingInput = ({
                     }}
                     required={required}
                 />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
                     <LabelComp
                         htmlFor={id}
@@ -66,28 +66,28 @@ export const FloatingInput = ({
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
+                            Icon ? "left-8" : "left-2",
                             isFloating
-                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !top-0 !text-[10px] bg-white' : '!left-4 !top-0 !text-[10px] bg-white')
+                                ? Icon ? '!left-4 !top-0 !text-[10px] bg-white'
                                     : '!top-0 !text-[10px] !left-0 bg-white'
                                 : ''
                         )}
                     >
                         {label}
                     </LabelComp>
-                    {tooltipMessage && (
-                        <div className="pointer-events-auto">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{tooltipMessage}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    )}
                 </div>
+                {tooltipMessage && (
+                    <div className={cn("absolute inset-y-0 right-0 flex items-center pointer-events-auto", rightSlot ? "pr-10" : "pr-3")}>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{tooltipMessage}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                )}
                 {rightSlot}
             </div>
             {error && <p className="text-[10px] font-bold text-red-500 mt-1 ml-1 uppercase">{error}</p>}
@@ -132,30 +132,17 @@ export const FloatingTextArea = ({
                     }}
                     required={required}
                 />
-                <div className="absolute top-4 left-0 pl-3 flex items-center pointer-events-none gap-1">
+                <div className="absolute top-4 left-0 pl-3 flex items-center pointer-events-none">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    {tooltipMessage && (
-                        <div className="pointer-events-auto">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{tooltipMessage}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    )}
                     <LabelComp
                         htmlFor={id}
                         required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
-                            // isFloating ? '!-top-4 !text-[10px] !left-4' : '',
+                            Icon ? "left-8" : "left-2",
                             isFloating
-                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !-top-4 !text-[10px]' : '!left-4 !-top-4 !text-[10px]')
+                                ? Icon ? '!left-4 !-top-4 !text-[10px]'
                                     : '!-top-4 !text-[10px] !left-0'
                                 : ''
                         )}
@@ -163,6 +150,18 @@ export const FloatingTextArea = ({
                         {label}
                     </LabelComp>
                 </div>
+                {tooltipMessage && (
+                    <div className={cn("absolute top-4 right-0 flex items-center pointer-events-auto", rightSlot ? "pr-10" : "pr-3")}>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{tooltipMessage}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                )}
                 {rightSlot}
             </div>
             {error && <p className="text-[10px] font-bold text-red-500 mt-1 ml-1 uppercase">{error}</p>}
@@ -284,30 +283,17 @@ export const FloatingCurrencyInput = ({
                     }}
                     required={required}
                 />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    {tooltipMessage && (
-                        <div className="pointer-events-auto">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{tooltipMessage}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    )}
                     <LabelComp
                         htmlFor={id}
                         required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
-                            // isFloating ? '!top-0 !text-[10px] !left-4' : '',
+                            Icon ? "left-8" : "left-2",
                             isFloating
-                                ? (Icon || tooltipMessage) ? (Icon && tooltipMessage ? '!left-8 !top-0 !text-[10px]' : '!left-4 !top-0 !text-[10px]')
+                                ? Icon ? '!left-4 !top-0 !text-[10px]'
                                     : '!top-0 !text-[10px] !left-0'
                                 : ''
                         )}
@@ -315,6 +301,18 @@ export const FloatingCurrencyInput = ({
                         {label}
                     </LabelComp>
                 </div>
+                {tooltipMessage && (
+                    <div className={cn("absolute inset-y-0 right-0 flex items-center pointer-events-auto", rightSlot ? "pr-10" : "pr-3")}>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{tooltipMessage}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                )}
                 {rightSlot}
             </div>
             {error && <p className="text-[10px] font-bold text-red-500 mt-1 ml-1 uppercase">{error}</p>}
@@ -540,30 +538,18 @@ export const FloatingDateInput = ({
                     required={required}
                 />
 
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none gap-1">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     {Icon && <Icon className="h-4 w-4 text-gray-400" />}
-                    {tooltipMessage && (
-                        <div className="pointer-events-auto">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{tooltipMessage}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </div>
-                    )}
                     <LabelComp
                         htmlFor={id}
                         required={required}
                         className={cn(
                             `absolute whitespace-nowrap top-1/2 -translate-y-1/2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1`,
                             `bg-white px-2 duration-500 transition-all`,
-                            (Icon || tooltipMessage) ? (Icon && tooltipMessage ? "left-12" : "left-8") : "left-2",
+                            Icon ? "left-8" : "left-2",
                             isFloating
-                                ? (Icon || tooltipMessage)
-                                    ? (Icon && tooltipMessage ? "!left-8 !top-0 !text-[10px]" : "!left-4 !top-0 !text-[10px]")
+                                ? Icon
+                                    ? "!left-4 !top-0 !text-[10px]"
                                     : "!top-0 !text-[10px] !left-0"
                                 : ""
                         )}
@@ -571,6 +557,18 @@ export const FloatingDateInput = ({
                         {label}
                     </LabelComp>
                 </div>
+                {tooltipMessage && (
+                    <div className={cn("absolute inset-y-0 right-0 flex items-center pointer-events-auto", rightSlot ? "pr-10" : "pr-3")}>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{tooltipMessage}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>
+                )}
                 {rightSlot}
 
                 {showDropdown && (
