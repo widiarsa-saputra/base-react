@@ -12,9 +12,7 @@ import RolePermissionsAssignedPage from "@/features/role/pages/RolePermissionsAs
 import NotFound from "@/shared/components/error-page/NotFound";
 import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
-import { CoursePage } from "@/features/courses/pages/CoursePage";
-import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users, Activity, FileText } from "lucide-react";
-import StudentPage from "@/features/student/pages/StudentPage";
+import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users, Activity } from "lucide-react";
 import UserPage from "@/features/user-management/pages/UserPage";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
 import { LogActivityPage } from "@/features/log-activity/pages/LogActivityPage";
@@ -76,21 +74,7 @@ export const ROUTES: Record<string, AppRoute> = {
 
 
 
-    COURSES: {
-        path: "/courses",
-        element: <CoursePage />,
-        protected: true,
-        roles: [],
-        permissions: [],
-    },
-    
-    STUDENT_LIST: {
-        path: "/students",
-        element: <StudentPage />,
-        protected: true,
-        roles: [],
-        permissions: [],
-    },
+
 
     // Admin settings
     USER_MANAGEMENT: {
@@ -268,12 +252,6 @@ export const userSections: MenuSection[] = [
                 url: ROUTES.FILE_MANAGER.path,
                 icon: Folder,
                 permissions: ["view_file_manager"]
-            },
-            {
-                text: "Postingan",
-                url: ROUTES.POSTS.path,
-                icon: FileText,
-                permissions: ["view_posts"]
             },
         ]
     },

@@ -5,7 +5,6 @@ import TopBar from '@/shared/components/topbar/TopBar'
 import {
     LayoutDashboard,
     BookOpen,
-    Users,
 } from 'lucide-react'
 import { Panel, PanelGroup, PanelResizeHandle, ImperativePanelHandle } from 'react-resizable-panels'
 import React, { ElementType, useRef, useState } from 'react'
@@ -48,19 +47,11 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             icon: LayoutDashboard as ElementType,
             order: 1
         },
-        {
-            label: 'Data Master',
-            items: [
-                { icon: Users as ElementType, text: 'Daftar Siswa', url: ROUTES.STUDENT_LIST.path },
 
-            ],
-            icon: Users as ElementType,
-            order: 6
-        },
         {
             label: 'Konten',
             items: [
-                { icon: BookOpen as ElementType, text: 'Kursus', url: ROUTES.COURSES.path },
+                { icon: BookOpen as ElementType, text: 'Post', url: ROUTES.POSTS.path },
             ],
             icon: BookOpen as ElementType,
             order: 9
