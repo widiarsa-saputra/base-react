@@ -40,7 +40,7 @@ const PostMainContent: React.FC = () => {
         paginate: itemsPerPage,
         sort_by: sortBy,
         sort_order: sortOrder,
-        include: 'file'
+        include: 'image_file'
     });
 
     const { lastData } = useWebSocket(types.addPost);
@@ -87,9 +87,9 @@ const PostMainContent: React.FC = () => {
             key: 'image_file_id',
             sortable: false,
             render: (item: PostEntity) => (
-                item.file?.url ? (
+                item.image_url ? (
                     <img
-                        src={item.file.url}
+                        src={item.image_url}
                         alt={item.title || 'Post thumbnail'}
                         className="w-16 h-16 object-cover rounded-md"
                     />
