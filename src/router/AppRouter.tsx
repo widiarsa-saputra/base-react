@@ -178,12 +178,6 @@ export const userSections: MenuSection[] = [
         id :'profile',
         items: [
             {
-                text: "Courses",
-                url: ROUTES.COURSES.path,
-                icon: Users,
-                permissions: ["view_courses"]
-            },
-            {
                 text: "Profile",
                 url: ROUTES.PROFILE.path,
                 icon: UserCircle,
