@@ -19,6 +19,7 @@ import { LogActivityPage } from "@/features/log-activity/pages/LogActivityPage";
 import { LabelPage } from "@/features/labels/pages/LabelPage";
 import { PostPage } from "@/features/post/pages/PostPage";
 import GotraPaySettingPage from "@/features/GotraPaySetting/pages/GotraPaySettingPage";
+import GotraPayInvoicePage from "@/features/gotrapay-invoice/pages/GotraPayInvoicePage";
 
 
 
@@ -166,6 +167,13 @@ export const ROUTES: Record<string, AppRoute> = {
     GOTRAPAY_SETTING: {
         path: "/gotrapay-setting",
         element: <GotraPaySettingPage />,
+        protected: true,
+        roles: [],
+        permissions: [],
+    },
+    GOTRAPAY_INVOICES: {
+        path: "/gotrapay-invoices",
+        element: <GotraPayInvoicePage />,
         protected: true,
         roles: [],
         permissions: [],

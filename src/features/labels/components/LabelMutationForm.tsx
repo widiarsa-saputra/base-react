@@ -2,7 +2,6 @@ import React from 'react';
 import { UseFormReturn, Controller } from 'react-hook-form';
 import { LabelCreatePayload } from '@/services/labels/schema/LabelSchema';
 import { FloatingInput } from '@/components/FloatingInput';
-import LabelComp from '@/components/LabelComp';
 import { HexColorPicker } from 'react-colorful';
 import { cn } from '@/lib/utils';
 
@@ -31,10 +30,6 @@ const LabelMutationForm: React.FC<Props> = ({ form }) => {
                     </article>
 
                     <article className="flex flex-col gap-2">
-                        <LabelComp required>
-                            Warna Label
-                        </LabelComp>
-
                         <Controller
                             control={control}
                             name="color"

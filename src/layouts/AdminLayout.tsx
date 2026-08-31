@@ -6,6 +6,7 @@ import {
     LayoutDashboard,
     BookOpen,
     Tags,
+    FileText,
 } from 'lucide-react'
 import { Panel, PanelGroup, PanelResizeHandle, ImperativePanelHandle } from 'react-resizable-panels'
 import React, { ElementType, useRef, useState } from 'react'
@@ -54,6 +55,7 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             items: [
                 { icon: Tags as ElementType, text: 'Labels', url: ROUTES.LABELS.path },
                 { icon: BookOpen as ElementType, text: 'Post', url: ROUTES.POSTS.path },
+                { icon: FileText as ElementType, text: 'Invoice GotraPay', url: ROUTES.GOTRAPAY_INVOICES.path },
             ],
             icon: BookOpen as ElementType,
             order: 2
