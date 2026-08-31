@@ -12,7 +12,7 @@ import RolePermissionsAssignedPage from "@/features/role/pages/RolePermissionsAs
 import NotFound from "@/shared/components/error-page/NotFound";
 import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
-import { CoursePage } from "@/features/courses/pages";
+import { CoursePage } from "@/features/courses/pages/CoursePage";
 import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
 import UserPage from "@/features/user-management/pages/UserPage";

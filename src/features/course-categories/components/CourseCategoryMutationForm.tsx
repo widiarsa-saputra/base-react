@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UseFormReturn, Controller } from 'react-hook-form';
-import { CourseCategoryCreatePayload } from '@/services/course-categories';
-import { useCourseCategoryIndex } from '@/services/course-categories';
+import { CourseCategoryCreatePayload } from '@/services/course-categories/schema/CourseCategorySchema';
+import { useCourseCategoryIndex } from '@/services/course-categories/hooks/useCourseCategoryCRUD';
 import { SwitchComp } from '@/components/CustomComp';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import { FloatingInput, FloatingTextArea } from '@/components/FloatingInput';

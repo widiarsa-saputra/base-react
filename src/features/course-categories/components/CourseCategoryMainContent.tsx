@@ -6,11 +6,13 @@ import {
     useCourseCategoryCreate,
     useCourseCategoryUpdate,
     useCourseCategoryDelete,
+} from '@/services/course-categories/hooks/useCourseCategoryCRUD';
+import {
     CourseCategoryEntity,
     CourseCategoryCreateSchema,
     CourseCategoryCreatePayload,
-} from '@/services/course-categories';
-import { CourseCategoryMutationForm } from '.';
+} from '@/services/course-categories/schema/CourseCategorySchema';
+import CourseCategoryMutationForm from './CourseCategoryMutationForm';
 import { DataPageTemplate } from '@/components/ui/data-page-template';
 import { zodResolver } from '@hookform/resolvers/zod';
 

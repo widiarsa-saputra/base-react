@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { UseFormReturn, Controller, useFieldArray } from 'react-hook-form';
 import { CourseCreatePayload, CourseLevelEnum, CourseStatusEnum } from '@/services/courses/schema/CourseSchema';
 import { useDebounce } from '@/shared/hooks/useDebounce';
-import { useCourseCategoryIndex } from '@/services/course-categories';
+import { useCourseCategoryIndex } from '@/services/course-categories/hooks/useCourseCategoryCRUD';
 import { SwitchComp } from '@/components/CustomComp';
 import { FloatingInput, FloatingTextArea, FloatingCurrencyInput } from '@/components/FloatingInput';
 import Combobox from '@/components/Combobox';

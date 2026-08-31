@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { UseFormReturn, Controller } from 'react-hook-form';
-import { CourseSectionCreatePayload } from '@/services/course-sections';
+import { CourseSectionCreatePayload } from '@/services/course-sections/schema/CourseSectionSchema';
 import { FloatingInput } from '@/components/FloatingInput';
 import Combobox from '@/components/Combobox';
-import { useCourseIndex } from '@/services/courses';
+import { useCourseIndex } from '@/services/courses/hooks/useCourseCRUD';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 
 interface Props {

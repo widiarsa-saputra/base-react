@@ -8,10 +8,12 @@ import {
     useCourseSectionCreate,
     useCourseSectionUpdate,
     useCourseSectionDelete,
+} from '@/services/course-sections/hooks/useCourseSectionCRUD';
+import {
     CourseSectionEntity,
     CourseSectionCreateSchema,
     CourseSectionCreatePayload,
-} from '@/services/course-sections';
+} from '@/services/course-sections/schema/CourseSectionSchema';
 import CourseSectionMutationForm from './CourseSectionMutationForm';
 
 const CourseSectionMainContent: React.FC = () => {

@@ -6,14 +6,17 @@ import {
     useCourseCreate,
     useCourseUpdate,
     useCourseDelete,
+} from '@/services/courses/hooks/useCourseCRUD';
+import {
     CourseEntity,
     CourseCreateSchema,
     CourseCreatePayload,
     CourseLevelEnum,
     CourseStatusEnum,
-} from '@/services/courses';
-import { CourseCategoryEntity, useCourseCategoryIndex } from '@/services/course-categories';
-import { CourseMutationForm } from '.';
+} from '@/services/courses/schema/CourseSchema';
+import { useCourseCategoryIndex } from '@/services/course-categories/hooks/useCourseCategoryCRUD';
+import { CourseCategoryEntity } from '@/services/course-categories/schema/CourseCategorySchema';
+import CourseMutationForm from './CourseMutationForm';
 import { DataPageTemplate } from '@/components/ui/data-page-template';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
