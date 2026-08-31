@@ -6,6 +6,7 @@ import { SwitchComp } from '@/components/CustomComp';
 import Combobox from '@/components/Combobox';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 interface Props {
     form: UseFormReturn<GotraPayInvoiceCreatePayload>;
@@ -17,6 +18,10 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
     const { fields: itemFields, append: appendItem, remove: removeItem } = useFieldArray({
         control,
         name: 'items',
+    });
+    const { fields: receiverFields, append: appendReceiver, remove: removeReceiver } = useFieldArray({
+        control,
+        name: 'receivers',
     });
 
     const discountType = watch('discount_type');
@@ -55,6 +60,13 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     required
                 />
                 <FloatingInput
+                    id="division_id"
+                    label="Division ID"
+                    watch={watch('division_id')}
+                    error={errors.division_id?.message}
+                    inputProps={{ ...register('division_id') }}
+                />
+                <FloatingInput
                     id="currency"
                     label="Mata Uang"
                     tooltipMessage="Kode mata uang, contoh: IDR, USD."
@@ -75,6 +87,20 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     watch={watch('terms')}
                     error={errors.terms?.message}
                     inputProps={{ ...register('terms') }}
+                />
+                <FloatingInput
+                    id="sender_profile_id"
+                    label="Sender Profile ID"
+                    watch={watch('sender_profile_id')}
+                    error={errors.sender_profile_id?.message}
+                    inputProps={{ ...register('sender_profile_id') }}
+                />
+                <FloatingInput
+                    id="label_ids"
+                    label="Label (Pisahkan dengan koma)"
+                    watch={watch('label_ids')?.join(', ')}
+                    error={errors.label_ids?.message}
+                    inputProps={{ onChange: (e) => form.setValue('label_ids', e.target.value.split(',').map(s => s.trim()).filter(Boolean)) }}
                 />
             </section>
 
@@ -125,6 +151,13 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                         inputProps={{ ...register('tax_percent', { valueAsNumber: true }), type: 'number', min: 0, max: 100 }}
                     />
                 )}
+                <FloatingInput
+                    id="shipping_amount"
+                    label="Biaya Pengiriman"
+                    watch={String(watch('shipping_amount'))}
+                    error={errors.shipping_amount?.message}
+                    inputProps={{ ...register('shipping_amount', { valueAsNumber: true }), type: 'number', min: 0 }}
+                />
             </section>
 
             {/* Customer */}
@@ -133,7 +166,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Informasi Customer
                     </h3>
-                    <div className="border-b flex-1"></div>
+                    <Separator className='flex-1'/>
                 </hgroup>
                 <article className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FloatingInput
@@ -178,13 +211,92 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                 </article>
             </section>
 
+            {/* Receivers (Conditionally rendered) */}
+            {!watch('use_customer_as_receiver') && (
+                <section>
+                    <hgroup className="flex items-center gap-4 w-full mb-3 ">
+                        <h3 className="text-sm font-semibold capitalize text-slate-900">
+                            Informasi Penerima Tambahan
+                        </h3>
+                        <Separator className='flex-1'/>
+                        <button
+                            type="button"
+                            className="text-xs text-primary font-semibold border border-primary rounded px-3 py-1 hover:bg-primary/10"
+                            onClick={() => appendReceiver({
+                                customer_contact_id: '',
+                                name: '',
+                                whatsapp_number: '',
+                                email: '',
+                                channel_whatsapp: false,
+                                channel_email: false,
+                            })}
+                        >
+                            + Tambah Penerima
+                        </button>
+                    </hgroup>
+                    <article className="space-y-3">
+                        {receiverFields.map((field, idx) => (
+                            <div key={field.id} className="grid grid-cols-1 md:grid-cols-2 gap-3 p-3 border rounded-lg relative">
+                                <FloatingInput
+                                    id={`receiver_name_${idx}`}
+                                    label="Nama Penerima"
+                                    watch={watch(`receivers.${idx}.name`)}
+                                    error={errors.receivers?.[idx]?.name?.message}
+                                    inputProps={{ ...register(`receivers.${idx}.name`) }}
+                                    required
+                                />
+                                <FloatingInput
+                                    id={`receiver_contact_id_${idx}`}
+                                    label="Contact ID (Opsional)"
+                                    watch={watch(`receivers.${idx}.customer_contact_id`)}
+                                    error={errors.receivers?.[idx]?.customer_contact_id?.message}
+                                    inputProps={{ ...register(`receivers.${idx}.customer_contact_id`) }}
+                                />
+                                <FloatingInput
+                                    id={`receiver_whatsapp_${idx}`}
+                                    label="Nomor WhatsApp"
+                                    watch={watch(`receivers.${idx}.whatsapp_number`)}
+                                    error={errors.receivers?.[idx]?.whatsapp_number?.message}
+                                    inputProps={{ ...register(`receivers.${idx}.whatsapp_number`) }}
+                                />
+                                <FloatingInput
+                                    id={`receiver_email_${idx}`}
+                                    label="Email Penerima"
+                                    watch={watch(`receivers.${idx}.email`)}
+                                    error={errors.receivers?.[idx]?.email?.message}
+                                    inputProps={{ ...register(`receivers.${idx}.email`), type: 'email' }}
+                                />
+                                <div className="col-span-full flex gap-4">
+                                    <SwitchComp
+                                        label="Kirim via WhatsApp"
+                                        checked={watch(`receivers.${idx}.channel_whatsapp`) ?? false}
+                                        onCheckedChange={(val) => form.setValue(`receivers.${idx}.channel_whatsapp`, val)}
+                                    />
+                                    <SwitchComp
+                                        label="Kirim via Email"
+                                        checked={watch(`receivers.${idx}.channel_email`) ?? false}
+                                        onCheckedChange={(val) => form.setValue(`receivers.${idx}.channel_email`, val)}
+                                    />
+                                </div>
+                                <button type="button" onClick={() => removeReceiver(idx)} className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 hover:bg-red-200">
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </div>
+                        ))}
+                        {receiverFields.length === 0 && (
+                            <p className="text-sm text-slate-400 text-center py-4">Belum ada penerima tambahan.</p>
+                        )}
+                    </article>
+                </section>
+            )}
+
             {/* Items */}
             <section>
                 <hgroup className="flex items-center gap-4 w-full mb-3 ">
                     <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Item Invoice
                     </h3>
-                    <div className="border-b flex-1"></div>
+                    <Separator className='flex-1'/>
                     <button
                         type="button"
                         className="text-xs text-primary font-semibold border border-primary rounded px-3 py-1 hover:bg-primary/10"
@@ -202,7 +314,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                 </hgroup>
                 <article className="space-y-3">
                     {itemFields.map((field, idx) => (
-                        <div key={field.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 border rounded-lg">
+                        <div key={field.id} className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 border rounded-lg">
                             <div className="col-span-full">
                                 <FloatingInput
                                     id={`item_description_${idx}`}
@@ -227,12 +339,22 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                                 error={errors.items?.[idx]?.unit_price?.message}
                                 inputProps={{ ...register(`items.${idx}.unit_price`, { valueAsNumber: true }), type: 'number', min: 0 }}
                             />
+                            <FloatingInput
+                                id={`item_discount_${idx}`}
+                                label="Diskon Item (Rp)"
+                                watch={String(watch(`items.${idx}.discount_amount`))}
+                                error={errors.items?.[idx]?.discount_amount?.message}
+                                inputProps={{ ...register(`items.${idx}.discount_amount`, { valueAsNumber: true }), type: 'number', min: 0 }}
+                            />
+                            <FloatingInput
+                                id={`item_tax_${idx}`}
+                                label="Pajak Item (%)"
+                                watch={String(watch(`items.${idx}.tax_percent`))}
+                                error={errors.items?.[idx]?.tax_percent?.message}
+                                inputProps={{ ...register(`items.${idx}.tax_percent`, { valueAsNumber: true }), type: 'number', min: 0, max: 100 }}
+                            />
                             <div className="flex items-end">
-                                <button
-                                    type="button"
-                                    className="text-xs text-red-500 border border-red-300 rounded px-3 py-2 hover:bg-red-50 w-full"
-                                    onClick={() => removeItem(idx)}
-                                >
+                                <button type="button" className="text-xs text-red-500 font-semibold border border-red-300 rounded px-3 py-2 hover:bg-red-50 w-full" onClick={() => removeItem(idx)}>
                                     Hapus
                                 </button>
                             </div>
@@ -247,10 +369,13 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
             </section>
 
             {/* Options */}
-            <section className="flex flex-col gap-3 p-4 border rounded-lg">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">
-                    Opsi Pengiriman & Pembayaran
-                </h3>
+            <section className="flex flex-col gap-3">
+                <hgroup className="flex items-center gap-4 w-full mb-3 ">
+                    <h3 className="text-sm font-semibold capitalize text-slate-900">
+                        Opsi Pengiriman & Pembayaran
+                    </h3>
+                    <Separator className='flex-1'/>
+                </hgroup>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                     <Combobox
                         id="gateway"
@@ -287,6 +412,41 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                             </div>
                         )}
                     </div>
+                    <FloatingInput
+                        id="email_profile_id"
+                        label="Email Profile ID"
+                        watch={watch('email_profile_id')}
+                        error={errors.email_profile_id?.message}
+                        inputProps={{ ...register('email_profile_id') }}
+                    />
+                    <FloatingInput
+                        id="email_template_id"
+                        label="Email Template ID"
+                        watch={watch('email_template_id')}
+                        error={errors.email_template_id?.message}
+                        inputProps={{ ...register('email_template_id') }}
+                    />
+                    <FloatingInput
+                        id="success_redirect_url"
+                        label="Success Redirect URL"
+                        watch={watch('payment.success_redirect_url')}
+                        error={errors.payment?.success_redirect_url?.message}
+                        inputProps={{ ...register('payment.success_redirect_url') }}
+                    />
+                    <FloatingInput
+                        id="failure_redirect_url"
+                        label="Failure Redirect URL"
+                        watch={watch('payment.failure_redirect_url')}
+                        error={errors.payment?.failure_redirect_url?.message}
+                        inputProps={{ ...register('payment.failure_redirect_url') }}
+                    />
+                    <FloatingInput
+                        id="expires_in"
+                        label="Expires In (detik)"
+                        watch={String(watch('payment.expires_in'))}
+                        error={errors.payment?.expires_in?.message}
+                        inputProps={{ ...register('payment.expires_in', { valueAsNumber: true }), type: 'number', min: 0 }}
+                    />
                 </div>
                 <SwitchComp
                     label="Gunakan customer sebagai penerima"
