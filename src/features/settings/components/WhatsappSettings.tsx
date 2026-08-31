@@ -85,11 +85,11 @@ const WhatsappSettings: React.FC = () => {
         <div className="space-y-4 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* Connection Status Card */}
-                <Card className="border-slate-100 shadow-sm overflow-hidden rounded">
+                <Card className="border-slate-100 shadow-sm overflow-hidden rounded !p-0">
                     <CardHeader className="bg-slate-50/50 border-b p-4">
                         <div className="flex justify-between items-center">
                             <div>
-                                <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy">WhatsApp Connection</CardTitle>
+                                <CardTitle className="text-sm font-black uppercase italic tracking-tight ">WhatsApp Connection</CardTitle>
                                 <CardDescription className="text-[10px] font-bold uppercase text-slate-400 mt-1">Status koneksi notifikasi WhatsApp</CardDescription>
                             </div>
                             {sessionData?.success ? (
@@ -108,7 +108,7 @@ const WhatsappSettings: React.FC = () => {
                     <CardContent className="p-4 space-y-4">
                         {isLoadingSession ? (
                             <div className="flex justify-center py-8">
-                                <Loader2 className="h-6 w-6 animate-spin text-brand-navy" />
+                                <Loader2 className="h-6 w-6 animate-spin " />
                             </div>
                         ) : (
                             <div className="space-y-4">
@@ -130,7 +130,7 @@ const WhatsappSettings: React.FC = () => {
                                     <div className="p-3 bg-slate-50 rounded border border-slate-100 space-y-2">
                                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                                             <span>Active Session ID</span>
-                                            <span className="text-brand-navy font-black italic">{sessionData.data.json.session_id}</span>
+                                            <span className=" font-black italic">{sessionData.data.json.session_id}</span>
                                         </div>
                                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-400">
                                             <span>Service Status</span>
@@ -152,7 +152,7 @@ const WhatsappSettings: React.FC = () => {
                                     <Button 
                                         onClick={handleConnect}
                                         disabled={updateSession.isPending}
-                                        className="flex-1 bg-brand-navy hover:bg-brand-navy/90 h-9 text-[10px] font-black uppercase tracking-widest rounded shadow-sm"
+                                        className="flex-1 h-9 text-[10px] font-black uppercase tracking-widest rounded shadow-sm"
                                     >
                                         {updateSession.isPending ? <Loader2 className="h-3 w-3 animate-spin mr-2" /> : (sessionData?.success ? <RefreshCw className="h-3 w-3 mr-2" /> : null)}
                                         {sessionData?.success ? 'Update Sesi' : 'Hubungkan WhatsApp'}
@@ -181,7 +181,7 @@ const WhatsappSettings: React.FC = () => {
                                 
                                 {isLoadingQR ? (
                                     <div className="w-48 h-48 bg-slate-50 flex items-center justify-center rounded">
-                                        <Loader2 className="h-8 w-8 animate-spin text-brand-navy/20" />
+                                        <Loader2 className="h-8 w-8 animate-spin" />
                                     </div>
                                 ) : qrData?.qrImage ? (
                                     <div className="p-2 bg-white border border-slate-100 rounded shadow-sm">
@@ -207,12 +207,12 @@ const WhatsappSettings: React.FC = () => {
                 </Card>
 
                 {/* WhatsApp Testing Card */}
-                <Card className="border-slate-100 shadow-sm overflow-hidden rounded">
+                <Card className="border-slate-100 shadow-sm overflow-hidden rounded !p-0">
                     <CardHeader className="bg-slate-50/50 border-b p-4">
-                        <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy">WhatsApp Testing</CardTitle>
+                        <CardTitle className="text-sm font-black uppercase italic tracking-tight">WhatsApp Testing</CardTitle>
                         <CardDescription className="text-[10px] font-bold uppercase text-slate-400 mt-1">Uji coba pengiriman pesan WhatsApp</CardDescription>
                     </CardHeader>
-                    <CardContent className="p-4 space-y-4">
+                    <CardContent className="p-4 space-y-4 h-full justify-between flex flex-col">
                         <div className="space-y-3">
                             <FloatingInput 
                                 id="testPhone"
@@ -241,7 +241,7 @@ const WhatsappSettings: React.FC = () => {
                         <Button 
                             onClick={handleSendMessage}
                             disabled={sendMessage.isPending || !sessionData?.success}
-                            className="w-full bg-brand-navy hover:bg-brand-navy/90 h-9 text-[10px] font-black uppercase tracking-widest rounded shadow-sm gap-2"
+                            className="w-full h-9 text-[10px] font-black uppercase tracking-widest rounded shadow-sm gap-2"
                         >
                             {sendMessage.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
                             Kirim Pesan Uji Coba

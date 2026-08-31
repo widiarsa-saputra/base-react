@@ -657,7 +657,7 @@ export function DataPageTemplate<
 
     // ── List view (default) ───────────────────────────────────────────────────
     return (
-        <div ref={containerRef} className="h-full flex flex-col gap-4">
+        <div ref={containerRef} className="flex flex-col gap-4">
 
             {/* Content-mode: Add portal — inject into this instance's own container */}
             {isContentAdd && containerRef.current && createPortal(

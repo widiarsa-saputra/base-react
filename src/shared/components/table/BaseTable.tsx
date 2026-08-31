@@ -251,7 +251,7 @@ export function BaseTable<T extends { id?: string | number }>({
                                             {filteredColumns.map((col, colIndex) => (
                                                 <TableCell key={(col.key as string) || colIndex} className={cn("!p-0 child transition-colors duration-200 ease-in-out whitespace-nowrap text-sm text-gray-900 group h-px", col.className)}>
                                                     <div className="w-full h-full group-hover:rounded group-hover:!bg-white group-hover:shadow-md px-4 py-1 flex items-center" onClick={() => {
-                                                        if(col.copyValue === undefined || col.copyValue === true) {
+                                                        if(col.copyValue === true) {
                                                             onCopy(item[col.key as keyof T]?.toString() || "")
                                                         }
                                                     }}>

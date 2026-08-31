@@ -76,7 +76,7 @@ const DataManagement: React.FC = () => {
         <div className="space-y-4 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* Export Data */}
-                <Card className="border-slate-100 shadow-sm overflow-hidden rounded">
+                <Card className="border-slate-100 shadow-sm overflow-hidden rounded !p-0">
                     <CardHeader className="bg-slate-50/50 border-b p-4">
                         <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy">Export System Data</CardTitle>
                         <CardDescription className="text-[10px] font-bold uppercase text-slate-400 mt-1">Unduh seluruh data sistem dalam format Spreadsheet</CardDescription>
@@ -103,7 +103,7 @@ const DataManagement: React.FC = () => {
                 </Card>
 
                 {/* Import Data */}
-                <Card className="border-slate-100 shadow-sm overflow-hidden rounded">
+                <Card className="border-slate-100 shadow-sm overflow-hidden rounded !p-0">
                     <CardHeader className="bg-slate-50/50 border-b p-4">
                         <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy">Import User Data</CardTitle>
                         <CardDescription className="text-[10px] font-bold uppercase text-slate-400 mt-1">Perbarui data pelanggan secara massal</CardDescription>

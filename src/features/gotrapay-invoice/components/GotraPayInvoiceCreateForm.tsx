@@ -73,10 +73,13 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
 
             {/* Customer */}
             <section>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">
-                    Informasi Customer
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <hgroup className="flex items-center gap-4 w-full mb-3 ">
+                    <h3 className="text-sm font-semibold capitalize text-slate-900">
+                        Informasi Customer
+                    </h3>
+                    <div className="border-b flex-1"></div>
+                </hgroup>
+                <article className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FloatingInput
                         id="customer_name"
                         label="Nama Customer"
@@ -116,15 +119,16 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                             inputProps={{ ...register('customer.address') }}
                         />
                     </div>
-                </div>
+                </article>
             </section>
 
             {/* Items */}
             <section>
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">
+                <hgroup className="flex items-center gap-4 w-full mb-3 ">
+                    <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Item Invoice
                     </h3>
+                    <div className="border-b flex-1"></div>
                     <button
                         type="button"
                         className="text-xs text-primary font-semibold border border-primary rounded px-3 py-1 hover:bg-primary/10"
@@ -139,8 +143,8 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     >
                         + Tambah Item
                     </button>
-                </div>
-                <div className="space-y-3">
+                </hgroup>
+                <article className="space-y-3">
                     {itemFields.map((field, idx) => (
                         <div key={field.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 border rounded-lg">
                             <div className="col-span-full">
@@ -183,7 +187,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                             Belum ada item. Klik &quot;Tambah Item&quot; untuk menambahkan.
                         </p>
                     )}
-                </div>
+                </article>
             </section>
 
             {/* Options */}

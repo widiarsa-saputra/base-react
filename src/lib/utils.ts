@@ -7,11 +7,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const formatter = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  minimumFractionDigits: 0,
-});
+export const formatter = (value: number | string, currency: string = 'IDR') => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+  }).format(Number(value));
+};
 
 /**
  * Memotong teks dan menambahkan ellipsis jika melebihi panjang maksimal.

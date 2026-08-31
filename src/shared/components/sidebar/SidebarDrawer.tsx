@@ -94,7 +94,7 @@ const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children })
     }, []);
     return (
         <div className="flex flex-col gap-4 relative">
-            <div className="overflow-y-auto md:h-[calc(100dvh-3rem)] p-4"
+            <div className="overflow-y-auto md:h-[calc(100dvh-3rem)] p-4 space-y-4"
                 style={{
                     height:
                         window.innerWidth <= 768

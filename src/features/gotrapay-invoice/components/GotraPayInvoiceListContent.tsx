@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GotraPayInvoiceCreateSchema, GotraPayInvoiceCreatePayload } from '@/services/gotrapay-invoice/schema/GotraPayInvoiceSchema';
 import GotraPayInvoiceCreateForm from './GotraPayInvoiceCreateForm';
+import { formatter } from '@/lib/utils';
 
 interface Props {
     onSelectInvoice: (invoice: GotraPayInvoiceEntity) => void;
@@ -72,7 +73,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
                     className="text-primary font-semibold hover:underline text-left"
                     onClick={() => onSelectInvoice(item)}
                 >
-                    {item.invoice_number ?? '-'}
+                    {item.invoice_number ?? 'testing'}
                 </button>
             ),
         },
@@ -97,21 +98,26 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             title: 'Status Pembayaran',
             key: 'payment_status',
             sortable: true,
-            render: (item) => (
-                <Badge variant={getPaymentStatusVariant(item.payment_status)} className="capitalize">
-                    {item.payment_status ?? '-'}
+            render: (item) => {
+                if (!item.payment_status && !item.status) return '-';
+                return <Badge variant={getPaymentStatusVariant(item.payment_status ?? 'unpaid')} className="capitalize">
+                    {item.payment_status}
                 </Badge>
-            ),
+            },
         },
         {
             title: 'Status Invoice',
             key: 'status',
             sortable: true,
-            render: (item) => (
-                <Badge variant="outline" className="capitalize">
-                    {item.status ?? '-'}
-                </Badge>
-            ),
+            render: (item) => {
+                if (item.status) {
+                    return (
+                        <Badge variant="outline" className="capitalize">
+                            {item.status}
+                        </Badge>
+                    )
+                }
+            },
         },
         {
             title: 'Total',
@@ -119,13 +125,14 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             sortable: true,
             render: (item) => (
                 <span className="font-mono font-medium">
-                    {item.currency} {item.total ?? '-'}
+                    {formatter(Number(item.total), item.currency || 'IDR')}
                 </span>
             ),
         },
         {
             title: 'Tanggal Dibuat',
             key: 'created_at',
+            copyValue: false,
             sortable: true,
             render: (item) => new Date(item.created_at).toLocaleString('id-ID'),
         },

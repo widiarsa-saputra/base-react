@@ -145,7 +145,7 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
     };
 
     return (
-        <div className="space-y-6 p-4">
+        <div className="space-y-4">
             {/* Back + Header */}
             <div className="flex items-center gap-3">
                 <Button variant="ghost" size="sm" onClick={onBack} className="gap-1">
