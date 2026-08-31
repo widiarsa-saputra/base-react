@@ -4,10 +4,12 @@ import { GotraPayInvoiceCreatePayload } from '@/services/gotrapay-invoice/schema
 import { FloatingInput, FloatingDateInput } from '@/components/FloatingInput';
 import { SwitchComp } from '@/components/CustomComp';
 import Combobox from '@/components/Combobox';
+import SearchableSelect from '@/shared/components/form/SearchableSelect';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { format } from 'date-fns';
+import { useIndexLabels } from '@/services/labels/hooks/useLabelCRUD';
 
 interface Props {
     form: UseFormReturn<GotraPayInvoiceCreatePayload>;
@@ -16,6 +18,13 @@ interface Props {
 
 const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
     const { register, control, formState: { errors }, watch } = form;
+    const { data: apiLabelsData, isLoading: isLabelsLoading} = useIndexLabels();
+    const apiLabels = apiLabelsData?.data;
+    const labelOptions = (apiLabels || []).map((label) => ({
+        value: label.id,
+        label: label.name,
+    }));
+
     const { fields: itemFields, append: appendItem, remove: removeItem } = useFieldArray({
         control,
         name: 'items',
@@ -105,12 +114,15 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     error={errors.sender_profile_id?.message}
                     inputProps={{ ...register('sender_profile_id') }}
                 />
-                <FloatingInput
+                <SearchableSelect
                     id="label_ids"
-                    label="Label (Pisahkan dengan koma)"
-                    watch={watch('label_ids')?.join(', ')}
+                    label="Label"
+                    options={labelOptions}
+                    value={watch('label_ids') || []}
+                    onChange={(val) => form.setValue('label_ids', val as string[])}
+                    isMulti
+                    isPending={isLabelsLoading}
                     error={errors.label_ids?.message}
-                    inputProps={{ onChange: (e) => form.setValue('label_ids', e.target.value.split(',').map(s => s.trim()).filter(Boolean)) }}
                 />
             </section>
 
