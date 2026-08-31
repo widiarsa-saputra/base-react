@@ -3,6 +3,7 @@ import { UseFormReturn, Controller } from 'react-hook-form';
 import { GotraPaySettingPayload, GotraPaySettingEntity } from '@/services/GotraPaySetting/schema/GotraPaySettingSchema';
 import { FloatingInput } from '@/components/FloatingInput';
 import { Switch } from '@/components/ui/switch';
+import Combobox from '@/components/Combobox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Settings2, Save, Loader2, CheckCircle2, XCircle } from 'lucide-react';
@@ -133,27 +134,26 @@ const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity
                             required
                         />
 
-                        <FloatingInput
+                        <Combobox
                             id="default_gateway"
                             label="Default Gateway"
-                            watch={form.watch('default_gateway')}
+                            options={[
+                                { label: 'Midtrans', value: 'midtrans' },
+                                { label: 'Xendit', value: 'xendit' }
+                            ]}
+                            value={form.watch('default_gateway')}
+                            onChange={(opt) => form.setValue('default_gateway', opt.value)}
                             error={errors.default_gateway?.message}
-                            inputProps={{
-                                ...form.register('default_gateway'),
-                                placeholder: "midtrans"
-                            }}
                             required
                         />
 
-                        <FloatingInput
+                        <Combobox
                             id="default_currency"
                             label="Mata Uang Default"
-                            watch={form.watch('default_currency')}
+                            options={(Intl.supportedValuesOf('currency') as string[]).map((c: string) => ({ label: c, value: c }))}
+                            value={form.watch('default_currency')}
+                            onChange={(opt) => form.setValue('default_currency', opt.value)}
                             error={errors.default_currency?.message}
-                            inputProps={{
-                                ...form.register('default_currency'),
-                                placeholder: "IDR"
-                            }}
                             required
                         />
 

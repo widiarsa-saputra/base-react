@@ -20,6 +20,8 @@ import { LabelPage } from "@/features/labels/pages/LabelPage";
 import { PostPage } from "@/features/post/pages/PostPage";
 import GotraPaySettingPage from "@/features/GotraPaySetting/pages/GotraPaySettingPage";
 import GotraPayInvoicePage from "@/features/gotrapay-invoice/pages/GotraPayInvoicePage";
+import PaymentSuccessPage from "@/features/gotrapay-invoice/pages/PaymentSuccessPage";
+import PaymentFailedPage from "@/features/gotrapay-invoice/pages/PaymentFailedPage";
 
 
 
@@ -177,6 +179,14 @@ export const ROUTES: Record<string, AppRoute> = {
         protected: true,
         roles: [],
         permissions: [],
+    },
+    PAYMENT_SUCCESS: {
+        path: "/payment/success",
+        element: <PaymentSuccessPage />,
+    },
+    PAYMENT_FAILED: {
+        path: "/payment/failed",
+        element: <PaymentFailedPage />,
     },
 
 

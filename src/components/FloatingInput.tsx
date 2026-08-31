@@ -124,7 +124,7 @@ export const FloatingTextArea = ({
                     disabled={disabled || restInputProps?.disabled}
                     className={cn(
                         "flex min-h-[80px] w-full pt-4 pb-2 rounded border bg-slate-50/30 focus:bg-white text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-4",
+                        (Icon) ? "pl-10 pr-10" : "px-4",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
@@ -273,7 +273,7 @@ export const FloatingCurrencyInput = ({
                     ref={setRefs}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        (Icon || tooltipMessage) && prefix ? "pl-16 pr-10" : (Icon || tooltipMessage || prefix) ? "pl-10 pr-10" : "px-4",
+                        (Icon) && prefix ? "pl-16 pr-10" : (Icon || tooltipMessage || prefix) ? "pl-10 pr-10" : "px-4",
                         inputProps?.className
                     )}
                     value={formatNumber(value)}
@@ -518,7 +518,7 @@ export const FloatingDateInput = ({
                     placeholder={focused ? placeholder : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white relative",
-                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-4",
+                        (Icon) ? "pl-10 pr-10" : "px-4",
                         inputProps?.className
                     )}
                     onChange={(e) => {

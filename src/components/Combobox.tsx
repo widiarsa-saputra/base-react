@@ -163,7 +163,7 @@ const Combobox = <T,>({ value, onChange, onChangeString, options, externalSearch
                     )}
                     onOpenAutoFocus={(e) => e.preventDefault()}
                     onCloseAutoFocus={(e) => e.preventDefault()}
-                    sideOffset={-10}
+                    // sideOffset={-40}
                 >
                     <div 
                         className="flex flex-col divide-y overflow-y-auto" 

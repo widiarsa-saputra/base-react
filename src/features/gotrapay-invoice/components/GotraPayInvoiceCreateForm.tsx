@@ -1,12 +1,13 @@
 import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { GotraPayInvoiceCreatePayload } from '@/services/gotrapay-invoice/schema/GotraPayInvoiceSchema';
-import { FloatingInput } from '@/components/FloatingInput';
+import { FloatingInput, FloatingDateInput } from '@/components/FloatingInput';
 import { SwitchComp } from '@/components/CustomComp';
 import Combobox from '@/components/Combobox';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { format } from 'date-fns';
 
 interface Props {
     form: UseFormReturn<GotraPayInvoiceCreatePayload>;
@@ -41,22 +42,28 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     inputProps={{ ...register('reference') }}
                     required
                 />
-                <FloatingInput
+                <FloatingDateInput
                     id="issue_date"
                     label="Tanggal Terbit"
                     tooltipMessage="Tanggal invoice diterbitkan."
-                    watch={watch('issue_date')}
+                    value={watch('issue_date') ? new Date(watch('issue_date')) : null}
+                    onChange={(val) => {
+                        form.setValue('issue_date', val ? format(val, 'yyyy-MM-dd') : '');
+                        if (val) form.clearErrors('issue_date');
+                    }}
                     error={errors.issue_date?.message}
-                    inputProps={{ ...register('issue_date'), type: 'date' }}
                     required
                 />
-                <FloatingInput
+                <FloatingDateInput
                     id="due_date"
                     label="Tanggal Jatuh Tempo"
                     tooltipMessage="Batas waktu pembayaran invoice."
-                    watch={watch('due_date')}
+                    value={watch('due_date') ? new Date(watch('due_date')) : null}
+                    onChange={(val) => {
+                        form.setValue('due_date', val ? format(val, 'yyyy-MM-dd') : '');
+                        if (val) form.clearErrors('due_date');
+                    }}
                     error={errors.due_date?.message}
-                    inputProps={{ ...register('due_date'), type: 'date' }}
                     required
                 />
                 <FloatingInput
@@ -66,13 +73,16 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     error={errors.division_id?.message}
                     inputProps={{ ...register('division_id') }}
                 />
-                <FloatingInput
+                {/* <FloatingInput
+                /> */}
+                <Combobox
+                    options={(Intl.supportedValuesOf('currency') as string[]).map((c: string) => ({ label: c, value: c }))}
                     id="currency"
                     label="Mata Uang"
                     tooltipMessage="Kode mata uang, contoh: IDR, USD."
-                    watch={watch('currency')}
+                    value={form.watch('currency')}
+                    onChange={(opt) => form.setValue('currency', opt.value)}
                     error={errors.currency?.message}
-                    inputProps={{ ...register('currency') }}
                 />
                 <FloatingInput
                     id="notes"
@@ -166,7 +176,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Informasi Customer
                     </h3>
-                    <Separator className='flex-1'/>
+                    <Separator className='flex-1' />
                 </hgroup>
                 <article className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FloatingInput
@@ -218,7 +228,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                         <h3 className="text-sm font-semibold capitalize text-slate-900">
                             Informasi Penerima Tambahan
                         </h3>
-                        <Separator className='flex-1'/>
+                        <Separator className='flex-1' />
                         <button
                             type="button"
                             className="text-xs text-primary font-semibold border border-primary rounded px-3 py-1 hover:bg-primary/10"
@@ -296,7 +306,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Item Invoice
                     </h3>
-                    <Separator className='flex-1'/>
+                    <Separator className='flex-1' />
                     <button
                         type="button"
                         className="text-xs text-primary font-semibold border border-primary rounded px-3 py-1 hover:bg-primary/10"
@@ -374,7 +384,7 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     <h3 className="text-sm font-semibold capitalize text-slate-900">
                         Opsi Pengiriman & Pembayaran
                     </h3>
-                    <Separator className='flex-1'/>
+                    <Separator className='flex-1' />
                 </hgroup>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                     <Combobox
