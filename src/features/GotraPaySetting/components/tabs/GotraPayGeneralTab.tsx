@@ -6,12 +6,16 @@ import { Switch } from '@/components/ui/switch';
 import Combobox from '@/components/Combobox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Settings2, Save, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Settings2, Save, Loader2, CheckCircle2, XCircle, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { useTestGotraPaySetting } from '@/services/GotraPaySetting/hooks/useTestGotraPaySetting';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import { onCopy } from '@/lib/utils';
+
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
 interface Props {
     form: UseFormReturn<GotraPaySettingPayload>;
@@ -23,8 +27,9 @@ interface Props {
 const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity }) => {
     const { control, formState: { errors } } = form;
     const { data: testResponse, mutateAsync: testConnection, isPending: isTesting } = useTestGotraPaySetting();
-    
+
     const currentEntity = testResponse?.data || entity;
+    const constructedUrl = (BASE_URL as string).replace('/api', '/gotrapay/webhook');
 
     return (
         <div className="space-y-4">
@@ -39,24 +44,30 @@ const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity
                             Pengaturan utama untuk integrasi GotraPay
                         </CardDescription>
                     </div>
-                    <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={async () => {
-                            try {
-                                await testConnection();
-                                toast.success("Uji koneksi berhasil dijalankan.");
-                            } catch (e) {
-                                console.error(e)
-                                toast.error("Uji koneksi gagal dijalankan.");
-                            }
-                        }}
-                        disabled={isTesting}
-                        className="h-8 px-4 text-[10px] font-bold uppercase tracking-widest gap-2 bg-white"
-                    >
-                        {isTesting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
-                        Uji Koneksi
-                    </Button>
+                    <article className="flex items-center gap-4">
+                        <Badge className='bg-slate-100 cursor-pointer hover:bg-slate-100 text-slate-900 p-2 space-x-2' onClick={() => onCopy(constructedUrl)}>
+                            <Copy className='w-3.5 h-3.5' />
+                            <span>{constructedUrl}</span>
+                        </Badge>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={async () => {
+                                try {
+                                    await testConnection();
+                                    toast.success("Uji koneksi berhasil dijalankan.");
+                                } catch (e) {
+                                    console.error(e)
+                                    toast.error("Uji koneksi gagal dijalankan.");
+                                }
+                            }}
+                            disabled={isTesting}
+                            className="h-8 px-4 text-[10px] font-bold uppercase tracking-widest gap-2 bg-white"
+                        >
+                            {isTesting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                            Uji Koneksi
+                        </Button>
+                    </article>
                 </CardHeader>
                 <CardContent className="p-4 space-y-4">
                     {isTesting ? (
@@ -69,25 +80,22 @@ const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity
                             </div>
                         </article>
                     ) : currentEntity?.last_tested_at ? (
-                        <article className={`p-4 rounded-lg border mb-6 flex gap-3 ${
-                            currentEntity.last_test_success 
-                                ? 'bg-emerald-50 border-emerald-100' 
+                        <article className={`p-4 rounded-lg border mb-6 flex gap-3 ${currentEntity.last_test_success
+                                ? 'bg-emerald-50 border-emerald-100'
                                 : 'bg-rose-50 border-rose-100'
-                        }`}>
+                            }`}>
                             {currentEntity.last_test_success ? (
                                 <CheckCircle2 className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
                             ) : (
                                 <XCircle className="h-5 w-5 text-rose-500 shrink-0 mt-0.5" />
                             )}
                             <div>
-                                <h5 className={`text-[10px] font-black uppercase tracking-widest ${
-                                    currentEntity.last_test_success ? 'text-emerald-700' : 'text-rose-700'
-                                }`}>
+                                <h5 className={`text-[10px] font-black uppercase tracking-widest ${currentEntity.last_test_success ? 'text-emerald-700' : 'text-rose-700'
+                                    }`}>
                                     Hasil Uji Coba Terakhir
                                 </h5>
-                                <p className={`text-[9px] font-bold uppercase mt-0.5 leading-relaxed ${
-                                    currentEntity.last_test_success ? 'text-emerald-600' : 'text-rose-600'
-                                }`}>
+                                <p className={`text-[9px] font-bold uppercase mt-0.5 leading-relaxed ${currentEntity.last_test_success ? 'text-emerald-600' : 'text-rose-600'
+                                    }`}>
                                     {currentEntity.last_test_message || 'Tidak ada pesan pengujian.'}
                                 </p>
                                 <p className="text-[8px] font-medium text-slate-400 mt-1 uppercase">
@@ -198,7 +206,7 @@ const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity
                     </div>
                 </CardContent>
                 <CardFooter className="bg-slate-50/50 border-t p-4 flex justify-end">
-                    <Button 
+                    <Button
                         onClick={form.handleSubmit(onSubmit)}
                         disabled={isPending}
                         className="h-9 px-8 text-[10px] font-black uppercase tracking-widest rounded shadow-sm gap-2"
