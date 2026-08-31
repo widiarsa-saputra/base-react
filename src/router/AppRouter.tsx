@@ -13,10 +13,11 @@ import NotFound from "@/shared/components/error-page/NotFound";
 import FileManagerPage from "@/features/file-manager/pages/FileManagerPage";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage";
 import { CoursePage } from "@/features/courses/pages/CoursePage";
-import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users } from "lucide-react";
+import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users, Activity } from "lucide-react";
 import StudentPage from "@/features/student/pages/StudentPage";
 import UserPage from "@/features/user-management/pages/UserPage";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
+import { LogActivityPage } from "@/features/log-activity/pages/LogActivityPage";
 
 
 
@@ -153,6 +154,13 @@ export const ROUTES: Record<string, AppRoute> = {
         roles: [],
         permissions: [],
     },
+    LOG_ACTIVITY: {
+        path: "/log-activity",
+        element: <LogActivityPage />,
+        protected: true,
+        roles: [],
+        permissions: [],
+    },
 
 
 
@@ -219,6 +227,12 @@ export const userSections: MenuSection[] = [
                 url: ROUTES.ADMIN_SETTINGS.path,
                 icon: Settings,
                 permissions: ["view_settings"]
+            },
+            {
+                text: "Log Aktivitas",
+                url: ROUTES.LOG_ACTIVITY.path,
+                icon: Activity,
+                permissions: ["view_log_activity"]
             }
         ]
     },
