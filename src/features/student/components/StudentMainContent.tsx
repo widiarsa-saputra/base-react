@@ -5,6 +5,7 @@ import { useDebounce } from '@/shared/hooks/useDebounce';
 import { Copy } from 'lucide-react';
 import { onCopy } from '@/lib/utils';
 import { DataPageTemplate } from '@/components/ui/data-page-template';
+import { SwitchComp } from '@/components/CustomComp';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useStudentCreate, useStudentDelete, useStudentIndex, useStudentUpdate } from '@/services/students/hooks/useStudentCRUD';
 import { StudentCreatePayload, StudentCreateSchema, StudentEntity } from '@/services/students/schema/StudentSchema';
@@ -102,7 +103,29 @@ const StudentMainContent: React.FC = () => {
                 <span className="font-bold">{student.parent_name}</span>
             ),
         },
-    ], []);
+        {
+            title: 'Status',
+            key: 'is_active',
+            sortable: true,
+            copyValue: false,
+            render: (student: StudentEntity) => (
+                <SwitchComp
+                    checked={!!student.is_active}
+                    label={student.is_active ? 'Aktif' : 'Nonaktif'}
+                    onCheckedChange={async (checked) => {
+                        try {
+                            await editMutation.mutateAsync({
+                                id: student.id ?? '',
+                                data: { is_active: checked }
+                            });
+                        } catch (error) {
+                            console.error("Failed to update status", error);
+                        }
+                    }}
+                />
+            ),
+        },
+    ], [editMutation]);
 
     const totalItems = response?.pagination?.total || 0;
 
@@ -135,6 +158,7 @@ const StudentMainContent: React.FC = () => {
                     email: '',
                     address: '',
                     parent_name: '',
+                    is_active: true,
                 },
                 defaultValues: (student) => ({
                     name: student.name ?? '',
@@ -142,6 +166,7 @@ const StudentMainContent: React.FC = () => {
                     email: student.email ?? '',
                     address: student.address ?? '',
                     parent_name: student.parent_name ?? '',
+                    is_active: student.is_active ?? true,
                 }),
             }}
             submitActions={{

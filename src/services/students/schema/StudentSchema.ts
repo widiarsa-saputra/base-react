@@ -8,6 +8,7 @@ export const StudentCreateSchema = z.object({
     email: z.string().email("Format email tidak valid").optional().nullable().or(z.literal("")),
     address: z.string().optional().nullable(),
     parent_name: z.string().min(1, "Nama orang tua harus diisi"),
+    is_active: z.boolean().optional().nullable(),
 });
 
 export const StudentUpdateSchema = StudentCreateSchema.partial();

@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { useTopbarActions } from '@/shared/context/TopbarActionContext';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import {
@@ -20,11 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import LabelComp from '@/components/LabelComp';
 import { SearchableSelect } from '@/shared/components/form/SearchableSelect';
-import { BookOpen } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const CourseMainContent: React.FC = () => {
-    const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search, 500);
     const [currentPage, setCurrentPage] = useState(1);
@@ -192,7 +189,7 @@ const CourseMainContent: React.FC = () => {
             title: 'Kategori',
             key: 'course_category_name',
             sortable: true,
-            render: (item: CourseEntity) => item.course_category_name || '-',
+            render: (item: CourseEntity) => item.category_name || '-',
         },
         {
             title: 'Level',
@@ -309,14 +306,7 @@ const CourseMainContent: React.FC = () => {
                     onConfirm: async (item) => { await deleteMutation.mutateAsync({ id: item.id ?? '' }); },
                 },
             }}
-            additionalActions={[
-                {
-                    icon: <BookOpen className="h-4 w-4" />,
-                    onClick: (item) => navigate(`/courses/${item.id}/builder`),
-                    tooltip: 'Build Course (Silabus)',
-                    className: 'text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50'
-                }
-            ]}
+            
         />
     );
 };

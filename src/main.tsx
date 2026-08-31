@@ -9,8 +9,6 @@ import AppRouter from './router/AppRouter';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './i18n';
-import { NotificationProvider } from './shared/components/notification/context/NotificationContext';
-import { ChatProvider } from './shared/components/facebook-style-chat/context/ChatContext';
 import { TopbarActionProvider } from './shared/context/TopbarActionContext';
 
 import { queryClient } from './lib/queryClient';
@@ -35,13 +33,9 @@ createRoot(document.getElementById('root')!).render(
               info: 'text-info',
             },
           }} />
-        <NotificationProvider>
-          <ChatProvider>
             <TopbarActionProvider>
               <AppRouter />
             </TopbarActionProvider>
-          </ChatProvider>
-        </NotificationProvider>
       </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

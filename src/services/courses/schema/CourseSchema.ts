@@ -3,7 +3,7 @@ import { BaseEntitySchema } from "@/services/base/response/BaseResponseSchema";
 import { FileEntitySchema as SingleFileSchema } from "@/services/file/schema/FileSchema";
 
 export const CourseLevelEnum = ['beginner', 'intermediate', 'advanced'] as const;
-export const CourseStatusEnum = ['draft', 'published', 'reviewed'] as const;
+export const CourseStatusEnum = ['draft', 'published', 'review'] as const;
 
 export const CourseCreateSchema = z.object({
     course_category_id: z.union([z.string(), z.number()]).optional().nullable(),
@@ -28,7 +28,7 @@ export const CourseSchemaUpdate = CourseUpdateSchema.extend({
 
 export const CourseIndexSchema = CourseUpdateSchema.merge(BaseEntitySchema).extend({
     course_sections: z.any().optional().nullable(),
-    course_category_name: z.string().optional().nullable(),
+    category_name: z.string().optional().nullable(),
     thumbnail_file: SingleFileSchema.optional().nullable(),
     total_students: z.coerce.number().optional().nullable()
 });
