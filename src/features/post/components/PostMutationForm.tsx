@@ -5,6 +5,9 @@ import { FloatingInput } from '@/components/FloatingInput';
 import { InputRichText } from '@/components/InputRichText';
 import { UploadSingleImage } from '@/components/UploadSingleImage';
 import LabelComp from '@/components/LabelComp';
+import { useIndexLabels } from '@/services/labels/hooks/useLabelCRUD';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 interface Props {
     form: UseFormReturn<PostCreatePayload>;
@@ -13,6 +16,8 @@ interface Props {
 
 const PostMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
     const { control, formState: { errors } } = form;
+    const { data: labelsData } = useIndexLabels({ paginate: 100 });
+    const labels = Array.isArray(labelsData?.data) ? labelsData.data : [];
 
     return (
         <form className="space-y-4" id="posts-form">
@@ -50,6 +55,50 @@ const PostMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl }) => {
                                 ...form.register('title')
                             }}
                             required
+                        />
+                    </article>
+
+                    <article className="flex flex-col gap-4">
+                        <LabelComp className="text-xs font-black uppercase tracking-widest text-slate-400">
+                            Pilih Label
+                        </LabelComp>
+                        <Controller
+                            control={control}
+                            name="label_id"
+                            render={({ field }) => (
+                                <Select 
+                                    value={field.value ? String(field.value) : undefined} 
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger className="h-14">
+                                        <SelectValue placeholder="Pilih Label" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {labels.map(label => (
+                                            <SelectItem key={label.id} value={String(label.id)}>
+                                                {label.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
+                    </article>
+
+                    <article className="flex flex-row items-center justify-between gap-4 p-4 border rounded-lg h-14 col-span-full md:col-span-1">
+                        <LabelComp className="text-sm font-medium text-slate-700 m-0">
+                            Status Aktif
+                        </LabelComp>
+                        <Controller
+                            control={control}
+                            name="is_active"
+                            render={({ field }) => (
+                                <Switch
+                                    id="is_active"
+                                    checked={!!field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            )}
                         />
                     </article>
                 </section>

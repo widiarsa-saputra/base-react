@@ -8,6 +8,7 @@ export const LogActivityPage: React.FC = () => {
     return (
         <AdminLayout>
             <TabsSections
+            contentStyles="mx-4 my-4"
                 tabObjects={[
                     { trigger: 'Aktivitas Pengguna', content: <LogActivityUserContent /> },
                     { trigger: 'Aktivitas Sistem', content: <LogActivitySystemContent /> },

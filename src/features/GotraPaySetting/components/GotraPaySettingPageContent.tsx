@@ -88,6 +88,7 @@ const GotraPaySettingPageContent: React.FC = () => {
                 <TabsSections
                     value={activeTab}
                     onValueChange={setActiveTab}
+                    contentStyles="mx-4 my-4"
                     tabObjects={[
                         {
                             trigger: "general",

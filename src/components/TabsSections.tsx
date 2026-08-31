@@ -14,7 +14,7 @@ type Props = {
 
 const TabsSections = (props: Props) => {
     return (
-        <div className="flex flex-col h-full pt-4 px-4 pb-0 children-container relative">
+        <div className="flex flex-col h-full children-container relative">
             <Tabs
                 defaultValue={props.tabObjects[0].trigger}
                 value={props.value}

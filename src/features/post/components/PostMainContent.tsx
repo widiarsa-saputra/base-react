@@ -18,6 +18,7 @@ import { DataPageTemplate } from '@/components/ui/data-page-template';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
 
 const PostMainContent: React.FC = () => {
     const [search, setSearch] = useState('');
@@ -93,6 +94,32 @@ const PostMainContent: React.FC = () => {
             )
         },
         {
+            title: 'Label',
+            key: 'label',
+            sortable: true,
+            render: (item: PostEntity) => {
+                if (item.label) {
+                    return (
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full border border-slate-200" style={{ backgroundColor: item.label.color || '#fff' }} />
+                            <span>{item.label.name}</span>
+                        </div>
+                    );
+                }
+                return '-';
+            }
+        },
+        {
+            title: 'Status',
+            key: 'is_active',
+            sortable: true,
+            render: (item: PostEntity) => (
+                <Badge variant={item.is_active ? 'default' : 'secondary'}>
+                    {item.is_active ? 'Aktif' : 'Nonaktif'}
+                </Badge>
+            )
+        },
+        {
             title: 'Waktu Dibuat',
             key: 'created_at',
             sortable: true,
@@ -132,11 +159,15 @@ const PostMainContent: React.FC = () => {
                     title: '',
                     content: '',
                     image_file_id: null,
+                    label_id: null,
+                    is_active: true,
                 },
                 defaultValues: (post) => ({
                     title: post.title ?? '',
                     content: post.content ?? '',
                     image_file_id: post.image_file_id ?? null,
+                    label_id: post.label_id ?? null,
+                    is_active: post.is_active ?? true,
                 }),
             }}
             submitActions={{

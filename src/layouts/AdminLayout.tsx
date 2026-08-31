@@ -48,22 +48,15 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             icon: LayoutDashboard as ElementType,
             order: 1
         },
+        
         {
-            label: 'Data Master',
+            label: 'Single Page',
             items: [
                 { icon: Tags as ElementType, text: 'Labels', url: ROUTES.LABELS.path },
-            ],
-            icon: Tags as ElementType,
-            order: 6
-        },
-
-        {
-            label: 'Konten',
-            items: [
                 { icon: BookOpen as ElementType, text: 'Post', url: ROUTES.POSTS.path },
             ],
             icon: BookOpen as ElementType,
-            order: 9
+            order: 2
         },
     ];
 

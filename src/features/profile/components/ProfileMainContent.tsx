@@ -31,8 +31,8 @@ const ProfileMainContent: React.FC = () => {
     }, [location.pathname]);
 
     return (
-        <div className="container mx-auto py-8 px-4">
-            <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+        <div className="p-4">
+            <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
                 {/* Sidebar */}
                 <div>
                     {/* <CardProfileImage /> */}
