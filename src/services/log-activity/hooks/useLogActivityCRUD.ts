@@ -7,7 +7,7 @@ import {
     LogActivityShowResponse
 } from "../response/LogActivityResponse";
 
-export const logActivityQueryKey = "log-activities";
+export const logActivityQueryKey = "log-activity";
 const API_VERSION = "v1";
 
 export const useIndexLogs = (params?: object) => {
