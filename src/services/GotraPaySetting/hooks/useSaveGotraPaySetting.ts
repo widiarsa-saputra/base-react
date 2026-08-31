@@ -7,7 +7,7 @@ const API_VERSION = "v1";
 
 export const useSaveGotraPaySetting = () => {
     return useBaseUpdateSingleton<GotraPaySettingPayload, GotraPaySettingResponse, GotraPaySettingPayload>({
-        endpoint: () => `${API_VERSION}/gotrapay/setting`,
+        endpoint: () => `${API_VERSION}/gotrapay/settings`,
         schema: GotraPaySettingResponseSchema,
         queryKey: gotraPaySettingQueryKey,
     });

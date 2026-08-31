@@ -8,7 +8,7 @@ export const useGetGotraPaySetting = () => {
     return useBaseShow<GotraPaySettingResponse>({
         request: {
             endpoint: `${API_VERSION}/gotrapay`,
-            id: "setting"
+            id: "settings"
         },
         schema: GotraPaySettingResponseSchema,
         query: {

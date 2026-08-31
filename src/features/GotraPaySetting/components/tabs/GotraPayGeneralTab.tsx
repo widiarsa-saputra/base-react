@@ -22,7 +22,7 @@ interface Props {
 
 const GotraPayGeneralTab: React.FC<Props> = ({ form, onSubmit, isPending, entity }) => {
     const { control, formState: { errors } } = form;
-    const { data: testResponse, refetch: testConnection, isFetching: isTesting } = useTestGotraPaySetting(false);
+    const { data: testResponse, mutateAsync: testConnection, isPending: isTesting } = useTestGotraPaySetting();
     
     const currentEntity = testResponse?.data || entity;
 
