@@ -46,7 +46,7 @@ const COLORS = ['#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b'];
 
 const DashboardMainContent: React.FC = () => {
     return (
-        <div className="p-4 md:p-6 space-y-6 animate-in fade-in duration-500">
+        <div className="space-y-4 animate-in fade-in duration-500">
             <div>
                 <h1 className="text-2xl font-bold tracking-tight text-slate-900">Dashboard</h1>
                 <p className="text-sm text-slate-500">Welcome back! Here is an overview of your system.</p>
