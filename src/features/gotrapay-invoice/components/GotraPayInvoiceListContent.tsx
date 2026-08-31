@@ -54,7 +54,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
 
     useTopbarActions(topbarConfig);
 
-    const getPaymentStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' | 'outline' => {
+    const getPaymentStatusVariant = (status: string | null): 'default' | 'secondary' | 'destructive' | 'outline' => {
         if (status === 'paid') return 'default';
         if (status === 'partial') return 'secondary';
         if (status === 'unpaid') return 'destructive';
@@ -72,7 +72,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
                     className="text-primary font-semibold hover:underline text-left"
                     onClick={() => onSelectInvoice(item)}
                 >
-                    {item.invoice_number || '-'}
+                    {item.invoice_number ?? '-'}
                 </button>
             ),
         },
@@ -99,7 +99,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             sortable: true,
             render: (item) => (
                 <Badge variant={getPaymentStatusVariant(item.payment_status)} className="capitalize">
-                    {item.payment_status}
+                    {item.payment_status ?? '-'}
                 </Badge>
             ),
         },
@@ -109,7 +109,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             sortable: true,
             render: (item) => (
                 <Badge variant="outline" className="capitalize">
-                    {item.status}
+                    {item.status ?? '-'}
                 </Badge>
             ),
         },
@@ -119,7 +119,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             sortable: true,
             render: (item) => (
                 <span className="font-mono font-medium">
-                    {item.currency} {item.total}
+                    {item.currency} {item.total ?? '-'}
                 </span>
             ),
         },
@@ -189,6 +189,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
             onItemsPerPageChange={setItemsPerPage}
             sortBy={sortBy}
             sortOrder={sortOrder}
+            mutationMode='content'
             handleSort={(newSortBy, newSortOrder) => {
                 setSortBy(newSortBy);
                 setSortOrder(newSortOrder);

@@ -11,7 +11,7 @@ const GotraPayInvoicePage: React.FC = () => {
     return (
         <AdminLayout>
             <TabsSections
-                contentStyles="mx-4 my-4"
+                contentStyles=""
                 tabObjects={[
                     {
                         trigger: 'Daftar Invoice',

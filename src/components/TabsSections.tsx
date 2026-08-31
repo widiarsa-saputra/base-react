@@ -41,7 +41,7 @@ const TabsSections = (props: Props) => {
                         <TabsContent value={trigger} className={cn(
                             "flex-1 mt-0", props.contentStyles
                         )} key={idx}>
-                            <div className="-mx-4 -my-4 h-[calc(100%)] dfdf">
+                            <div className="h-[calc(100%)] dfdf">
                                 {content}
                             </div>
                         </TabsContent>

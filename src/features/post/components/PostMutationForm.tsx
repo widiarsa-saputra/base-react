@@ -91,7 +91,7 @@ const PostMutationForm: React.FC<Props> = ({ form, initialThumbnailUrl, onCancel
                             />
                         </article>
 
-                        <article className="flex flex-col gap-2 p-4 border rounded-lg col-span-full md:col-span-1">
+                        <article className="flex flex-col gap-2 p-4 border rounded-lg col-span-full">
                             <Controller
                                 control={control}
                                 name="is_active"

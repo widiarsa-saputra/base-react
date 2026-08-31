@@ -10,9 +10,9 @@ const SettingsPageContent: React.FC = () => {
     const [activeTab, setActiveTab] = useState("whatsapp-gateway");
 
     return (
-        <main className="p-2 sm:p-3 animate-in fade-in duration-500">
+        <main className="animate-in fade-in duration-500">
             {/* Header Section */}
-            <div className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3 px-1">
+            <div className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div className="flex items-center gap-3 text-brand-navy">
                     <div className="w-9 h-9 rounded bg-brand-navy/10 flex items-center justify-center shrink-0 shadow-inner">
                         <Settings className="h-5 w-5" />

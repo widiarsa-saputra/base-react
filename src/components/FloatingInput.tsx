@@ -48,7 +48,7 @@ export const FloatingInput = ({
                     placeholder={isFloating ? placeholder ?? undefined : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        (Icon) ? "pl-10 pr-10" : "px-3",
+                        (Icon) ? "pl-10 pr-10" : "px-4",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
@@ -72,7 +72,7 @@ export const FloatingInput = ({
                             Icon ? "left-8" : "left-2",
                             isFloating
                                 ? Icon ? '!left-4 !top-0 !text-[10px] bg-white'
-                                    : '!top-0 !text-[10px] !left-0 bg-white'
+                                    : '!top-0 !text-[10px] !left-1 bg-white'
                                 : ''
                         )}
                     >
@@ -124,7 +124,7 @@ export const FloatingTextArea = ({
                     disabled={disabled || restInputProps?.disabled}
                     className={cn(
                         "flex min-h-[80px] w-full pt-4 pb-2 rounded border bg-slate-50/30 focus:bg-white text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-4",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
@@ -148,7 +148,7 @@ export const FloatingTextArea = ({
                             Icon ? "left-8" : "left-2",
                             isFloating
                                 ? Icon ? '!left-4 !-top-4 !text-[10px]'
-                                    : '!-top-4 !text-[10px] !left-0'
+                                    : '!-top-4 !text-[10px] !left-1'
                                 : ''
                         )}
                     >
@@ -273,7 +273,7 @@ export const FloatingCurrencyInput = ({
                     ref={setRefs}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        (Icon || tooltipMessage) && prefix ? "pl-16 pr-10" : (Icon || tooltipMessage || prefix) ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) && prefix ? "pl-16 pr-10" : (Icon || tooltipMessage || prefix) ? "pl-10 pr-10" : "px-4",
                         inputProps?.className
                     )}
                     value={formatNumber(value)}
@@ -301,7 +301,7 @@ export const FloatingCurrencyInput = ({
                             Icon ? "left-8" : "left-2",
                             isFloating
                                 ? Icon ? '!left-4 !top-0 !text-[10px]'
-                                    : '!top-0 !text-[10px] !left-0'
+                                    : '!top-0 !text-[10px] !left-1'
                                 : ''
                         )}
                     >
@@ -518,7 +518,7 @@ export const FloatingDateInput = ({
                     placeholder={focused ? placeholder : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white relative",
-                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
+                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-4",
                         inputProps?.className
                     )}
                     onChange={(e) => {
@@ -559,7 +559,7 @@ export const FloatingDateInput = ({
                             isFloating
                                 ? Icon
                                     ? "!left-4 !top-0 !text-[10px]"
-                                    : "!top-0 !text-[10px] !left-0"
+                                    : "!top-0 !text-[10px] !left-1"
                                 : ""
                         )}
                     >
@@ -593,7 +593,7 @@ export const FloatingDateInput = ({
                                 }}
                                 onMouseEnter={() => setActiveIndex(i)}
                                 className={cn(
-                                    "w-full text-left px-3 py-2 text-sm tracking-wide",
+                                    "w-full text-left px-4 py-2 text-sm tracking-wide",
                                     i === activeIndex ? "bg-slate-100" : "bg-white"
                                 )}
                             >

@@ -94,7 +94,7 @@ const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children })
     }, []);
     return (
         <div className="flex flex-col gap-4 relative">
-            <div className="overflow-y-auto md:h-[calc(100dvh-3rem)]"
+            <div className="overflow-y-auto md:h-[calc(100dvh-3rem)] p-4"
                 style={{
                     height:
                         window.innerWidth <= 768
@@ -172,18 +172,6 @@ const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children })
                     </div>
 
                 </div>
-                {/* <div className="w-full px-4 py-0 border-b md:hidden">
-                </div> */}
-
-                {/* {
-                        currentMenu?.items.map(item => {
-                            return (
-                                <Button>
-                                    {item.text}
-                                </Button>
-                            )
-                        })
-                    } */}
                 {children}
             </div>
             <div className="h-fit w-full border-t px-4 pt-1 pb-1 fixed bottom-0 bg-primary-foreground md:hidden" ref={divRef}>

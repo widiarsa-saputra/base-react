@@ -5,14 +5,14 @@ import { z } from "zod";
 export const GotraPayInvoiceEntitySchema = z.object({
     id: z.string(),
     reference: z.string(),
-    invoice_id: z.string(),
-    invoice_number: z.string(),
-    status: z.string(),
-    payment_status: z.string(),
+    invoice_id: z.string().nullable(),
+    invoice_number: z.string().nullable(),
+    status: z.string().nullable(),
+    payment_status: z.string().nullable(),
     currency: z.string(),
-    total: z.string(),
-    amount_paid: z.string(),
-    amount_due: z.string(),
+    total: z.string().nullable(),
+    amount_paid: z.string().nullable(),
+    amount_due: z.string().nullable(),
     paid_at: z.string().nullable(),
     checkout_url: z.string().nullable(),
     payment_external_id: z.string().nullable(),
@@ -27,8 +27,8 @@ export const GotraPayInvoiceEntitySchema = z.object({
     last_error: z.string().nullable(),
     synced_at: z.string().nullable(),
     last_checked_at: z.string().nullable(),
-    // metadata has no known structure — typed as array of unknown values
-    metadata: z.array(z.unknown()),
+    // metadata has no known structure — typed as array of unknown values, nullable from API
+    metadata: z.array(z.unknown()).nullable(),
     created_at: z.string(),
     updated_at: z.string(),
 });

@@ -19,6 +19,7 @@ export const PostIndexSchema = BaseEntitySchema.extend({
     image_file_id: z.union([z.string(), z.number()]).optional().nullable(),
     file: FileEntitySchema.optional().nullable(),
     label_id: z.union([z.string(), z.number()]).optional().nullable(),
+    label_name: z.string().nullable().optional(),
     is_active: z.boolean().optional(),
     label: LabelIndexSchema.optional().nullable(),
 });

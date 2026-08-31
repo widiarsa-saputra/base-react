@@ -45,7 +45,6 @@ const ProfileMainContent: React.FC = () => {
                         tabObjects={tabObjects} 
                         value={activeTab}
                         onValueChange={setActiveTab}
-                        contentStyles="mx-4 my-4"
                     />
                 </div>
             </div>

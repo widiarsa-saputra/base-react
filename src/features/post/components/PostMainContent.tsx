@@ -40,6 +40,7 @@ const PostMainContent: React.FC = () => {
         paginate: itemsPerPage,
         sort_by: sortBy,
         sort_order: sortOrder,
+        include: 'file'
     });
 
     const { lastData } = useWebSocket(types.addPost);
@@ -125,7 +126,7 @@ const PostMainContent: React.FC = () => {
                     return (
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full border border-slate-200" style={{ backgroundColor: item.label.color || '#fff' }} />
-                            <span>{item.label.name}</span>
+                            <span>{item.label_name}</span>
                         </div>
                     );
                 }

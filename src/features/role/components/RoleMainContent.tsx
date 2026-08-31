@@ -283,7 +283,7 @@ const RoleMainContent: React.FC = () => {
     const roleList = Array.isArray(roles?.data) ? roles.data : [];
 
     return (
-        <div className="p-4 space-y-4">
+        <div className="space-y-4">
             <div className="flex justify-between items-center">
                 <div>
                     <h1 className="text-xl font-bold tracking-tight flex gap-2">
