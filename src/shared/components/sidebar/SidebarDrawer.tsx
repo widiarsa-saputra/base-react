@@ -13,6 +13,7 @@ import { MenuSection, ROUTES } from '@/router/AppRouter';
 import { UserSection } from './SidebarUserSection';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import HeaderCompany from './HeaderCompany';
+import html2canvas from 'html2canvas';
 
 type ExtendedMenuSection = MenuSection & {
     isExtended?: boolean
@@ -29,6 +30,37 @@ interface SidebarDrawerProps {
 
 const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children }) => {
     const divRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(document.createElement('canvas'));
+
+    useEffect(() => {
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        if (!video || !contentRef.current) return;
+
+        // 1. Capture stream from canvas
+        const stream = canvas.captureStream(10); // 10 FPS
+        video.srcObject = stream;
+        video.play().catch(() => { });
+
+        // 2. Periodically render DOM into the canvas stream
+        const interval = setInterval(async () => {
+            if (!contentRef.current) return;
+            const snapshot = await html2canvas(contentRef.current);
+            canvas.width = snapshot.width;
+            canvas.height = snapshot.height;
+            const ctx = canvas.getContext('2d');
+            ctx?.drawImage(snapshot, 0, 0);
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+            if (document.pictureInPictureElement === video) {
+                document.exitPictureInPicture().catch(() => { });
+            }
+        };
+    }, []);
     const [divHeight, setDivHeight] = useState(0)
 
     const { pathname } = useLocation();
@@ -183,8 +215,21 @@ const SidebarDrawer: React.FC<SidebarDrawerProps> = ({ menuSections, children })
                             )
                         })
                     } */}
+                <div>
+                    {/* Hidden video that handles the OS-level autoPictureInPicture */}
+                    <video
+                        ref={videoRef}
+                        muted
+                        autoPlay
+                        playsInline
+                        autoPictureInPicture={true}
+                        style={{ position: 'fixed', width: 1, height: 1, opacity: 0, pointerEvents: 'none' }}
+                    />
 
-                {children}
+                    <div ref={contentRef}>
+                        {children}
+                    </div>
+                </div>
             </div>
             <div className="h-fit w-full border-t px-4 pt-1 pb-1 fixed bottom-0 bg-primary-foreground md:hidden" ref={divRef}>
                 <div className="flex gap-3 justify-center items-center">

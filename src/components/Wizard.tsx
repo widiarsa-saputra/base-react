@@ -2,10 +2,23 @@ import React, { useState, ReactNode, Children, isValidElement } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface WizardProps {
     children: ReactNode;
     onComplete?: () => void;
+    /** Called when the user clicks "Batal" on the first step.
+     *  When used inside a dialog, pass the dialog's onOpenChange(false) here. */
+    onCancel?: () => void;
     className?: string;
 }
 
@@ -21,9 +34,10 @@ export const WizardStep: React.FC<WizardStepProps> = ({ children }) => {
     return <div className="animate-in fade-in slide-in-from-right-4 duration-300">{children}</div>;
 };
 
-export const Wizard: React.FC<WizardProps> = ({ children, onComplete, className }) => {
+export const Wizard: React.FC<WizardProps> = ({ children, onComplete, onCancel, className }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isValidating, setIsValidating] = useState(false);
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
     // Filter children to only include elements that have WizardStep props (like title)
     const steps = Children.toArray(children).filter(
@@ -77,6 +91,12 @@ export const Wizard: React.FC<WizardProps> = ({ children, onComplete, className 
     };
 
     const handleCancel = () => {
+        // Prefer the explicit onCancel prop (e.g. closing a dialog from the outside)
+        if (onCancel) {
+            onCancel();
+            return;
+        }
+        // Fallback: click the hidden ManagedForm cancel button
         const cancelBtn = document.querySelector('.managed-form-cancel-btn') as HTMLButtonElement;
         if (cancelBtn) {
             cancelBtn.click();
@@ -152,12 +172,33 @@ export const Wizard: React.FC<WizardProps> = ({ children, onComplete, className 
                 {activeStep}
             </div>
 
+            {/* Cancel confirmation dialog */}
+            <AlertDialog open={showCancelConfirm} onOpenChange={setShowCancelConfirm}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Batalkan pengisian form?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Semua data yang telah Anda isi pada seluruh langkah akan hilang. Tindakan ini tidak dapat dibatalkan.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Kembali ke Form</AlertDialogCancel>
+                        <AlertDialogAction
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                            onClick={handleCancel}
+                        >
+                            Ya, Batalkan
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
             {/* Footer Navigation */}
             <div className="flex items-center justify-between p-6 border-t bg-slate-50 rounded-b-xl">
                 <Button 
                     type="button" 
                     variant="outline" 
-                    onClick={currentStep === 0 ? handleCancel : handlePrevious}
+                    onClick={currentStep === 0 ? () => setShowCancelConfirm(true) : handlePrevious}
                     className="w-32"
                 >
                     {currentStep === 0 ? 'Batal' : 'Kembali'}

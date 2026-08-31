@@ -217,7 +217,7 @@ const MutationFeedback: React.FC<MutationFeedbackProps> = (props) => {
 // Separated into its own component so useForm is only called when needed.
 
 interface ManagedFormProps<TData extends FieldValues> {
-    formComponent: React.ComponentType<{ form: UseFormReturn<TData> }>;
+    formComponent: React.ComponentType<{ form: UseFormReturn<TData>; onCancel?: () => void }>;
     resolver: Resolver<TData>;
     defaultValues: TData;
     onConfirm: (data: TData) => Promise<void>;
@@ -282,7 +282,7 @@ function ManagedForm<TData extends FieldValues>({
     return (
         <>
             {/* Pass form to the field-only component */}
-            <FormComponent form={form as unknown as UseFormReturn<TData>} />
+            <FormComponent form={form as unknown as UseFormReturn<TData>} onCancel={onCancel} />
 
             {/* Footer: cancel + submit */}
             {mutationMode === 'content' ? (

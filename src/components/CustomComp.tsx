@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Globe, Plus, List } from "lucide-react";
+import { Globe, Plus, List, Info } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Switch } from "./ui/switch";
 import * as SwitchPrimitive from "@radix-ui/react-switch"
 
@@ -151,13 +152,14 @@ export const EmptyList = ({ isEmpty, reset, icon, title, desc }: EmptyListProps)
     }
 }
 
-type SwitchCompProps = { checked: boolean, onCheckedChange: (checked: boolean) => void, label: string }
+type SwitchCompProps = { checked: boolean, onCheckedChange: (checked: boolean) => void, label: string, tooltipMessage?: string }
 
 export const SwitchComp = ({
     checked,
     onCheckedChange,
     label,
     className,
+    tooltipMessage,
     ...props
 }: SwitchCompProps & React.ComponentProps<typeof SwitchPrimitive.Root>) => {
     const id = crypto.randomUUID();
@@ -170,8 +172,18 @@ export const SwitchComp = ({
                 {...props}
                 id={id}
             />
-            <label htmlFor={id} className="text-sm font-medium text-slate-700 cursor-pointer">
+            <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer">
                 {label}
+                {tooltipMessage && (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Info className="h-3 w-3 text-muted-foreground" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{tooltipMessage}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                )}
             </label>
         </div>
     )

@@ -84,7 +84,7 @@ const LogActivityUserContent: React.FC = () => {
     const totalItems = data?.pagination?.total ?? 0;
 
     return (
-        <DataPageTemplate<LogActivityEntity, any>
+        <DataPageTemplate<LogActivityEntity, Record<string, never>>
             title="Aktivitas Pengguna"
             description="Pantau log aktivitas yang dilakukan oleh pengguna."
             columns={columns}
