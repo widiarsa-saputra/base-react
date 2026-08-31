@@ -19,6 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import useWebSocket from '@/services/web-socket/hooks/useWebSocket';
+import { types } from '@/services/web-socket/lib/socket';
+import useSubmitPost from '@/services/web-socket/hooks/useSubmitPost';
 
 const PostMainContent: React.FC = () => {
     const [search, setSearch] = useState('');
@@ -31,7 +34,7 @@ const PostMainContent: React.FC = () => {
     const [sortBy, setSortBy] = useState<string>('created_at');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
-    const { data, isLoading } = usePostIndex({
+    const { data, isLoading, refetch } = usePostIndex({
         search: debouncedSearch,
         page: currentPage,
         paginate: itemsPerPage,
@@ -39,9 +42,29 @@ const PostMainContent: React.FC = () => {
         sort_order: sortOrder,
     });
 
+    const { lastData } = useWebSocket(types.addPost);
+
+    useEffect(() => {
+        if (!lastData) {
+            return;
+        }
+
+        const type = lastData.type || lastData.event_type
+
+        if (type === types.addPost) {
+            const timer = setTimeout(() => {
+                refetch()
+            }, 500)
+
+            return () => clearTimeout(timer)
+        }
+
+    }, [lastData, refetch])
+
     const addMutation = usePostCreate();
     const editMutation = usePostUpdate();
     const deleteMutation = usePostDelete();
+    const addSockets = useSubmitPost();
 
     useEffect(() => {
         setCurrentPage(1);
@@ -64,9 +87,9 @@ const PostMainContent: React.FC = () => {
             sortable: false,
             render: (item: PostEntity) => (
                 item.file?.url ? (
-                    <img 
-                        src={item.file.url} 
-                        alt={item.title || 'Post thumbnail'} 
+                    <img
+                        src={item.file.url}
+                        alt={item.title || 'Post thumbnail'}
                         className="w-16 h-16 object-cover rounded-md"
                     />
                 ) : (
@@ -178,6 +201,9 @@ const PostMainContent: React.FC = () => {
                     modalSize: 'lg',
                     onConfirm: async (data) => {
                         await addMutation.mutateAsync(data);
+                        await addSockets.onSubmit({
+                            title: data.title
+                        });
                         queryClient.invalidateQueries({ queryKey: [postQueryKey] });
                         toast.success('Berhasil', { description: 'Postingan telah ditambahkan' });
                     },

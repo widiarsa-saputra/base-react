@@ -48,7 +48,7 @@ export const FloatingInput = ({
                     placeholder={isFloating ? placeholder ?? undefined : undefined}
                     className={cn(
                         "h-11 rounded tracking-wide bg-slate-50/30 focus:bg-white",
-                        (Icon || tooltipMessage) ? "pl-10 pr-10" : "px-3",
+                        (Icon) ? "pl-10 pr-10" : "px-3",
                         restInputProps?.className
                     )}
                     onFocus={(e) => {
