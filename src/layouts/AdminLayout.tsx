@@ -58,7 +58,7 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             order: 6
         },
         {
-            label: 'Akademik & Konten',
+            label: 'Konten',
             items: [
                 { icon: BookOpen as ElementType, text: 'Kursus', url: ROUTES.COURSES.path },
             ],

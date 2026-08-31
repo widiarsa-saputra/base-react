@@ -73,3 +73,11 @@ export const usePostDelete = () => {
         queryKey: postQueryKey,
     });
 };
+
+export const useDeletePostGallery = () => {
+    return useBaseDelete<{ id: string | number; post_id: string | number; file_id: string | number }, GeneralRes, { id: string | number }>({
+        endpoint: (params) => `${API_VERSION}/post/${params.post_id}/gallery/${params.file_id}`,
+        schema: GeneralResponseSchema,
+        queryKey: postQueryKey,
+    });
+};

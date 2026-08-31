@@ -93,7 +93,7 @@ const DataManagement: React.FC = () => {
                             <Button 
                                 onClick={handleExport}
                                 disabled={exportUsers.isPending}
-                                className="bg-brand-navy hover:bg-brand-navy/90 h-9 px-8 text-[10px] font-black uppercase tracking-widest rounded shadow-sm gap-2"
+                                className="h-9 px-8 text-[10px] font-black uppercase tracking-widest rounded shadow-sm gap-2 "
                             >
                                 {exportUsers.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
                                 Export to Excel (.xlsx)
