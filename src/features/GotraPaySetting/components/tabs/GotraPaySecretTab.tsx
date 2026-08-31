@@ -21,7 +21,7 @@ const GotraPaySecretTab: React.FC<Props> = ({ form, hasSecret, hasWebhookSecret,
 
     return (
         <div className="space-y-4 p-4 !pt-0">
-            <Card className="border-slate-100 shadow-sm overflow-hidden rounded">
+            <Card className="border-slate-100 shadow-sm overflow-hidden rounded !gap-0 !p-0">
                 <CardHeader className="bg-slate-50/50 border-b p-4">
                     <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy flex items-center gap-2">
                         <KeyRound className="w-4 h-4" />
@@ -67,7 +67,7 @@ const GotraPaySecretTab: React.FC<Props> = ({ form, hasSecret, hasWebhookSecret,
                                     placeholder: hasSecret ? "******** (Sudah Diatur)" : "Masukkan Secret Key Baru"
                                 }}
                             />
-                            {hasSecret && (
+                            {!form.watch('secret') && hasSecret && (
                                 <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 ml-1">
                                     ✓ Secret Key saat ini sudah terkonfigurasi.
                                 </p>
@@ -86,7 +86,7 @@ const GotraPaySecretTab: React.FC<Props> = ({ form, hasSecret, hasWebhookSecret,
                                     placeholder: hasWebhookSecret ? "******** (Sudah Diatur)" : "Masukkan Webhook Secret Baru"
                                 }}
                             />
-                            {hasWebhookSecret && (
+                            {!form.watch('webhook_secret') && hasWebhookSecret && (
                                 <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 ml-1">
                                     ✓ Webhook Secret saat ini sudah terkonfigurasi.
                                 </p>
