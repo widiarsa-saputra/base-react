@@ -5,6 +5,7 @@ import TopBar from '@/shared/components/topbar/TopBar'
 import {
     LayoutDashboard,
     BookOpen,
+    Tags,
 } from 'lucide-react'
 import { Panel, PanelGroup, PanelResizeHandle, ImperativePanelHandle } from 'react-resizable-panels'
 import React, { ElementType, useRef, useState } from 'react'
@@ -46,6 +47,14 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             ],
             icon: LayoutDashboard as ElementType,
             order: 1
+        },
+        {
+            label: 'Data Master',
+            items: [
+                { icon: Tags as ElementType, text: 'Labels', url: ROUTES.LABELS.path },
+            ],
+            icon: Tags as ElementType,
+            order: 6
         },
 
         {

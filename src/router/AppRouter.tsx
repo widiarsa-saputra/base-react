@@ -16,6 +16,7 @@ import { Folder, Grid, Lock, Settings, ShieldCheck, UserCircle, Users, Activity 
 import UserPage from "@/features/user-management/pages/UserPage";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
 import { LogActivityPage } from "@/features/log-activity/pages/LogActivityPage";
+import { LabelPage } from "@/features/labels/pages/LabelPage";
 import { PostPage } from "@/features/post/pages/PostPage";
 import GotraPaySettingPage from "@/features/GotraPaySetting/pages/GotraPaySettingPage";
 
@@ -75,6 +76,14 @@ export const ROUTES: Record<string, AppRoute> = {
 
 
 
+
+    LABELS: {
+        path: "/labels",
+        element: <LabelPage />,
+        protected: true,
+        roles: [],
+        permissions: [],
+    },
 
     // Admin settings
     USER_MANAGEMENT: {
