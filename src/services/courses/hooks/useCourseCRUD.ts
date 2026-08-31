@@ -20,18 +20,18 @@ import {
 import useBaseIndex from "@/services/base/hooks/useBaseIndex";
 import useBaseShow from "@/services/base/hooks/useBaseShow";
 
-const queryKey = "courses";
+export const courseQueryKey = "courses";
 const API_VERSION = "v1";
 
 export const useCourseIndex = (params?: object) => {
     return useBaseIndex<CourseListResponse>({
         request: {
-            endpoint: `${API_VERSION}/${queryKey}`,
+            endpoint: `${API_VERSION}/${courseQueryKey}`,
             params,
         },
         schema: CourseListResponseSchema,
         query: {
-            key: queryKey,
+            key: courseQueryKey,
         },
     });
 };
@@ -39,37 +39,37 @@ export const useCourseIndex = (params?: object) => {
 export const useCourseShow = (id: string | number, params?: object) => {
     return useBaseShow<CourseShowResponse>({
         request: {
-            endpoint: `${API_VERSION}/${queryKey}`,
+            endpoint: `${API_VERSION}/${courseQueryKey}`,
             id: String(id),
             params
         },
         schema: CourseShowResponseSchema,
         query: {
-            key: `${queryKey}-${id}`,
+            key: `${courseQueryKey}-${id}`,
         },
     });
 };
 
 export const useCourseCreate = () => {
     return useBaseCreate<CourseCreatePayload, CourseCreateResponse, CourseEntity>({
-        endpoint: `${API_VERSION}/${queryKey}`,
+        endpoint: `${API_VERSION}/${courseQueryKey}`,
         schema: CourseCreateResponseSchema,
-        queryKey,
+        queryKey: courseQueryKey,
     });
 };
 
 export const useCourseUpdate = () => {
     return useBaseUpdate<CourseUpdatePayload, CourseUpdateResponse, CourseEntity>({
-        endpoint: `${API_VERSION}/${queryKey}`,
+        endpoint: `${API_VERSION}/${courseQueryKey}`,
         schema: CourseUpdateResponseSchema,
-        queryKey,
+        queryKey: courseQueryKey,
     });
 };
 
 export const useCourseDelete = () => {
     return useBaseDelete<{ id: string | number }, GeneralRes, CourseEntity>({
-        endpoint: (params) => `${API_VERSION}/${queryKey}/${params.id}`,
+        endpoint: (params) => `${API_VERSION}/${courseQueryKey}/${params.id}`,
         schema: GeneralResponseSchema,
-        queryKey,
+        queryKey: courseQueryKey,
     });
 };

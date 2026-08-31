@@ -6,6 +6,7 @@ import {
     useCourseCreate,
     useCourseUpdate,
     useCourseDelete,
+    courseQueryKey,
 } from '@/services/courses/hooks/useCourseCRUD';
 import {
     CourseEntity,
@@ -23,6 +24,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import LabelComp from '@/components/LabelComp';
 import { SearchableSelect } from '@/shared/components/form/SearchableSelect';
 import { Badge } from '@/components/ui/badge';
+import { DataSelectBadge } from '@/components/DataSelectBadge';
+import { cn } from '@/lib/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const CourseMainContent: React.FC = () => {
     const [search, setSearch] = useState('');
@@ -41,6 +46,7 @@ const CourseMainContent: React.FC = () => {
         level: undefined,
         status: undefined,
     };
+    const queryClient = useQueryClient();
     const [filter, setFilter] = useState(initialFilterState);
     const [tempFilter, setTempFilter] = useState(initialFilterState);
     const [filterLabels, setFilterLabels] = useState<string[]>([]);
@@ -192,7 +198,52 @@ const CourseMainContent: React.FC = () => {
             title: 'Kategori',
             key: 'course_category_name',
             sortable: true,
-            render: (item: CourseEntity) => item.category_name || '-',
+            copyValue: false,
+            render: (item: CourseEntity) => (
+                <DataSelectBadge<CourseCategoryEntity>
+                    value={item.category_name ?? undefined}
+                    placeholder="Pilih Kategori"
+                    useApiHook={useCourseCategoryIndex}
+                    getLabel={(cat) => cat.name ?? '-'}
+                    getKey={(cat) => cat.id ?? ''}
+                    onSelect={(cat) => {
+                        const payload: CourseCreatePayload = {
+                            title: item.title ?? '',
+                            course_category_id: cat.id ?? null,
+                            thumbnail_file_id: item.thumbnail_file_id ?? null,
+                            description: item.description ?? '',
+                            level: item.level ?? null,
+                            status: item.status ?? 'draft',
+                            video_url: item.video_url ?? '',
+                            has_certificate: item.has_certificate ?? false,
+                            duration: item.duration ?? null,
+                            course_sections: item.course_sections ?? [],
+                        };
+                        editMutation.mutate(
+                            { id: item.id ?? '', data: payload },
+                            {
+                                onSuccess: () => {
+                                    queryClient.invalidateQueries({ queryKey: [courseQueryKey] });
+                                    toast.success('Kategori berhasil diubah');
+                                },
+                                onError: (error) => {
+                                    toast.error(error?.message || 'Gagal mengubah kategori');
+                                },
+                            }
+                        );
+                    }}
+                    renderItem={(cal) => (
+                        <p className="flex gap-4 justify-between items-center w-full">
+                            <span className={cn("capitalize")}>
+                                {cal.name}
+                            </span>
+                            <span className={cn("text-xs text-muted-foreground")}>
+                                {cal.is_active ? 'Aktif' : 'Tidak Aktif'}
+                            </span>
+                        </p>
+                    )}
+                />
+            ),
         },
         {
             title: 'Level',
