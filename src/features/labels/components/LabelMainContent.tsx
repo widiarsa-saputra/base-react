@@ -98,6 +98,7 @@ const LabelMainContent: React.FC = () => {
             onItemsPerPageChange={setItemsPerPage}
             sortBy={sortBy}
             sortOrder={sortOrder}
+            mutationMode='content'
             handleSort={(newSortBy, newSortOrder) => {
                 setSortBy(newSortBy);
                 setSortOrder(newSortOrder);

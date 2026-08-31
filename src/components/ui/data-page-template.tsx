@@ -662,7 +662,7 @@ export function DataPageTemplate<
             {/* Content-mode: Add portal — inject into this instance's own container */}
             {isContentAdd && containerRef.current && createPortal(
                 <div className="p-4 h-full flex flex-col sticky top-0 z-10">
-                    <div className="sticky top-0 z-[999] flex items-center justify-between bg-white bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 pb-4 pt-4 mb-6 -mt-4 -mx-8 px-4 border-b">
+                    <div className="sticky -top-4 z-[999] flex items-center justify-between bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 pb-4 pt-4 mb-6 -mt-8 -mx-8 px-4 border-b">
                         <div className="flex items-center gap-4">
                             <Button variant="ghost" size="icon" onClick={() => setView('list')} className="h-8 w-8">
                                 <ArrowLeft className="h-4 w-4" />
