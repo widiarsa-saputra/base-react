@@ -16,12 +16,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { GotraPayInvoiceCreateSchema, GotraPayInvoiceCreatePayload } from '@/services/gotrapay-invoice/schema/GotraPayInvoiceSchema';
 import GotraPayInvoiceCreateForm from './GotraPayInvoiceCreateForm';
 import { formatter } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface Props {
-    onSelectInvoice: (invoice: GotraPayInvoiceEntity) => void;
+    onSelectInvoice: (invoice: GotraPayInvoiceEntity | null) => void;
+    selectedInvoice: GotraPayInvoiceEntity | null
 }
 
-const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
+const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice, selectedInvoice }) => {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search, 500);
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +65,24 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice }) => {
     };
 
     const columns = useMemo((): Column<GotraPayInvoiceEntity>[] => [
+        {
+            title: '',
+            key: 'selected',
+            render: (item) => {
+                return (
+                    <Checkbox
+                        checked={selectedInvoice?.id === item.id}
+                        onCheckedChange={() => {
+                            if (selectedInvoice?.id === item.id) {
+                                onSelectInvoice(null)
+                            } else {
+                                onSelectInvoice(item)
+                            }
+                        }}
+                    />
+                )
+            }
+        },
         {
             title: 'No. Invoice',
             key: 'invoice_number',

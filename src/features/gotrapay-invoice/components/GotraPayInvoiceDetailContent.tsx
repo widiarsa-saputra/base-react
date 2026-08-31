@@ -161,7 +161,7 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Status Card (source of truth) */}
-                <Card className="lg:col-span-1">
+                <Card className="lg:col-span-1 !p-0">
                     <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
                             <CardTitle className="text-base">Status Terkini</CardTitle>
@@ -219,7 +219,7 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
                                 {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-5 w-full" />)}
                             </div>
                         ) : (
-                            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                            <div className="grid grid-cols-2 gap-x-4 text-sm gap-y-2">
                                 <div>
                                     <p className="text-slate-500">Customer</p>
                                     <p className="font-medium">{invoice.customer_name}</p>
@@ -235,11 +235,10 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
                                 <div className="col-span-2 mt-2">
                                     <Separator />
                                 </div>
-                                {invoice.checkout_url && (
-                                    <div className="col-span-2">
-                                        <p className="text-slate-500 mb-1">Link Pembayaran</p>
+                                    <div className="col-span-2 flex items-center gap-4">
+                                        <p className="text-slate-500">Link Pembayaran</p>
                                         <a
-                                            href={invoice.checkout_url}
+                                            href={invoice.checkout_url ?? ''}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-primary text-xs flex items-center gap-1 hover:underline break-all"
@@ -248,7 +247,6 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
                                             <ExternalLink className="w-3 h-3 shrink-0" />
                                         </a>
                                     </div>
-                                )}
                             </div>
                         )}
                     </CardContent>

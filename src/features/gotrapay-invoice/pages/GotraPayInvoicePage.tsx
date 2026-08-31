@@ -3,6 +3,7 @@ import AdminLayout from '@/layouts/AdminLayout';
 import GotraPayInvoiceListContent from '../components/GotraPayInvoiceListContent';
 import GotraPayInvoiceDetailContent from '../components/GotraPayInvoiceDetailContent';
 import { GotraPayInvoiceEntity } from '@/services/gotrapay-invoice/schema/GotraPayInvoiceSchema';
+import { Separator } from '@/components/ui/separator';
 
 const GotraPayInvoicePage: React.FC = () => {
     const [selectedInvoice, setSelectedInvoice] = useState<GotraPayInvoiceEntity | null>(null);
@@ -19,9 +20,10 @@ const GotraPayInvoicePage: React.FC = () => {
                         <p className="text-sm">Pilih invoice dari tab &quot;Daftar Invoice&quot; untuk melihat detail dan melakukan aksi.</p>
                     </div>
             }
-            <div className="border-b py-2 mb-4 -mx-4"></div>
+            <Separator className='my-8' />
             <GotraPayInvoiceListContent
                 onSelectInvoice={(invoice) => setSelectedInvoice(invoice)}
+                selectedInvoice={selectedInvoice}
             />
         </AdminLayout>
     );
