@@ -21,8 +21,8 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
     const { data: apiLabelsData, isLoading: isLabelsLoading} = useIndexLabels();
     const apiLabels = apiLabelsData?.data;
     const labelOptions = (apiLabels || []).map((label) => ({
-        value: label.id,
-        label: label.name,
+        value: String(label.id),
+        label: label.name || '-',
     }));
 
     const { fields: itemFields, append: appendItem, remove: removeItem } = useFieldArray({

@@ -43,6 +43,7 @@ interface SearchableSelectProps<T> {
     onSearchChange?: (search: string) => void;
     serverSideSearch?: boolean;
     isPending?: boolean;
+    maxValue?: number
 }
 
 export const SearchableSelect = <T,>({
@@ -63,6 +64,7 @@ export const SearchableSelect = <T,>({
     onSearchChange,
     serverSideSearch = false,
     isPending = false,
+    maxValue
 }: SearchableSelectProps<T>) => {
     const [open, setOpen] = React.useState(false);
     const [focused, setFocused] = React.useState(false);
@@ -107,13 +109,49 @@ export const SearchableSelect = <T,>({
 
     const displayValue = () => {
         if (isMulti && Array.isArray(value) && value.length > 0) {
-            if (value.length > 2) {
+            if (maxValue && value.length > maxValue) {
                 return `${value.length} items selected`;
             }
-            return options
-                .filter((opt) => value.includes(opt.value))
-                .map((opt) => opt.label)
-                .join(", ");
+            return (
+                <div className="flex flex-wrap items-center gap-1 py-1">
+                    {options
+                        .filter((opt) => value.includes(opt.value))
+                        .map((opt) => (
+                            <div
+                                key={opt.value}
+                                className="flex items-center gap-1 rounded border bg-slate-50 px-2 py-0.5 text-xs text-slate-800 shrink-0"
+                            >
+                                <span>{opt.label}</span>
+                                <div
+                                    role="button"
+                                    tabIndex={0}
+                                    className="cursor-pointer text-slate-400 hover:text-slate-600 focus:outline-none"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const newValues = value.filter(v => v !== opt.value);
+                                        onChange(newValues);
+                                    }}
+                                    onMouseDown={(e) => {
+                                        // Prevent input blur
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            const newValues = value.filter(v => v !== opt.value);
+                                            onChange(newValues);
+                                        }
+                                    }}
+                                >
+                                    <X className="h-3 w-3" />
+                                </div>
+                            </div>
+                        ))}
+                </div>
+            );
         } else if (!isMulti) {
             const selected = options.find((opt) => opt.value === value);
             return selected?.label || "";
@@ -140,15 +178,17 @@ export const SearchableSelect = <T,>({
                                 setTimeout(() => setFocused(false), 300);
                             }}
                             className={cn(
-                                "w-full h-11 justify-between font-normal rounded tracking-wide bg-slate-50/30 focus:bg-white text-left",
+                                "w-full h-fit min-h-11 justify-between font-normal rounded tracking-wide bg-slate-50/30 focus:bg-white text-left flex flex-wrap",
                                 Icon ? "pl-10 pr-10" : "px-4",
-                                (!displayValue() && (!label || isFloating)) && "text-muted-foreground",
-                                (!displayValue() && label && !isFloating) && "text-transparent"
+                                (!hasValue && (!label || isFloating)) && "text-muted-foreground",
+                                (!hasValue && label && !isFloating) && "text-transparent"
                             )}
                         >
-                            <span className="truncate">{displayValue() || displayPlaceholder}</span>
-                            <div className="flex items-center gap-1">
-                                {displayValue() 
+                            <div className="flex-1 text-left">
+                                {hasValue ? displayValue() : displayPlaceholder}
+                            </div>
+                            <div className="flex items-center gap-1 self-start mt-2.5">
+                                {hasValue 
                                 ? (
                                     <div
                                         role="button"
@@ -199,7 +239,7 @@ export const SearchableSelect = <T,>({
                                 {options.map((option) => (
                                     <CommandItem
                                         key={option.value}
-                                        value={option.label}
+                                        value={`${option.label}___${option.value}`}
                                         onSelect={() => handleSelect(option.value)}
                                         className={cn(
                                             isSelected(option.value)
