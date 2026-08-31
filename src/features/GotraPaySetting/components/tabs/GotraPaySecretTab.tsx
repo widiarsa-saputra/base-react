@@ -20,7 +20,7 @@ const GotraPaySecretTab: React.FC<Props> = ({ form, hasSecret, hasWebhookSecret,
     const { formState: { errors } } = form;
 
     return (
-        <div className="space-y-4 p-4 !pt-0">
+        <div className="space-y-4">
             <Card className="border-slate-100 shadow-sm overflow-hidden rounded !gap-0 !p-0">
                 <CardHeader className="bg-slate-50/50 border-b p-4">
                     <CardTitle className="text-sm font-black uppercase italic tracking-tight text-brand-navy flex items-center gap-2">

@@ -99,13 +99,14 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
 
     const handleCreateCheckout = async () => {
         try {
-            await checkoutMutation.mutateAsync({
-                gateway: '',
+            const payload = {
+                gateway: 'midtrans' as const,
                 success_redirect_url: '',
                 failure_redirect_url: '',
                 metadata: [],
                 expires_in: 60,
-            });
+            };
+            await checkoutMutation.mutateAsync(payload);
             queryClient.invalidateQueries({ queryKey: [gotraPayInvoiceQueryKey] });
             toast.success('Link pembayaran berhasil dibuat.');
         } catch {
@@ -134,7 +135,7 @@ const GotraPayInvoiceDetailContent: React.FC<Props> = ({ selectedInvoice, onBack
             return;
         }
 
-        const payload: GotraPayInvoiceSendPayload = { channels };
+        const payload: GotraPayInvoiceSendPayload = { channels: channels as ("whatsapp" | "email")[] };
         try {
             await sendMutation.mutateAsync(payload);
             toast.success('Invoice berhasil dikirim.');

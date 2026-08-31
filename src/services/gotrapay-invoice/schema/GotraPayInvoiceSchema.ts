@@ -67,7 +67,7 @@ export const InvoiceReceiverSchema = z.object({
 });
 
 export const InvoicePaymentSchema = z.object({
-    gateway: z.string(),
+    gateway: z.enum(["midtrans", "xendit"]),
     success_redirect_url: z.string(),
     failure_redirect_url: z.string(),
     metadata: z.array(z.string()),
@@ -75,7 +75,7 @@ export const InvoicePaymentSchema = z.object({
 });
 
 export const InvoiceSendSchema = z.object({
-    channels: z.array(z.string()),
+    channels: z.array(z.enum(["whatsapp", "email"])),
 });
 
 export const GotraPayInvoiceCreateSchema = z.object({
@@ -84,9 +84,9 @@ export const GotraPayInvoiceCreateSchema = z.object({
     issue_date: z.string(),
     due_date: z.string(),
     currency: z.string(),
-    discount_type: z.string(),
+    discount_type: z.enum(["none", "amount", "percent"]),
     discount_value: z.number(),
-    tax_type: z.string(),
+    tax_type: z.enum(["none", "percent"]),
     tax_percent: z.number(),
     shipping_amount: z.number(),
     notes: z.string(),
@@ -108,7 +108,7 @@ export type GotraPayInvoiceCreatePayload = z.infer<typeof GotraPayInvoiceCreateS
 // ─── Checkout Request Schema ──────────────────────────────────────────────────
 
 export const GotraPayInvoiceCheckoutSchema = z.object({
-    gateway: z.string(),
+    gateway: z.enum(["midtrans", "xendit"]),
     success_redirect_url: z.string(),
     failure_redirect_url: z.string(),
     metadata: z.array(z.string()),
@@ -133,7 +133,7 @@ export type GotraPayInvoicePaymentPayload = z.infer<typeof GotraPayInvoicePaymen
 // ─── Send Invoice Request Schema ──────────────────────────────────────────────
 
 export const GotraPayInvoiceSendSchema = z.object({
-    channels: z.array(z.string()),
+    channels: z.array(z.enum(["whatsapp", "email"])),
 });
 
 export type GotraPayInvoiceSendPayload = z.infer<typeof GotraPayInvoiceSendSchema>;

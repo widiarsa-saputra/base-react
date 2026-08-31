@@ -3,6 +3,9 @@ import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { GotraPayInvoiceCreatePayload } from '@/services/gotrapay-invoice/schema/GotraPayInvoiceSchema';
 import { FloatingInput } from '@/components/FloatingInput';
 import { SwitchComp } from '@/components/CustomComp';
+import Combobox from '@/components/Combobox';
+import { Badge } from '@/components/ui/badge';
+import { X } from 'lucide-react';
 
 interface Props {
     form: UseFormReturn<GotraPayInvoiceCreatePayload>;
@@ -15,6 +18,10 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
         control,
         name: 'items',
     });
+
+    const discountType = watch('discount_type');
+    const taxType = watch('tax_type');
+    const channels = watch('send.channels') || [];
 
     return (
         <form id="gotrapay-invoice-form" className="space-y-6">
@@ -69,6 +76,55 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
                     error={errors.terms?.message}
                     inputProps={{ ...register('terms') }}
                 />
+            </section>
+
+            {/* Pengaturan Harga */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Combobox
+                    id="discount_type"
+                    label="Tipe Diskon"
+                    options={[
+                        { label: 'Tidak Ada', value: 'none' },
+                        { label: 'Nominal (Rp)', value: 'amount' },
+                        { label: 'Persentase (%)', value: 'percent' }
+                    ]}
+                    value={discountType}
+                    onChange={(opt) => {
+                        form.setValue('discount_type', opt.value as "none" | "amount" | "percent");
+                        if (opt.value === 'none') form.setValue('discount_value', 0);
+                    }}
+                />
+                {discountType !== 'none' && (
+                    <FloatingInput
+                        id="discount_value"
+                        label="Nilai Diskon"
+                        watch={String(watch('discount_value'))}
+                        error={errors.discount_value?.message}
+                        inputProps={{ ...register('discount_value', { valueAsNumber: true }), type: 'number', min: 0 }}
+                    />
+                )}
+                <Combobox
+                    id="tax_type"
+                    label="Tipe Pajak"
+                    options={[
+                        { label: 'Tidak Ada', value: 'none' },
+                        { label: 'Persentase (%)', value: 'percent' }
+                    ]}
+                    value={taxType}
+                    onChange={(opt) => {
+                        form.setValue('tax_type', opt.value as "none" | "percent");
+                        if (opt.value === 'none') form.setValue('tax_percent', 0);
+                    }}
+                />
+                {taxType !== 'none' && (
+                    <FloatingInput
+                        id="tax_percent"
+                        label="Persentase Pajak"
+                        watch={String(watch('tax_percent'))}
+                        error={errors.tax_percent?.message}
+                        inputProps={{ ...register('tax_percent', { valueAsNumber: true }), type: 'number', min: 0, max: 100 }}
+                    />
+                )}
             </section>
 
             {/* Customer */}
@@ -193,8 +249,45 @@ const GotraPayInvoiceCreateForm: React.FC<Props> = ({ form }) => {
             {/* Options */}
             <section className="flex flex-col gap-3 p-4 border rounded-lg">
                 <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">
-                    Opsi Pengiriman
+                    Opsi Pengiriman & Pembayaran
                 </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                    <Combobox
+                        id="gateway"
+                        label="Payment Gateway"
+                        options={[
+                            { label: 'Midtrans', value: 'midtrans' },
+                            { label: 'Xendit', value: 'xendit' }
+                        ]}
+                        value={watch('payment.gateway')}
+                        onChange={(opt) => form.setValue('payment.gateway', opt.value as "midtrans" | "xendit")}
+                    />
+                    <div className="flex flex-col gap-2">
+                        <Combobox
+                            id="channels"
+                            label="Channel Pengiriman"
+                            options={[
+                                { label: 'WhatsApp', value: 'whatsapp' },
+                                { label: 'Email', value: 'email' }
+                            ]}
+                            value={""}
+                            onChange={(opt) => {
+                                if (!channels.includes(opt.value as "email" | "whatsapp")) {
+                                    form.setValue('send.channels', [...channels, opt.value] as ["whatsapp" | "email"]);
+                                }
+                            }}
+                        />
+                        {channels.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                                {channels.map((ch, idx) => (
+                                    <Badge key={idx} variant="secondary" className="cursor-pointer hover:bg-destructive hover:text-white" onClick={() => form.setValue('send.channels', channels.filter(c => c !== ch) as ["whatsapp" | "email"])}>
+                                        {ch} <X className="w-3 h-3 ml-1" />
+                                    </Badge>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
                 <SwitchComp
                     label="Gunakan customer sebagai penerima"
                     tooltipMessage="Jika aktif, data customer akan otomatis digunakan sebagai penerima notifikasi."

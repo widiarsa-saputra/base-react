@@ -167,7 +167,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice, selected
         issue_date: '',
         due_date: '',
         currency: 'IDR',
-        discount_type: 'fixed',
+        discount_type: 'none',
         discount_value: 0,
         tax_type: 'percent',
         tax_percent: 0,
@@ -191,7 +191,7 @@ const GotraPayInvoiceListContent: React.FC<Props> = ({ onSelectInvoice, selected
         label_ids: [],
         send: { channels: [] },
         payment: {
-            gateway: '',
+            gateway: 'midtrans',
             success_redirect_url: '',
             failure_redirect_url: '',
             metadata: [],
