@@ -277,6 +277,7 @@ const CourseMainContent: React.FC = () => {
                     video_url: '',
                     has_certificate: false,
                     duration: null,
+                    course_sections: [],
                 },
                 defaultValues: (course) => ({
                     title: course.title ?? '',
@@ -288,6 +289,7 @@ const CourseMainContent: React.FC = () => {
                     video_url: course.video_url ?? '',
                     has_certificate: course.has_certificate ?? false,
                     duration: course.duration ?? null,
+                    course_sections: course.course_sections ?? [],
                 }),
             }}
             submitActions={{

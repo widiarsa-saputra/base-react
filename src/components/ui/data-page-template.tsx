@@ -289,7 +289,7 @@ function ManagedForm<TData extends FieldValues>({
                 headerActionsNode ? createPortal(
                     <>
                         {onCancel && (
-                            <Button variant="outline" type="button" onClick={onCancel} disabled={mutationState.isPending}>
+                            <Button variant="outline" type="button" onClick={onCancel} disabled={mutationState.isPending} className="managed-form-cancel-btn">
                                 {cancelLabel ?? 'Batal'}
                             </Button>
                         )}
@@ -297,6 +297,7 @@ function ManagedForm<TData extends FieldValues>({
                             type="button"
                             onClick={handleSubmit}
                             disabled={mutationState.isPending}
+                            className="managed-form-submit-btn"
                         >
                             {mutationState.isPending ? 'Menyimpan...' : submitLabel}
                         </Button>
@@ -304,7 +305,7 @@ function ManagedForm<TData extends FieldValues>({
                     headerActionsNode
                 ) : null
             ) : (
-                <div className="flex justify-end gap-2 pt-4">
+                <div className="managed-form-footer flex justify-end gap-2 pt-4">
                     {onCancel && (
                         <Button variant="outline" type="button" onClick={onCancel} disabled={mutationState.isPending}>
                             {cancelLabel ?? 'Batal'}
@@ -314,6 +315,7 @@ function ManagedForm<TData extends FieldValues>({
                         type="button"
                         onClick={handleSubmit}
                         disabled={mutationState.isPending}
+                        className="managed-form-submit-btn"
                     >
                         {mutationState.isPending ? 'Menyimpan...' : submitLabel}
                     </Button>
