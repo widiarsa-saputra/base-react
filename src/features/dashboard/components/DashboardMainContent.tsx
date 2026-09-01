@@ -47,11 +47,6 @@ const COLORS = ['#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b'];
 const DashboardMainContent: React.FC = () => {
     return (
         <div className="space-y-4 animate-in fade-in duration-500">
-            <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900">Dashboard</h1>
-                <p className="text-sm text-slate-500">Welcome back! Here is an overview of your system.</p>
-            </div>
-
             {/* --- Summary Cards --- */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <Card className="border-slate-100 shadow-sm">
