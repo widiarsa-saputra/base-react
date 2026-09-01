@@ -22,6 +22,7 @@ import GotraPaySettingPage from "@/features/GotraPaySetting/pages/GotraPaySettin
 import GotraPayInvoicePage from "@/features/gotrapay-invoice/pages/GotraPayInvoicePage";
 import PaymentSuccessPage from "@/features/gotrapay-invoice/pages/PaymentSuccessPage";
 import PaymentFailedPage from "@/features/gotrapay-invoice/pages/PaymentFailedPage";
+import AppSettingPage from "@/features/app-setting/pages/AppSettingPage";
 
 
 
@@ -106,6 +107,13 @@ export const ROUTES: Record<string, AppRoute> = {
     ADMIN_SETTINGS: {
         path: "/settings",
         element: <SettingsPage />,
+        protected: true,
+        roles: [],
+        permissions: [],
+    },
+    APP_SETTINGS: {
+        path: "/app-settings",
+        element: <AppSettingPage />,
         protected: true,
         roles: [],
         permissions: [],
@@ -252,6 +260,12 @@ export const userSections: MenuSection[] = [
             {
                 text: "Sistem & Integrasi",
                 url: ROUTES.ADMIN_SETTINGS.path,
+                icon: Settings,
+                permissions: ["view_settings"]
+            },
+            {
+                text: "App Settings",
+                url: ROUTES.APP_SETTINGS.path,
                 icon: Settings,
                 permissions: ["view_settings"]
             },
