@@ -41,12 +41,12 @@ const AppSettingMutationForm: React.FC<Props> = ({ form }) => {
 
                 <article className="flex flex-col gap-4">
                     <FloatingInput
-                        id="description"
+                        id="desc"
                         label="Description"
-                        watch={watch('description') ?? undefined}
-                        error={errors.description?.message}
+                        watch={watch('desc') ?? undefined}
+                        error={errors.desc?.message}
                         inputProps={{
-                            ...register('description')
+                            ...register('desc')
                         }}
                     />
                 </article>

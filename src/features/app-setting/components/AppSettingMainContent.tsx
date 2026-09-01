@@ -39,8 +39,8 @@ const AppSettingMainContent: React.FC = () => {
     });
 
     const addMutation = useCreateAppSetting();
-    const editMutation = useUpdateAppSetting(0); 
-    const deleteMutation = useDeleteAppSetting(0); 
+    const editMutation = useUpdateAppSetting(); 
+    const deleteMutation = useDeleteAppSetting(); 
 
     const columns: Column<AppSettingEntity>[] = useMemo(() => [
         {
@@ -69,7 +69,7 @@ const AppSettingMainContent: React.FC = () => {
             sortable: true,
             render: (item: AppSettingEntity) => (
                 <div className="text-sm text-slate-500">
-                    {item.description || '-'}
+                    {item.desc || '-'}
                 </div>
             )
         },
@@ -113,12 +113,12 @@ const AppSettingMainContent: React.FC = () => {
                 emptyValues: {
                     key: '',
                     value: '',
-                    description: '',
+                    desc: '',
                 },
                 defaultValues: (entity) => ({
                     key: entity.key ?? '',
                     value: entity.value ?? '',
-                    description: entity.description ?? '',
+                    desc: entity.desc ?? '',
                 }),
             }}
             submitActions={{

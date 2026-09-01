@@ -59,17 +59,17 @@ export const useCreateAppSetting = () => {
     });
 };
 
-export const useUpdateAppSetting = (id: string | number) => {
+export const useUpdateAppSetting = () => {
     return useBaseUpdate<AppSettingUpdatePayload, AppSettingUpdateResponse, AppSettingEntity>({
-        endpoint: `${API_VERSION}/${appSettingQueryKey}/${id}`,
+        endpoint: `${API_VERSION}/${appSettingQueryKey}`,
         schema: AppSettingUpdateResponseSchema,
         queryKey: appSettingQueryKey,
     });
 };
 
-export const useDeleteAppSetting = (id: string | number) => {
+export const useDeleteAppSetting = () => {
     return useBaseDelete<{ id: string | number }, GeneralRes, AppSettingEntity>({
-        endpoint: `${API_VERSION}/${appSettingQueryKey}/${id}`,
+        endpoint: `${API_VERSION}/${appSettingQueryKey}`,
         schema: GeneralResponseSchema,
         queryKey: appSettingQueryKey,
     });

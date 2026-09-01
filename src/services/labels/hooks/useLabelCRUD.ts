@@ -59,17 +59,17 @@ export const useCreateLabel = () => {
     });
 };
 
-export const useUpdateLabel = (id: string | number) => {
+export const useUpdateLabel = () => {
     return useBaseUpdate<LabelUpdatePayload, LabelUpdateResponse, LabelEntity>({
-        endpoint: `${API_VERSION}/${labelQueryKey}/${id}`,
+        endpoint: `${API_VERSION}/${labelQueryKey}`,
         schema: LabelUpdateResponseSchema,
         queryKey: labelQueryKey,
     });
 };
 
-export const useDeleteLabel = (id: string | number) => {
+export const useDeleteLabel = () => {
     return useBaseDelete<{ id: string | number }, GeneralRes, LabelEntity>({
-        endpoint: `${API_VERSION}/${labelQueryKey}/${id}`,
+        endpoint: `${API_VERSION}/${labelQueryKey}`,
         schema: GeneralResponseSchema,
         queryKey: labelQueryKey,
     });

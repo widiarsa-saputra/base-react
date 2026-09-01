@@ -39,8 +39,8 @@ const LabelMainContent: React.FC = () => {
     });
 
     const addMutation = useCreateLabel();
-    const editMutation = useUpdateLabel(0); // the id will be overridden in mutation
-    const deleteMutation = useDeleteLabel(0); // the id will be overridden in mutation
+    const editMutation = useUpdateLabel(); // the id will be overridden in mutation
+    const deleteMutation = useDeleteLabel(); // the id will be overridden in mutation
 
     const columns: Column<LabelEntity>[] = useMemo(() => [
         {
@@ -98,7 +98,7 @@ const LabelMainContent: React.FC = () => {
             onItemsPerPageChange={setItemsPerPage}
             sortBy={sortBy}
             sortOrder={sortOrder}
-            mutationMode='content'
+            mutationMode='modal'
             handleSort={(newSortBy, newSortOrder) => {
                 setSortBy(newSortBy);
                 setSortOrder(newSortOrder);
