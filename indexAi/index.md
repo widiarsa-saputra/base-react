@@ -1,42 +1,55 @@
-# Index AI - Project Mapping
+# IndexAi
 
-Direktori ini (`indexAi/`) berfungsi sebagai peta konteks dan dokumentasi arsitektur modul untuk membantu AI mengerti pola, memelihara (maintenance), serta menambahkan fitur pada proyek **Bimbel Admin Portal** dengan cepat dan konsisten.
+Folder ini adalah entry point untuk AI yang akan membaca, memodifikasi, atau menambah fitur di project `base-react`.
 
-## Daftar Modul
+## Cara pakai cepat
 
-Berikut adalah pemetaan modul-modul utama dalam sistem. AI diharapkan membaca penjelasan modul terkait sebelum melakukan perubahan kode pada bagian tersebut.
+1. Mulai dari dokumen ini.
+2. Baca [project-overview.md](./project-overview.md) untuk arsitektur umum.
+3. Lanjut ke dokumen modul yang paling dekat dengan perubahan yang ingin dibuat.
+4. Gunakan [system-design.md](./system-design.md) sebagai acuan desain, struktur page, dan pola implementasi baru.
 
-| Modul | Keterangan | Tautan Dokumentasi |
+## Peta dokumen
+
+| Dokumen | Fokus | Kapan dibaca |
 | --- | --- | --- |
-| **Global Rules** | Aturan umum penulisan kode, penamaan direktori, dan aturan modifikasi di Vite + React proyek ini. | [project-context.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/project-context.md) |
-| **Student** | Modul pengelolaan siswa (Tabel, Form Tambah, Update, Hapus) menggunakan pola form terpisah dan useBaseCRUD hook. | [module-student.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-student.md) |
-| **Tutor** | Modul pengelolaan tutor, beradaptasi dengan pola arsitektur dari modul Student. | [module-tutor.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-tutor.md) |
-| **Courses & Sections** | Modul yang membawahi data kursus (Courses), kategori kursus (Course Categories), dan bab materi (Course Sections). | [module-courses.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-courses.md) |
-| **Classes** | Modul pengelolaan Kelas. Menggabungkan Siswa, Tutor, dan Jadwal (Schedule). | [module-classes.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-classes.md) |
-| **User & Roles** | Modul manajemen pengguna, hak akses (permissions), dan otentikasi. Termasuk di dalamnya pembuatan otomatis alamat email dari nama. | [module-user.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-user.md) |
+| [project-overview.md](./project-overview.md) | Gambaran arsitektur, alur request, folder penting, aturan perubahan | Wajib dibaca sebelum kerja besar |
+| [module-app-shell-and-routing.md](./module-app-shell-and-routing.md) | Entrypoint, router, layout, topbar, sidebar, i18n | Saat tambah page, menu, route, layout |
+| [module-auth-and-access.md](./module-auth-and-access.md) | Login, auth session, middleware route, permission awareness | Saat ubah login, proteksi route, session |
+| [module-user-access-control.md](./module-user-access-control.md) | User, role, permission, role-permission, user-role | Saat ubah RBAC dan admin master data |
+| [module-content-and-master-data.md](./module-content-and-master-data.md) | Labels, posts, permission CRUD pattern, DataPageTemplate | Saat tambah CRUD module baru |
+| [module-profile-and-activity.md](./module-profile-and-activity.md) | Profile user login, ganti password, log activity | Saat ubah area akun user |
+| [module-file-and-media.md](./module-file-and-media.md) | File manager, upload, media picker, file service | Saat ubah upload/file browser |
+| [module-settings-and-integrations.md](./module-settings-and-integrations.md) | WhatsApp, email, cron test, integrasi sistem | Saat ubah halaman settings |
+| [module-gotrapay.md](./module-gotrapay.md) | GotraPay setting dan invoice flow | Saat ubah payment/invoice |
+| [module-realtime-and-websocket.md](./module-realtime-and-websocket.md) | WebSocket client, broadcast, submit post, chat hooks | Saat ubah realtime behavior |
+| [module-shared-foundation.md](./module-shared-foundation.md) | Shared UI, generic form/table/helper, service base | Saat butuh file fondasi/pola reusable |
+| [system-design.md](./system-design.md) | Standar desain dan implementasi fitur baru | Wajib dibaca sebelum membuat feature baru |
 
-## Struktur Utama Proyek
+## Pemetaan module ke folder source
 
-### 1. `src/features/` (UI & Components)
-Merupakan direktori presentasional dan interaksi pengguna. Setiap folder di dalamnya (misal: `student/`, `tutor/`, `courses/`) biasanya mengandung sub-folder:
-- `/pages` - Komponen top-level untuk route (misal: `StudentPage.tsx`).
-- `/components` - Komponen logika modul seperti Table, Form (Tambah, Edit, Hapus) dan Modal.
+| Area | Folder utama |
+| --- | --- |
+| App shell | `src/main.tsx`, `src/router`, `src/layouts`, `src/shared/context` |
+| Auth | `src/auth`, `src/api/api.ts` |
+| Feature UI | `src/features/*` |
+| Data layer | `src/services/*` |
+| Shared reusable UI | `src/shared`, `src/components`, `src/components/ui` |
+| Helper/library | `src/lib`, `src/hooks`, `src/types`, `src/locales` |
 
-### 2. `src/services/` (API & Hooks)
-Merupakan lapisan komunikasi data dengan backend, menggunakan standar Zod (schema) dan React Query (hooks).
-- `/schema` - Definisi tipe data dan payload API menggunakan Zod.
-- `/response` - Format standarisasi respon API.
-- `/hooks` - Custom hooks (biasanya `use[Modul]CRUD.ts`) yang membungkus pemanggilan fetch API standar (Index, Show, Create, Update, Delete) yang diwarisi dari `src/services/base/`.
+## Aturan cepat untuk AI
 
-### 3. `src/shared/` & `src/components/` (Core & Shared)
-Komponen yang dipakai secara global dan berulang di berbagai halaman/modul, seperti `Button`, `Modal`, `AlertDialog`, topbar config.
+- Saat menambah feature CRUD baru, ikuti pasangan `src/features/<module>` dan `src/services/<module>`.
+- Saat menambah route baru, sentuh `src/router/AppRouter.tsx` dan biasanya `src/layouts/AdminLayout.tsx` bila perlu menu.
+- Saat menambah request API, cek dulu apakah cukup memakai base hooks di `src/services/base/hooks`.
+- Saat mengubah page data, cek dulu apakah pattern terbaiknya adalah `DataPageTemplate`.
+- Hindari membuat pola baru bila pattern setara sudah ada di `user-management`, `labels`, `post`, `permission`, atau `gotrapay-invoice`.
 
----
+## Modul referensi terbaik
 
-**Panduan untuk AI:**
-1. **Analisis**: Jika diminta merubah modul tertentu, selalu mulai dengan melihat `module-[nama].md` terkait (misal: [module-student.md](file:///home/widiarsa16/Projects/bimbel-admin-portal/indexAi/module-student.md) sebagai blueprint pola).
-2. **Pola CRUD**: Seluruh modul operasional memisahkan validasi (`Zod`), panggilan server (`React Query`), dan UI (`Modal` state control).
-3. **Pencarian File**: Folder `features/` dan `services/` dipecah simetris. Jika ada fitur di `features/tutor/`, pasti ada services-nya di `services/tutors/`.
-4. **Base of Truth Arsitektur**: Untuk mengenali karakteristik arsitektur kode pada project ini, jadikan direktori berikut sebagai acuan utama (*base of truth*):
-   - **Single Page (tanpa tabs)**: Rujuk pada direktori `src/services/students` dan `src/features/student`.
-   - **Multiple Tabs (dalam 1 page)**: Rujuk pada direktori `src/services/courses` dan `src/features/courses`.
+- CRUD data page paling kaya: `user-management`
+- CRUD ringan: `labels`, `post`, `permission`
+- Page multi-area/tab: `settings`, `GotraPaySetting`
+- Split list-detail pada satu page: `gotrapay-invoice`
+- Profile/account page: `profile`
+- Realtime hooks: `services/web-socket` dan `shared/components/facebook-style-chat`
